@@ -18,9 +18,9 @@ public class Ex01 {
 		
 		// + 연산을 이용한 문자열 만들기
 		// 빈 문자열("")을 + 해 줌.
-		String str4 = 100 + "";  // String.valueOf(100)과 동일. ex02casting-Ex03 숫자데이터 문자열로 변환 주석.
+		String str4 = 100 + "";
 		System.out.println(str4);
-		
+		// String.valueOf(100)과 동일. ex02casting-Ex03 숫자데이터 문자열로 변환 주석.
 
 	}
 

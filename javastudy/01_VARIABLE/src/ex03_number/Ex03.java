@@ -17,7 +17,8 @@ public class Ex03 {
 		
 		temp = x;
 		x = y;
-		y = temp;  // 등호(=) 오른쪽의 값을 왼쪽으로 대입한다.
+		y = temp;   // 등호(=) 오른쪽의 값을 왼쪽으로 대입한다. 
+					// x를 temp에 옮기고 비어있는 x에 y를 대입한 후, y에 temp(x)를 대입
 		
 		System.out.println(x);
 		System.out.println(y);
@@ -25,9 +26,9 @@ public class Ex03 {
 		// 복합 대입 연산자
 		// +=, -=, *=, /=, %= 등
 		int wallet = 0;
-		wallet = wallet + 5000;
-		wallet += 5000;  // wallet = wallet + 5000; wallet에 5000 더해라
-		wallet -= 3000;  // wallet = wallet - 3000; wallet에서 3000을 빼라
+		wallet = wallet + 5000;  // wallet은 여기선 5000
+		wallet += 5000;  // wallet = wallet + 5000; wallet에 5000 더해라   ->   여기선 10000이 됨
+		wallet -= 3000;  // wallet = wallet - 3000; wallet에서 3000을 빼라 -> 10000 - 3000이니까 7000 
 		System.out.println(wallet);
 		
 		// 연습

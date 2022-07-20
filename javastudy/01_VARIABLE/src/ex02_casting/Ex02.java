@@ -19,10 +19,7 @@ public class Ex02 {
 		System.out.println(realGrade);  // 소수점은 항상 잘려 나간다.
 		
 		
-		//연습. value1은 쓰뤠기
-		int value1 = 200;
-		byte realvalue1 = (byte)value1;
-		System.out.println(realvalue1);
+		//연습.
 		
 		double value2 = 17.52;
 		int realvalue2 = (int)value2;
