@@ -10,7 +10,7 @@ public class Ex02 {
 		// 실수를 정수로 변환할 때 강제로 진행한다.
 		// 강제로 변환할 변수 앞에 괄호를 붙이고 변환할 데이터타입을 작성한다.
 		
-		int score = 100;
+		int score = 256;
 		byte realScore = (byte)score;
 		System.out.println(realScore);
 		
@@ -19,7 +19,7 @@ public class Ex02 {
 		System.out.println(realGrade);  // 소수점은 항상 잘려 나간다.
 		
 		
-		//연습
+		//연습. value1은 쓰뤠기
 		int value1 = 200;
 		byte realvalue1 = (byte)value1;
 		System.out.println(realvalue1);
