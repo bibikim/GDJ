@@ -29,7 +29,7 @@ public class Ex02 {
 		int j = 1;
 		int result = i++ + --j;
 		System.out.println(i);  // 2
-		System.out.println(j);  // 0
+		System.out.println(j);  // 0 > 1 감소시킨 후에 j의 값을 사용하기 때문에 -1 + 1 = 0
 		System.out.println(result);  // 1(변수 i의 값 사용) + 0 = 1
 
 	}
