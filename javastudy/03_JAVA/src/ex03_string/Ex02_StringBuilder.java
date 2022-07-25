@@ -38,7 +38,7 @@ public class Ex02_StringBuilder {
 		// StringBuilder가 더 빠르다. 성능이 더 좋기때문에 자주 쓰는 클래스.
 		String alphabet1 = "";
 		long begin1 = System.nanoTime();
-		for(char ch = 'a'; ch <= 'z'; ch++) {
+		for(int ch = 0; ch <= 1000; ch++) {
 			alphabet1 += ch;
 		}
 		long end1 = System.nanoTime();
@@ -48,14 +48,13 @@ public class Ex02_StringBuilder {
 		
 		StringBuilder sb2 = new StringBuilder();
 		long begin2 = System.nanoTime();
-		for(char ch = 'a'; ch <= 'z'; ch++) {
+		for(int ch = 0; ch <= 1000; ch++) {
 			sb2.append(ch);
 		}
 		long end2 = System.nanoTime();
 		String alphabet2 = sb2.toString();
 		System.out.println((end2 - begin2) + alphabet2);
-		
-		// ----------------------------엥 나는 왜 스빌이 더 적게 안나오지?????? 
+		// --01234...1000 앞에 숫자 보면 됨. 스빌이 더 적게 나온다.
 		
 		
 		// 연습. 
@@ -66,6 +65,7 @@ public class Ex02_StringBuilder {
 		}
 		String code = sbCode.toString();
 		System.out.println("인증코드 :" + code);
+		
 
 		
 		// 연습. 
