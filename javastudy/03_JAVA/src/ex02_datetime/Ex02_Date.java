@@ -13,11 +13,11 @@ public class Ex02_Date {
 		java.lang.System.out.println("Hello");          // 이게 원래 시스템 클래스를 부르는 방법.
 		
 		// 예외 규칙
-		// java.lang 패키지에 소속된 클래스들은 패키지를 생략할 수 있다. (나머지는 생략 불가. 패키지 다 적어줘야 됨)
+		// java.lang 패키지에 소속된 클래스들은 패키지(syso~앞에 붙는거)를 생략할 수 있다. (나머지는 생략 불가. 패키지 다 적어줘야 됨)
 
 		// java.util 패키지에 있는 Date 클래스를 사용하고 싶다면
 		// 1. java.util.Date		        (원래 방법이지만 거의 안 씀.)
-		// 2. import jave.util.Date;        (import 가져와서 쓰겠다는 뜻)
+		// 2. import jave.util.Date;        (import 가져와서 쓰겠다는 뜻) 원래 이름 규칙을 지켜서 적을 필요가 없게 됨.
 		//    Date
 		
 		// Date								Date + ctrl + 스페이스바 -> 맨 위에 패키지 밑에 import~ 들어옴
