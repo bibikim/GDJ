@@ -1,7 +1,5 @@
 package ex03_string;
 
-import java.util.Scanner;
-
 public class Ex02_StringBuilder {
 
 	public static void main(String[] args) {
