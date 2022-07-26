@@ -11,7 +11,7 @@ public class Ex02_StringBuilder {
 		sb.append(true);
 		sb.append('T');
 		sb.append(3.14);
-		sb.append("hello");			// append 추가
+		sb.append("hello");			// append : 추가해주는 메소드
 		System.out.println(sb);
 		
 		// hello가 포함되었는가?
@@ -52,7 +52,7 @@ public class Ex02_StringBuilder {
 		long end2 = System.nanoTime();
 		String alphabet2 = sb2.toString();
 		System.out.println((end2 - begin2) + alphabet2);
-		// --01234...1000 앞에 숫자 보면 됨. 스빌이 더 적게 나온다.
+		// ~01234...1000 앞에 숫자 보면 됨. 스빌이 더 적게 나온다.
 		
 		
 		// 연습. 

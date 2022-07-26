@@ -25,6 +25,7 @@ public class Ex03_break {
 				break;             // 어떠한 조건문을 만족하면 그만하겠다고 거는 break.
 			}
 			
+			
 			total += money;
 			serial++;
 			System.out.println(serial + "회 모금액 " + money + "\t현재 " + total + "원");      // \t=8칸

@@ -34,7 +34,7 @@ public class Ex02_Scanner {
 		// 연습. 
 		// char 타입의 성별을 입력 받기      -  string 4 활용
 		System.out.print("성별(남/여)을 입력하세요 >>> ");
-		char gender = sc.next().charAt(0);		// 문자열이라고 생각하고 받아서 charAt으로 출력
+		char gender = sc.next().charAt(0);		// charAt으로 출력
 		System.out.println(gender);
 		
 		sc.close(); 	// 생략 가능.
