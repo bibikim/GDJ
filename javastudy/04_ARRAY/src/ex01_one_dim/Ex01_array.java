@@ -28,7 +28,7 @@ public class Ex01_array {
 		//    arr[1]
 		//    arr[2]						- 세 개 변수 각각의 이름임. 인덱스로 구분! 
 		// 3. 배열 요소는 자동으로 초기화된다.(어떤 값을 가진다.) 	/ 일반 변수는 어떤 값을 가지지 않는다. 초기화 X  	- ex) int a;
-		//    값이 없음을 의미하는 0, 0.0, false, null 값을 가진다.			/ boolean에서 0은 false, string에서 값이 없음은 null
+		//    값이 없음을 의미하는 0, 0.0, false, null 값을 가진다.	/ boolean에서 0은 false, string에서 값이 없음은 null
 		
 		// 배열의 장점
 		// * 변수 3개가 있는 상황
@@ -46,14 +46,15 @@ public class Ex01_array {
 		for(int i = 0; i < 3; i++) {		// 배열 쓸 때 변수는 i j k 를 주로 씀
 			System.out.println(arr[i]);		// 생성만 하고 초기화 하지 않았기 때문에 자동초기화가 없었다면(일반 변수였다면) 
 		}									// 오류가 나지 않는 상황. 이미 값을 가지고 있다는 것을 의미
+											// int이기 때문에 초기화값 (0, 0, 0)
 		
 		arr[0] = 100; 						// 첫번째 요소에 100을 주고싶다면 이렇게
-		arr[1] = 50;						// 마찬가지
-		arr[2] = 80;						
+		arr[1] = 50;						// 두번째 		  50	
+		arr[2] = 80;						// 세번째		  80	
 		
 		for(int i = 0; i < 3; i++) {				// 3은 배열의 갯수. int[]안에 숫자와
 			System.out.println(arr[i]);				// for문 안에 범위 숫자와 동일해야됨.
-	}
+	}												// 따라서 100 50 80 출력.
 	
 		
 		//int total = 0;
@@ -64,7 +65,7 @@ public class Ex01_array {
 		// 위에 세개의 배열의 평균 구하기
 		int total = 0;
 		for(int i = 0; i < 3; i++) {
-			total += arr[i];
+			total += arr[i];				// arr[0], [1], [2] 누적시켜 더한다
 		}
 		double average = (double)total / 3;
 		// double average = (total / 3.0); 	- 결과를 저장하는 값이 double이기 때문에 double로 casting하거나 소숫점을 붙인다.
@@ -72,7 +73,7 @@ public class Ex01_array {
 		
 		
 		// arr.length => 배열의 길이를 가져와서 적어라. 그러면 배열의 변수를 일일히 고칠 필요 없음. 배열 생성하는 곳만 변경
-		// for문 안의 3 자리를 arr.length로 바꾸면 종속되지 않는 코드라 할 수 있다.
+		// for문 안의 3을 arr.length로 바꾸면 종속되지 않는 코드라 할 수 있다.
 		
 		
 		// --------------------------------------------- 위에 예문을 간단한 arr.length로 바꾼 연산. 
@@ -84,11 +85,11 @@ public class Ex01_array {
 			System.out.println(arr[i]);				
 	}
 			
-		int tota = 0;
+		int sum = 0;
 		for(int i = 0; i < arr.length; i++) {
-			tota += arr[i];
+			sum += arr[i];
 		}
-		double aver = (double)tota / arr.length;
+		double aver = (double)sum / arr.length;
 		System.out.println("평균 : " + aver + "점");
 		
 		
