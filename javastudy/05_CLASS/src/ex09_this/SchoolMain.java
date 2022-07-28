@@ -10,7 +10,7 @@ public class SchoolMain {
 	//	student.printThis();				// @뒤에 나오는 게 16진수인 참조값
 		
 		
-		// student는 this는 같다.      System.out.println(student); = System.out.println(this); 같은 결과값이 나옴
+		// student는 this와 같다.      System.out.println(student); = System.out.println(this); 같은 결과값이 나옴
 		// 내부에서는 객체 이름으로 접근하지만 외부에서는 객체값을 this로 접근한 것
 		
 		Student student1 = new Student();

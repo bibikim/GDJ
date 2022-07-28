@@ -7,8 +7,8 @@ public class UserMain {
 		
 		User user = new User();
 		
-		//System.out.println(user.); 		id, pw 다 찍어봐도 안 뜸. 왜냐면 private이니까. 이런식의 접근을 불허함
-		// user.id = "admin"; 				원래는 이렇게 id를 직접 불러왔는데 프라이빗에선 불가
+		//System.out.println(user.); 		-> .찍고 id, pw 다 찍어봐도 자동완성 안 뜸. 왜냐면 private이니까. 이런식의 접근을 불허함
+		// user.id = "admin"; 				->원래는 이렇게 id를 직접 불러왔는데 프라이빗에선 불가
 		
 		System.out.println(user.getId());		// getId는 찍어보면 나옴. public이니까. 
 												// 직접 확인이 아니라 메소드를 통한 우회작업으로 확인

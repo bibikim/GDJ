@@ -8,7 +8,7 @@ public class School {
 		  	  // ㄴ students 배열의 인덱스. students 배열에 저장된 학생수와 같다.
 	
 	
-	// 생성자						  위 배열을 사용하기 위해 생성자 만들기
+	// 생성자						 	   위 배열을 사용하기 위해 생성자 만들기
 	public School(int cnt) {		  
 		students = new Student[cnt];	// 2명 저장할 수 잇음. new student(2)니까. 배열의 길이만큼(0, 1)
 	}

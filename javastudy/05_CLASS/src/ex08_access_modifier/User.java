@@ -34,7 +34,7 @@ public class User {
 	}
 	public void setPoint(Integer pPoint) {
 		point = pPoint;
-		setVip(point >= 10000);				// 10000 이상이면 boolean pVip에 true, 아니면 false가 전다
+		setVip(point >= 10000);				// 10000 이상이면 boolean pVip에 true, 아니면 false가 전달
 	}										// 내부 기능은 내부에서 쓰게 되는 것.
 	public Boolean getVip() {
 		return isVip;
@@ -42,6 +42,12 @@ public class User {
 	private void setVip(Boolean pVip) {		// public을 private로 바꾸면 유저메인에서 vip여부는 호출 불가능
 		isVip = pVip;						// vip 기준을 public으로 돌려놓지 않은 것임. 기준은 private으로 public으로는 공개될 수 없게.
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 }

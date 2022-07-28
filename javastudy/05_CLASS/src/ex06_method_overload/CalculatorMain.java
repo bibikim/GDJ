@@ -12,7 +12,7 @@ public class CalculatorMain {
 		System.out.println(calculator.add(1, 1, 1, 1));
 		
 		
-		//ㄱ배열의 타입(int 브라켓)
+		//ㄱ배열의 타입으로 쓴 같은 식(int 브라켓)
 		int[] arr = {1, 2, 3, 4, 5}; 		      
 		System.out.println(calculator.add(arr));	// 15
 			
