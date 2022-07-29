@@ -17,11 +17,11 @@ public class Ex01_if {
 		if(score >= 60) {
 			System.out.println("합격");
 			System.out.println("축하합니다");
-		}
+	}
 		
 		if(score < 60) {
 			System.out.println("불합격");
-		}
+	}
 		
 		
 		
