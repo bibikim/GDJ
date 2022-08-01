@@ -1,0 +1,32 @@
+package quiz03_bus;
+
+public class Seat {
+	
+	// Person, Student, Alba 모두를 저장할 수 있는 타입은 Person. Person타입으로 저장
+	private Person person;	// person 대상으로 게터세터 만들기
+
+	
+	
+	// Seat 생성자를 생략하면
+	// public Seat() { } -> 디폴트 생성자가 사용됨
+	// new Seat()를 이용한 시트 생성이 가능함
+	
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+}
