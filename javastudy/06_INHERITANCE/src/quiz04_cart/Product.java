@@ -1,7 +1,8 @@
 package quiz04_cart;
 
 public class Product {
-
+	
+	//필드 생성
 	private String name;
 	private int price;
 	

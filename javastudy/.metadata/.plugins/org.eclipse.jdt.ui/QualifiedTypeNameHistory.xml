@@ -27,6 +27,6 @@
     <fullyQualifiedTypeName name="ex06_constructor.Student"/>
     <fullyQualifiedTypeName name="ex06_constructor.Alba"/>
     <fullyQualifiedTypeName name="ex08_override.Rectangle"/>
-    <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="ex09_upcasting.Main"/>
+    <fullyQualifiedTypeName name="java.lang.Override"/>
 </qualifiedTypeNameHistroy>
