@@ -6,7 +6,7 @@ public class Main {
 		
 		// 클래스타입 : Person
 		// 객체(인스턴스) : p
-		Person p = new Student(); 	// 업캐스팅으로 알바 만들기				Student s = new Alba(); 이런 업캐스팅도 가능
+		Person p = new Student(); 	// 업캐스팅으로 학생 만들기				Student s = new Alba(); 이런 업캐스팅도 가능(알바 만들기)
 		
 		// instanceof 연산자
 		// 특정 인스턴스가 어떤 클래스타입인지 점검하는 연산자

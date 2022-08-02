@@ -8,7 +8,6 @@
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
     <fullyQualifiedTypeName name="java.util.Arrays"/>
     <fullyQualifiedTypeName name="java.lang.String"/>
-    <fullyQualifiedTypeName name="jdk.internal.misc.FileSystemOption"/>
     <fullyQualifiedTypeName name="ex01_field.User"/>
     <fullyQualifiedTypeName name="ex02_field.School"/>
     <fullyQualifiedTypeName name="ex02_field.Student"/>
@@ -28,5 +27,6 @@
     <fullyQualifiedTypeName name="ex06_constructor.Alba"/>
     <fullyQualifiedTypeName name="ex08_override.Rectangle"/>
     <fullyQualifiedTypeName name="ex09_upcasting.Main"/>
+    <fullyQualifiedTypeName name="jdk.internal.misc.FileSystemOption"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
 </qualifiedTypeNameHistroy>
