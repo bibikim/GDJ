@@ -1,0 +1,88 @@
+* 업캐스팅
+버스를 버스에 저장하지 않고 슈퍼클래스인 car에 저장시킴
+자동으로 타입이 변환함 -> 업캐스팅
+상속에서 자식은 부모타입에 저장시킬 수 있다
+car 타입으로 바꾸면 car에 있는 것만 부를 수 있음. 그래서 쓰고싶으니까 car에 pay bell을 집어넣은것
+자식을 부모로 저장은 할 순 있는데, 실제 자식이 할 수 있는 메소드는 호출할 수 없다.
+즉 자식의 메소드는 호출할 수 없다.
+=해결방법
+1. 오버라이드 
+ Car -drive stop pay bell
+ Bus - @ov pay @ov bell
+Car car = new Bus();
+car.drive();
+car.stop()
+car.pay
+car.bell -------> 오버라이드 했기 때문에 호출 가능. 호출용도일 뿐이고, 실제로 사용되는건 Bus클래스 안에 오버라이드 해서 다시 만든 pay bell을 쓰는것
+
+2. 다운 캐스팅
+
+/////////////////////////////////////////////////////////////
+*8/1 수업 내용 요약스~
+class Person{
+               void eat() { }
+}
+class Student{
+              @Override
+              void eat() { }
+}
+
+Person p = new Student();
+p.eat();       
+-----------------------------------------------
+Person타입 -> Person 호출
+new Student() -> Student 실행
+Person타입이니까 호출은 Person클래스,
+실행은 오버라이드된 Student 클래스에서.
+이론상
+Person p 먼저 실행
+new Student 나중 실행
+
+실제 메모리에 객체 공간이 만들어지는 것을 '인스턴스화' 라고 말한다
+객체 p = 인스턴스 p
+
+//////////////////////////////////////////////////////////////
+*Object
+모든 클래스의 단군 할아버지.. 조상..
+
+Person (extends Object) { }
+extends Object는 생략
+ - Object는 모든 클래스의 공통메소드를 지원
+class Object{
+a();
+b(); 
+}
+class Person extends Object{
+}
+
+Person p = new Person();
+p.a();
+p.b();               >> 가능
+
+object는 모두의 부모클래스기 때문에 모든걸 저장할 수 O
+
+toString
+class Object{
+    String toString(){ }
+}                                 => Class@참조값
+오브젝트가 찍어주는 객체값 싫으니깐
+
+class Person{
+     @Override           
+      String toString(){ }
+}
+오버라이드 해서 toString 메소드를 이용해서 출력
+
+equals
+오브젝트로 저장한건 다운캐스팅을 해야 제대로 사용할 수 있다.
+
+- Object는 모든걸 저장할 수 있다
+- Object에 저장된 객체는 캐스팅해서 사용한다.
+- 객체 정보 확인을 위해서는 toString() 메소드를 만든다.(Override)
+- 객체 정보 비교를 위해서는 equals() 메소드를 만든다.(Override한다)
+- source 메뉴에 가면 toString(), equals()를 만들어 준다.
+
+여러타입이 전달되면 Object 사용
+
+
+
