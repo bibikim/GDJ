@@ -37,7 +37,7 @@ public class Main {
 		if(unit1.isAlive()) {
 			System.out.println(unit1.getName() + "의 승리! 남은 에너지 " + unit1.getEnergy());
 		} else {
-			System.out.println(unit1.getName() + "의 승리! 남은 에너지 " + unit2.getEnergy());
+			System.out.println(unit2.getName() + "의 승리! 남은 에너지 " + unit2.getEnergy());
 		}
 		
 		

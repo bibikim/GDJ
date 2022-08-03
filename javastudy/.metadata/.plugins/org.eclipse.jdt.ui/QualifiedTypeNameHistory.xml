@@ -17,7 +17,6 @@
     <fullyQualifiedTypeName name="java.util.Calendar"/>
     <fullyQualifiedTypeName name="ex07_constructor.Computer"/>
     <fullyQualifiedTypeName name="ex03_has_a.soldier"/>
-    <fullyQualifiedTypeName name="java.util.Scanner"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="java.sql.Date"/>
     <fullyQualifiedTypeName name="java.awt.SecondaryLoop"/>
@@ -29,4 +28,11 @@
     <fullyQualifiedTypeName name="ex09_upcasting.Main"/>
     <fullyQualifiedTypeName name="jdk.internal.misc.FileSystemOption"/>
     <fullyQualifiedTypeName name="java.lang.Override"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="library.Book"/>
+    <fullyQualifiedTypeName name="lombok.ToString"/>
 </qualifiedTypeNameHistroy>

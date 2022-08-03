@@ -36,19 +36,24 @@ public class Library {
 			return;
 		}
 		System.out.println("===책 삭제===");
-		System.out.println("삭제할 책의 번호(1~" + idx + ") >>> ");
-		int bookNo = sc.nextInt();
-		if(bookNo < 0 || bookNo >= idx) {
-			System.out.println("책 번호가 " + (bookNo + 1) + "인 책은 없습니다.");
-			return;		// 더 이상 진행 않겠다.
+		System.out.println("삭제할 책의 번호 >>> ");
+		int bookNo = sc.nextInt(); 
+		for(int i = 0; i < idx; i++) {
+			if(books[i].getBookNo() == bookNo) {	// books[i].getBookNo() = 저장된 책의 번호
+				// 똑같은 번호의 책을 발견 하면   // 삭제하려는 책의 위치는 i
+		
+				System.arraycopy(books, i + 1, books, i, idx - i - 1);   // 통째로 덮어쓰기
+				books[--idx] = null;  
+				System.out.println("책 번호가 " + bookNo + "인 책을 삭제했습니다.");
+				return;    // 삭제하고 return 넣어줘야 된다. 삭제가 진행되면 배열의 길이가 줄어드는데 for문이 그대로 돌아가면서 오류가 생기기 때뭉네 종료시켜야 됨 
+			}
 		}
-		System.arraycopy(books, bookNo + 1, books, bookNo, idx - bookNo - 1);   // 통째로 덮어쓰기
-		books[--idx] = null;  
-		System.out.println("책 번호가 " + (bookNo + 1) + "인 책을 삭제했습니다.");
+		System.out.println("책 번호가 " + bookNo + "인 책이 없습니다."); // return을 넣어줘야 얘를 출력할 수 있음.
 	}
 	
+	
 	// idx가 10인 상황 가정.  idx=10
-	// books[0] >> 실제 bookNo =1 책번호는 1~100까지 부여받지만 실제로는 idx로 들어가기 땜에 0~99
+	// books[0] >> 실제 bookNo =1 (책번호는 1~100까지 부여받지만 실제로는 idx로 들어가기 땜에 0~99)
 	// books[2]를 삭제한다고 하자.
 	// books[2] <- books[3] 2 삭제하면 3으로 덮어쓰기        배열은 null값을 가지면 초기화됨
 	// books[3] <- books[4]
@@ -56,7 +61,7 @@ public class Library {
 	// books[8] <- books[9]
 	// books[9]를 [8로] 덮어쓰고도 books[9]는 그대로 남아 있으니까 null값을 줘서 초기화 시켜야함. 
 	// 									ㄴ books[9] = null;   idx--;
-	// copy(books, bookNo + 1, books, bookNo, 7)
+	// copy(books, bookNo + 1, books, bookNo, 7)   덩어리로 복사된다고 생각하자
 	//      ------------원본-, ------복사되는곳-
 	
 	
