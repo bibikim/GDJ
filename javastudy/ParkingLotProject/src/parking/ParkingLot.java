@@ -40,13 +40,14 @@ public class ParkingLot {
 		System.out.println("제거할 차량번호 >>> ");
 		String carNo = sc.next();
 		for(int i = 0; i < idx; i++) {
-			if(cars[i].getCarNo().equals(carNo)) {
-				cars[--idx] = null;
+			if(carNo.equals(cars[i].getCarNo())) {
+				System.arraycopy(cars, i+1, cars, i, idx - i -1);
+				cars[idx--] = null;
 				System.out.println("차량번호 " + carNo + "차량이 삭제되었습니다.");
-			} else
-				System.out.println("대상 차량이 존재하지 않습니다.");
+				return;
+			}
 		}
-		
+		System.out.println("대상 차량이 존재하지 않습니다.");
 	}
 	
 	
