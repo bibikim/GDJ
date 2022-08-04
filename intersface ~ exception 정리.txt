@@ -1,0 +1,153 @@
+* 인터페이스 
+대부분 abstract가 들어가 있다(본문X)
+본문이 없는 애들로 구성이 됨.
+인터페이스의 뿌리는 추상클래스
+public abstract void a();    //a라는 추상메소드
+-> interface에서는
+public void a();      // abstract 생략가능
+void a();                // public 생략가능
+추상메소드를 담을 수 있는 자바파일
+----
+
+public abstract class A {
+     public abstract void a();
+     public abstract void b();
+     public void c() { }
+}
+
+public class B extends A {
+    @ov
+    public void a() { }
+    @ov
+    public void b() { }
+}
+
+A obj = new B( );
+obj.a();
+obj.b(); 
+obj.c();
+classA에 a()를 호출  - 정적바인딩
+classB에 b()를 실행  - 동적바인딩
+
+-------------------▼ interface화 ▼
+
+public interface A {
+     public void a();
+     public void b();
+     private/default void c() { }
+}
+
+public class B implements A {
+    @ov
+    public void a() { }
+    @ov
+    public void b() { }
+}
+
+A obj = new B( );
+obj.a();
+obj.b(); 
+obj.c();
+
+------------------ 예시 --------------------
+public interface BlogService {
+     public (abstract) List<Blog> getAllBlogs();
+     public                Blog getBlogNo
+     public                int addBlog(Blog blog);
+     public                int modifyBlog(Blog blog)
+     ...
+}   
+ㄴ보이진 않지만 abstract이 들어가 있음. 생략된 것.
+//구현하기
+public class BlogServiceImpl ^implemnets^ BlogService {
+     @ov ( ㄷㅏ 오버라이드)
+      public (abstract) List<Blog> getAllBlogs();
+      public Blog getBlogNo
+      public int addBlog(Blog blog);
+      public int modifyBlog(Blog blog);
+      ...
+}
+
+---- 다중상속 
+public class phone {
+}
+public interface Computer {
+}
+부모가 여럿 있을 땐 클래스만 두개 상속받는건 불가, 하나를 interface로 바꿔서
+하나는 extends, 하나는 implements하면 가능
+
+public class SmartPhone extends Phone implements Computer {
+}
+
+내용이 없는 interface
+public interface A {
+
+}
+
+----------------------------------
+
+// 메소드 체이닝
+Builder b = new Builder();
+b.setNo(1).setName("aaa");
+----------------------------------
+
+
+* Exception
+모든 예외는 Exception으로 저장 가능
+
+- checked Ex~
+ 필수적으로 try -catch문으로 예외 처리 
+
+- unchecked Ex~
+ RuntimeException 클래스의 자식클래스로 등록된 모든 예외 클래스. 
+ try -catch문이 없어도 실행 가능
+
+=========
+ Exception                                      부모
+(모든 예외의 예외처리 가능)
+      ↑
+ RuntimeException                       자식(부모)
+     ↑
+ nullPoint, numberFormat...         손주(자식)
+=========
+
+try블럭에서 예외가 발생해 catch블럭으로 던져지면 그걸 catch 블럭에서 예외처리로 잡아준다 (예외클래스를 객체로 선언해줌)
+어떤 예외가 발생할거란 걸 알면 그렇게 하면 됨.     ->checked Exception에서 이렇게 씀
+try {
+ checked Exception 발생
+} catch(Exception e) {
+ 예외 처리 코드
+}
+
+------------------------- 
+
+try {
+       실행코드 (예외발생)
+} catch(Exception e) {
+       예외 처리 코드
+}
+
+/////////////////////////////////////
+
+class Exception {
+    private String message;
+    public Exception(String message) {
+          this.message = message;
+   }
+    public String getMessage() {
+          return message;
+   }
+}
+
+class RuntimeException extends Exception {
+     public RuntimeExce...(String message) {
+          super(message);
+    }
+}
+------------------↑ 밑에 코드 돌아가는 원리
+** Exception e = new RuntimeException("이 나이는 잘못됐어요");
+system.out.println(e.getMessage());
+--------------------------------▼
+** 예외메세지를 남겨주는 상황이면 getMessage로 확인하면 된다
+
+
