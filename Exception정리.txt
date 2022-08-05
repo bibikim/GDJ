@@ -1,0 +1,119 @@
+* Exception
+모든 예외는 Exception으로 저장 가능
+
+- checked Ex~
+ 필수적으로 try -catch문으로 예외 처리 
+
+- unchecked Ex~
+ RuntimeException 클래스의 자식클래스로 등록된 모든 예외 클래스. 
+ try -catch문이 없어도 실행 가능
+
+==============================================
+ Exception                                      부모
+(모든 예외의 예외처리 가능)
+      ↑
+ RuntimeException                        자식(부모)
+      ↑
+ nullPoint, numberFormat...             손주(자식)
+==============================================
+
+try블럭에서 예외가 발생해 catch블럭으로 던져지면 그걸 catch 블럭에서 예외처리로 잡아준다 (예외클래스를 객체로 선언해줌)
+어떤 예외가 발생할거란 걸 알면 그렇게 하면 됨.     ->checked Exception에서 이렇게 씀
+try {
+ checked Exception 발생
+} catch(Exception e) {
+ 예외 처리 코드
+}
+
+------------------------- 
+
+try {
+       실행코드 (예외발생)
+} catch(Exception e) {
+       예외 처리 코드
+}
+
+//////////////////////////////////////////////////////////////////////
+
+class Exception {
+    private String message;
+    public Exception(String message) {
+          this.message = message;
+   }
+    public String getMessage() {
+          return message;
+   }
+}
+
+class RuntimeException extends Exception {
+     public RuntimeExce...(String message) {
+          super(message);
+    }
+}
+------------------↑ 밑에 코드 돌아가는 원리▼
+** Exception e = new RuntimeException("이 나이는 잘못됐어요");
+
+system.out.println(e.getMessage());
+--------------------------------▼
+** 예외메세지를 남겨주는 상황이면 getMessage로 확인하면 된다
+
+- 다중catch 블록
+catch블록을 여러개 쓸 수 있다.
+단, 순서대로 던지기 때문에 부모가 위에 있으면 안된다.
+
+- throw
+개발자가 직접 예외를 던지는 경우(try-catch문 안에 위치)
+throw new Exception("예외메시지");
+	    ↙ 예외를  발생시켜 던짐(throw)
+catch(Exception e) {
+    system.out.println(e.getMessage());      // 예외 메시지
+}
+
+- throws
+메소드 외부로 예외를 던져서 메소드를 호출하는 곳에서 try-catch문으로 처리
+발생하는 예외들을 한 번에, 한 군 데에 모아서 한번에 처리할 수 있다.
+(
+
+public static method() throws Exception {
+ 메소드 내부 코드
+}
+
+public static void main(Striing[] agrs) {
+         try {
+            method();
+          } catch(Exception e) {
+                예외 처리 코드
+         }
+     }
+}
+
+자기를 호출하는 영역의 메소드로 다 던진것
+
+throws Checked Exception - 생략 불가
+(throws Unchecked Excetion) - 생략 가능
+
+-  exception class
+==============================
+Exception	     (String message)
+    ↑
+MyException (String messge, int errorCode)
+==============================
+public class MyException extends Exception{ }
+
+
+class Exception extends Throwable implments Serializable(직렬화)
+
+[구조]
+serializable (시조) - serialVersionUID  // 분리됐다가 모일 때 쓰이는 ID(번호임)
+   ↑
+throwable               ←|
+   ↑
+Exception	                ←|
+   ↑
+MyException            ←|
+
+직렬을 해줄건데 나눴다가 합칠 때 쓰기 위해 SV.UID가 필요해~
+하나 만들어주면 좋겠어(권고)
+ ㄴ 경고!메시지 누르고 add generated serialVersionUID 클릭
+
+UID는 우리가 쓰는거 아니고 만들어 두기만 하면 자바가 알아서 사용

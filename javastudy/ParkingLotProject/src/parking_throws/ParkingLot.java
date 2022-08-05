@@ -1,6 +1,9 @@
-package parking;
+package parking_throws;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import parking.Car;
 
 public class ParkingLot {
 
@@ -19,9 +22,9 @@ public class ParkingLot {
 	
 	public void addCar() {
 		if(idx == cars.length) {
-			System.out.println("더 이상 차량 등록이 불가능합니다.");
-			return;
+			throw new RuntimeException("더 이상 차량 등록이 불가능합니다.");
 		}
+		
 		System.out.println("현재 등록된 차량 " + idx + "대");
 		System.out.print("차량번호 >>> ");  
 		String carNo = sc.nextLine();
@@ -34,8 +37,8 @@ public class ParkingLot {
 	
 	public void deleteCar() {
 		if(idx == 0) {
-			System.out.println("등록된 차량이 없습니다.");
-			return;
+			throw new RuntimeException("등록된 차량이 없습니다.");
+			
 		}
 		System.out.println("제거할 차량번호 >>> ");
 		String carNo = sc.next();
@@ -53,8 +56,8 @@ public class ParkingLot {
 	
 	public void printAllCars() {
 		if(idx == 0) {
-			System.out.println("등록된 차량이 없습니다.");
-			return;
+			throw new RuntimeException("등록된 차량이 없습니다.");
+		
 		}
 		
 		System.out.println(name + " 차량 목록");
@@ -67,18 +70,26 @@ public class ParkingLot {
 	public void manage() {
 		
 		while(true) {
-			System.out.println("1.추가 2.삭제 3.전체 0.종료 >>> ");
-			int choice = sc.nextInt();
-			sc.nextLine();
-			
-			switch(choice) {
-			case 1: addCar(); break;
-			case 2: deleteCar(); break;
-			case 3: printAllCars(); break;
-			case 0: System.out.println("주차 관리 프로그램을 종료합니다.");
-					return;
-			default : System.out.println("존재하지 않는 메뉴입니다.");
+			try {
+				System.out.println("1.추가 2.삭제 3.전체 0.종료 >>> ");
+				int choice = sc.nextInt();
+				sc.nextLine();
+				
+				switch(choice) {
+				case 1: addCar(); break;
+				case 2: deleteCar(); break;
+				case 3: printAllCars(); break;
+				case 0: System.out.println("주차 관리 프로그램을 종료합니다.");
+						return;
+				default : System.out.println("존재하지 않는 메뉴입니다.");
+				}
+			} catch(InputMismatchException e) {
+				sc.next();
+				System.out.println("0~4 사이의 숫자만 입력 가능합니다.");
+			} catch(RuntimeException e) {
+				System.out.println(e.getMessage());
 			}
+			
 		}
 		
 	}
