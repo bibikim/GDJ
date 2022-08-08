@@ -77,6 +77,7 @@ public class Main {
 		}
 		// map을 만들 때 초기화라는게 없어서 put메소드로 만들어주면 된다.
 		// Key와 Value를 합쳐서 Entry라고 부름. 하나의 단위로 보면 됨
+		// 컬렉션에 저장된 요소에 접근하기 편리한 향상for문을 이용!
 	}
 
 	public static void m4() {
