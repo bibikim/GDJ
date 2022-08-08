@@ -1,0 +1,49 @@
+*Map<K(ey), V(alue)>
+Key와 Value를 합쳐서 Entry라고 부름
+key와 value로 구성되어있는 하나의 데이터를 맵으로 관리
+저장해서 관리하려는 값이 V
+이 값을 꺼내기 위해 사용하는 것이 K
+
+
+// arraylist
+A      B      C
+0      1      2 인덱스를 기반으로 데이터를 꺼냄
+
+// map
+A        B       C       A
+K1    K2       K3     K4     K값은 만들어서 씀
+V      V         V       V     중복되는 key값은 없다
+인덱스처럼 사용할 key값을 만듬
+특정 key값을 넣으면 하나의 값만 나옴
+
+해당 정보를 value에 집어넣고 key값을 준다
+
+ex)
+kim      20      naver  근무.  각각의 정보를
+name   age     work    라는 key값에 저장
+
+key값을 변수이름으로 쓰면 여러개의 변수를 하나의 맵에 모아서 관리 가넝
+객체를 대신할 수 있는 수단!
+==== 맵은 자주 사용되기 때문에 중요!!
+
+
+(1)Entry를 이용한 순회(for)
+Key와 Value를 합쳐서 Entry라고 부름
+entry를 단위정도로 보고,
+
+for(Map.Entry<K, V> entry : map.entrySet()) {
+                    entry.getKey() + entry.getValue();
+}
+
+key값을 빼 볼 땐,    entry.getKey()
+value를 볼 땐,         entry.getValue()
+
+
+(2)key를 이용한 순회
+map.get("key") == value
+
+for(String key :  map.keySet()) {
+                key + map.get(key);
+}
+
+key는 중복이 없기 때문에 key를 빼서 보겠다

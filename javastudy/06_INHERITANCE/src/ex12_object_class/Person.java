@@ -27,5 +27,6 @@ public class Person {
 		return name.equals(p.name);				// name은 (equals를 호출한 객체인)p1, p.name은 p2  둘을 비교
 					// ㄴString이 갖고 있는 equals
 }
-	
+	// Person 객체의 비교를 이름으로 하기 위해 오버라이드. equals가 object의 메소드니까.
+	// 이름이 같으면 같은 사람임을 인식하게 하기 위해
 }

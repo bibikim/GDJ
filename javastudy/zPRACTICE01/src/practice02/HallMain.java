@@ -6,7 +6,6 @@ public class HallMain {
 
 		new Hall("올림픽 체조경기장").manage();
 		
-		
 	}
 
 }

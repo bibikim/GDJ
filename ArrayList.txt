@@ -1,0 +1,47 @@
+**프레임워크 인터페이스
+컬렉션 프레임워크의 구조
+; 자료구조(DataStructure) 
+List / Set / Map
+
+*List - ArrayList 클래스
+ArrayList list = new ArrayList();
+★List list = new ArrayList();
+    부모                 자식         =// 업캐스팅
+(인터페이스 부분 찾아보기)
+
+interface A {
+   void a();
+   void b();
+}
+class B implements A {
+  void a() { }
+  void b() { }
+}
+
+리스트 인터페이스가 갖고 있는 메소드를 밑에 클래스에 갖고 있다 대부분 똑같이 생겨서 사용법이 거의 비슷하다. 내부 동작만 다르게 됨
+
+
+*Set - HashSet 클래스
+순서가 없다.
+저장된 값들의 순서가 정해져있지 않다.
+요소의 중복 저장이 불가능하다.
+
+
+*Map - HashMap 클래스
+(List, Set이랑 사용법이 좀 다름)
+
+=========================
+ArrayList
+Library 예제 arraylist 이용하기
+
+-Book[] books -> List<Book> books
+
+-Library 클래스
+addBook() - full check없어짐(길이가 고정되어 있지 않기 때문에.  늘릴수도 줄일수도 있다리)
+removeBook() - Empty check 필요함(예외처리로 변경)
+  (1)removeBookByIndex - 인덱스 정보를 이용해서 제거
+  (2)removeBookByObject - 객체(Book) 정보를 이용해서 제거
+find, printAllBook() - Empty check 필요함(예외처리로 변경)
+
+- 추가
+ mdifyBook() - 책 제목을 입력받아 일치하는 책의 정보를 변경

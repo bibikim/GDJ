@@ -75,9 +75,6 @@ public class Hall {
 			case 0: return;
 			default : System.out.println("Bad Request");
 			}
-			
-			
-			
 		}
 	}
 	
