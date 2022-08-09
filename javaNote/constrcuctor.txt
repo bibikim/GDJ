@@ -1,0 +1,112 @@
+* Constructor 생성자
+ 객체 생성할 때 사용되는 특별한 메소드
+ 클래스 이름과 메소드 이름이 같다. 바꿀 수 없다.
+  ㄴ   클래스명 객체이름 = new 클래스(메소드)명( );
+ 반환타입이 존재하지 않는다.
+ 필드 초기화 용도(필드값을 초기화해서 객체 생성할 때)로 사용된다.
+ex)
+ new Employee();	- 필드값이 초기화 되지  않는 방법
+ new Employee("교환", "나무엔터");   - 필드값이 초기화 되는 방법.
+// 메소드 호출할 때 전달하는게 인수, 받아서 저장하는게 매개변수
+
+
+ 서브클래스는 슈퍼클래스의 생성자를 "반드시" 호출해야 한다.
+
+============================= 매개변수가 없는 default 형식
+ 개발자가 슈퍼클래스의 생성자를 호출하지 않으면 자동으로 JVM이 호출한다.
+ default 형식(매개변수가 없는)의 슈퍼클래스만 자동 호출 가능!
+
+ public class Company {
+     public Company( ) {				// 반환 타입 X	
+          system.out.println("Company 생성"); {
+}
+
+ public class Employee extends Company {		// 상속받는 employee클래스(서브)
+     public Emplyoyee( ) {
+         system.out.println("Employee 생성") {
+}
+
+ public class EmployeeMain {
+     public static void main(String[] args) {
+
+	Employee employee = new Employee(); }	// 서브클래스의 생성자를 호출
+}
+
+--------->> Company 생성
+ 	   Employee 생성
+// 결과를 보면 호출은 Employee인데 Company도 같이 불러졌다. 자동 호출된 것.
+
+
+============================= default 형식이 아닌 경우(매개변수 존재)
+ 매개변수가 있는 경우에는 슈퍼생성자 호출이 필요하다.  자동 호출 X
+ 상속 후 서브클래스가 슈퍼클래스의 생성자를 호출하지 않으면 오류가 뜬다.
+
+ public class Person {
+      private String name;		// 필드 선언
+  
+      public Person(String name) {	// string name이라는 매개변수가 있음
+	this.name = name; 
+}
+      public String getName( ) {
+	return name;
+}
+      public Stirng setName(String name) {
+	this.name = name;
+}
+}
+
+
+ public class Student extends Person {
+     private String school;
+
+     public Student(String name, String school) {		// Student 생성자
+	super(name);
+	this.school = school;
+}
+       // 외부에서 name에 이름이 들어오면 그 값을 super(name)에 전달,
+ 	전달해준 값이 public Person(String name)에 전달,
+	그 name은 필드값 this.name으로 전달이 되고 거기서 private String name;에 가서 이름을 저장한다 
+	따라서 getName하면 이름을 보여준다.
+	
+      public String getSchool() {
+	return school;
+}
+       public void setSchool(String school) {
+	this.school = school;
+}
+}
+	
+
+ public class Alba extends Student {
+      private String cafe;
+
+      public Alba(String name, String school, String cafe) {    // Alba 생성자
+	super(name, school);			   // 알바의 슈퍼클래스는 Student
+	this.cafe = cafe;				   // 학생의 슈퍼클래스는 Person
+}
+// 알바도 학생의 super인 Person에게도 상속을 받기때문에 name까지 호출 가능!
+// 무조건 부모 먼저, 다음이 자식. 순서 바뀌면 안된다
+       public String getCafe() {
+	return cafe;
+}
+        public void setCompany(String cafe) {
+	this.cafe = cafe;
+}
+}
+
+
+ public static void main(String[] args) {
+
+	Student student = new Student("영우", "서울대");    // 서울대에 다니는 영우라는 학생을 호출!
+	system.out.println(student.getName());
+	system.out.println(student.getSchool());
+
+	Alba alba = new Alba("구교환", "서울예대", "StarBucks");    // 설예 다니며 스타벅스에서 일하는 구교환이라는 학생 호출
+	system.out.println(alba.getName());
+	system.out.println(alba.getSchool());
+	system.out.println(alba.getCafe());
+}
+
+
+
+

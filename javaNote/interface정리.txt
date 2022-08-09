@@ -26,6 +26,7 @@ A obj = new B( );
 obj.a();
 obj.b(); 
 obj.c();
+
 classA에 a()를 호출  - 정적바인딩
 classB에 b()를 실행  - 동적바인딩
 
@@ -79,6 +80,7 @@ public interface Computer {
 public class SmartPhone extends Phone implements Computer {
 }
 
+----
 내용이 없는 interface
 public interface A {
 
