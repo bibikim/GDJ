@@ -74,3 +74,23 @@ array (배열로 만들 때는 [ ] 대괄호 사용)
     }
 ]
 
+-------- XML -> JSON ---------
+
+    XML    ->         JSON
+  
+products ->  [
+product   ->     {
+number   ->       "number":100,
+name      ->       "name":"새우깡",
+price      ->        "price":1500
+                      },
+                     {
+                       "number":101,
+                       "name":"양파링",
+                       "price":2000
+                     }
+                  ]
+   
+
+
+

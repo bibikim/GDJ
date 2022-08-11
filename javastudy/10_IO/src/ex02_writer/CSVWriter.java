@@ -16,6 +16,7 @@ public class CSVWriter {
 		// 1. Comma Separate Values
 		// 2. 콤마로 분리된 값들
 		// 3. 확장자 .csv인 파일(기본 연결프로그램-엑셀, 메모장으로 오픈 가능)   일반 txt 파일과 다를거 없는 파일
+		// 다량의 데이터를 받아볼 때 많이 씀.
 	
 		// c:\storage\product.csv
 		// 제품번호, 제품명, 가격\n
