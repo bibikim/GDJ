@@ -80,9 +80,9 @@ public class Main {
 			// m3.txt 파일 읽는 과정
 			//          readCnt       cbuf(배열)
 			// 1         5글자       a  p  p  l  e	   배열을 재활용 하고 있는거라
-			// 2         5          \n  m  a  n  g
+			// 2         5          \n  m  a  n  g									(읽을 때 줄바꿈\n까지 읽음)
 			// 3 		 2           o  \n a  n  g     앞에 두글자를 덮어쓰기로 읽고 아까 읽었던거 뒤에 3개는 그대로 남음
-			// 4        -1							   (읽을 때 줄바꿈\n까지 읽음)
+			// 4        -1							   따라서 for문에서 readCnt만큼만 반복하게끔 해줘야 한다.
 			
 			while(true) {
 				
