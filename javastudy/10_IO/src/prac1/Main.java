@@ -17,6 +17,7 @@ public class Main {
 		// c:\\storage\\prac1.txt 파일을
 		// 1글자씩 읽어서
 		// c:\\storage\\prac1_copy.txt 파일로 보내기
+		// 걸린 시간 출력하기
 		
 		// FileWriter, FileReader 사용 (copy => 둘 다 쓰게 하는겨)
 		// int read() 메소드 사용
@@ -26,8 +27,7 @@ public class Main {
 		//        fw.write(c);				  \	c를 write
 		// }
 		
-		// 걸린 시간 출력하기
-	
+		
 		File src = new File("c:\\storage", "prac1.txt");
 		File cpy = new File("c:\\storage", "prac1_copy.txt");
 		
