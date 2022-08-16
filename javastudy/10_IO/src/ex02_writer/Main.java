@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 // ctrl + shift + o   -> import 정리해주는 단축키(필요한게 없으면 넣어주고, 잘못 들어간건 지워줌)
 
 public class Main {
@@ -41,7 +42,7 @@ public class Main {
 		// 출력스트림을 이용해서 파일을 생성하면 원래 있던건 삭제하고 언제나 새로 생성이 된다.
 		// fw.close();는 finally 블록 안에 있어야 된다. try블록 안에 있으면 예외 발생시에 fw.close까지 동작이 안될 수 있기 때문에..!!
 		
-		// try블록1에서 선언했는데 fw.close가 밖으로 나갔으니 오류가 남. unhandled exception~
+		// try블록1에서 선언했는데 fw.close가 밖으로 나갔으니 오류가 남. Unhandled exception~
 		// 선언은 밖에서(null값주고) 필요하고 생성만 try안에서.
 		// 실무에서는 fw.close를 그냥 try1블록에서 하고 새로운 try블럭 안 만들고 그냥..처리하기도 함. 예외가 거의 발생 안 해서..
 		//try {
@@ -169,10 +170,40 @@ public class Main {
 		
 	}
 	
-	
+	public static void m6() {
+		
+		// PrintWriter 클래스는 write() 메소드 이외에
+		// print(), println() 메소드를 지원한다.       <- println을 쓰기 위해 PrintWriter를 사용한다
+		
+		File file = new File("c:\\storage", "m6.txt");  // writer는 텍스트를 만들 때 쓰는 것
+		PrintWriter out = null;
+		
+		try {
+			
+			out = new PrintWriter(file);
+			
+			// write() 메소드는 줄 바꿈을 "\n"으로 처리한다.
+			out.write("안뇽하세요~\n");
+			
+			// println() 메소드는 자동으로 줄 바꿈이 삽입된다.
+			out.println("똑바로 읽어도 거꾸로 읽어도 우영우");
+			out.println("기러기 스위스 토마토 인도인 별똥별 우영우");
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(out != null)
+					out.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
 	
 	public static void main(String[] args) {
-		m5();
+		m6();
 		
 
 	}

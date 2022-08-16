@@ -15,6 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// c:\\storage 로 보내라
+		// 요고 잘 해야됨!!!!!!!!!!!
 		
 		try {
 			
@@ -70,6 +71,7 @@ public class Main {
 		} catch (MalformedURLException e) {
 			System.out.println("API 주소 오류");
 		} catch (IOException e) {
+			System.out.println(e.getMessage()); 	// 예외 사유
 			System.out.println("API 서버 오류");
 		}
 

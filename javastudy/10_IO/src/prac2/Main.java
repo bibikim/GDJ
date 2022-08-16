@@ -91,7 +91,6 @@ public class Main {
 		
 	}
 	
-	
 
 	
 	public static void q2() {
