@@ -1,6 +1,9 @@
 package ex02_api;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -8,6 +11,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class Main {
 	
@@ -32,21 +43,25 @@ public class Main {
 		
 		
 		// API 주소 만드는 작업 (주소 + 요청 파라미터 작업)
-		String apiURL = "http://api.data.go.kr/openapi/tn_pubr_public_weighted_envlp_api"; // 주소에 요청이 다 들어감. (요청변수들.. Request Parameter)
+		String apiURL = "http://api.data.go.kr/openapi/tn_pubr_public_weighted_envlp_api"; // 주소에 요청이 다 들어감. 
 		
 		try {	// 밑에처럼 주소창에 붙여서 보내는 방법이 GET 방식 <-> POST 방식(로그인, 회원가입 등 경우에 쓰는 방식)
 		
-			String serviceKey = "1bYcGDEwh81BJx5E4lJXOhR5aFY6NfZZ9o2Esn3khsPIZIM8uzs61raBrbdv2xPCWXzlmw0n6QJwVXUhmoT9Jg==\r\n";
-			// api 활용신청 후 key값을 하나 발급 받아야 한다. 그래야 작업 가능	
+			String serviceKey = "1bYcGDEwh81BJx5E4lJXOhR5aFY6NfZZ9o2Esn3khsPIZIM8uzs61raBrbdv2xPCWXzlmw0n6QJwVXUhmoT9Jg==";
+			// api 활용신청 후 인증키를 하나 발급 받아야 한다. 그래야 작업 가능	
+			
+			// 요청변수들.. Request Parameter   --->   "파라미터=" + URLEncoder.encode("원본데이터", "UTF-8);
 			apiURL += "?pageNo=0";	// 파라미터 처음은 ?~ 두번째부터는 &~
 			apiURL += "&numOfRows=100";	// 숫자는 URLEncodr 굳이 안 해줘도 된다. 
 			apiURL += "&type=xml";	// xml로 읽어오겠다.
 			apiURL += "&CTPRVN_NM=" + URLEncoder.encode("인천광역시", "UTF-8");
 			apiURL += "&SIGNGU_NM=" + URLEncoder.encode("계양구", "UTF-8");
-			apiURL += "&WEGHTED_ENVLP_TYPE=" + URLEncoder.encode("규격봉투", "UTF-8");
-			apiURL += "&WEGHTED_ENVLP_MTHD=" + URLEncoder.encode("소각용", "UTF-8");
-			apiURL += "&WEGHTED_ENVLP_PRPOS=" + URLEncoder.encode("생활쓰레기", "UTF-8");
-			apiURL += "&WEGHTED_ENVLP_TRGET=" + URLEncoder.encode("기타", "UTF-8");
+			apiURL += "&WEIGHTED_ENVLP_TYPE=" + URLEncoder.encode("규격봉투", "UTF-8");
+			apiURL += "&WEIGHTED_ENVLP_MTHD=" + URLEncoder.encode("소각용", "UTF-8");
+			apiURL += "&WEIGHTED_ENVLP_PRPOS=" + URLEncoder.encode("생활쓰레기", "UTF-8");
+			apiURL += "&WEIGHTED_ENVLP_TRGET=" + URLEncoder.encode("기타", "UTF-8");
+			apiURL += "&serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8");
+			
 			/* 필요 없음.... 위에것만 있어도 데이터 잘 읽어온당
 			apiURL += "&PRICE_1=0";
 			apiURL += "&PRICE_1_HALF=0";
@@ -68,8 +83,6 @@ public class Main {
 			apiURL += "&REFERENCE_DATE=" + URLEncoder.encode("2020-02-01", "UTF-8");
 			apiURL += "&instt_code=" + URLEncoder.encode("B551295", "UTF-8");
 			 */
-			apiURL += "&serviceKey=" + URLEncoder.encode(serviceKey, "UTF-8");
-			// 			"파라미터=" + URLEncoder.encode("원본데이터", "UTF-8);
 			// 이정도 분량은 StringBuilder를 사용하면 성능이 좋아진다.
 				
 		} catch(UnsupportedEncodingException e) {
@@ -103,7 +116,7 @@ public class Main {
 		
 		try {
 			
-			if(con.getResponseCode() == 200) {
+			if(con.getResponseCode() == 200) {   // == HttpURLConnection.HTTP_OK
 				reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			} else {
 				reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
@@ -121,9 +134,64 @@ public class Main {
 			System.out.println("API 응답 실패");
 		} 
 		
-		String response = sb.toString();
-		System.out.println(response);
 		
+		// API로부터 전달받은 xml 데이터
+		String response = sb.toString();
+		    //System.out.println(response);
+		
+		// File 생성
+		File file = new File("c:\\storage", "api1.xml");
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			bw.write(response);  // response => xml데이터를 담은 파일 생성
+			bw.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+		// xml 분석
+		try {
+			
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document doc = builder.parse(file); // xml로 parsing
+			
+			Element root = doc.getDocumentElement();   // 최상위 태그 : <response>
+			System.out.println(root.getNodeName()); 
+			
+			NodeList nodeList = root.getChildNodes();  // 자식 태그 list에 담고 for문으로 뽑아보기 : <header>, <body>
+			for(int i = 0; i < nodeList.getLength(); i++) {
+				Node node = nodeList.item(i);  // node => <header>와 <body>
+				System.out.println("  " + node.getNodeName());
+				
+				NodeList nodeList2 = node.getChildNodes();	// <header>의 자식태그(<resultCode>, <resultMsg>), <body>의 자식태그(<items>, <numOfRows>, <pageNo>, <totalCount>)
+				for(int j=0; j < nodeList2.getLength(); j++) {
+					Node node2 = nodeList2.item(j);
+					System.out.println("    " + node2.getNodeName());
+					
+					if(node2.getNodeName().equals("items")) {	// <items> 태그 대상으로만 하는거라 if문 + equals
+						NodeList items = node2.getChildNodes();
+						for(int k = 0; k < items.getLength(); k++) {
+							Node item = items.item(k); 	// <items>의 자식태그 : <item>
+							System.out.println("      " + item.getNodeName());
+							
+							NodeList itemchildren = item.getChildNodes();
+							for(int l = 0; l < itemchildren.getLength(); l++) {
+								Node itemchild = itemchildren.item(l);
+								System.out.println("        " + itemchild.getNodeName() + ":" + itemchild.getTextContent());
+							}
+						}
+					}
+			
+				}
+			}
+					
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	
 		// 접속 종료
 		con.disconnect();
 		

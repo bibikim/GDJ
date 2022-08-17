@@ -67,7 +67,7 @@ public class Main {
 	
 	public static void m2() {
 		
-		// InputStreamReader 바이트로 전송된 문자의 변환기..?!                - FileReader의 부모
+		// InputStreamReader 바이트로 전송된 걸 문자로 변환해주는 스트림                - FileReader의 부모
 		// 바이트 입력 스트림을 문자 입력 스트림으로 변환하는 InputStreamReader
 		
 		File file = new File("c:\\storage", "b2.bin");
@@ -82,9 +82,10 @@ public class Main {
 			
 			StringBuilder sb = new StringBuilder();
 			char[] cbuf = new char[5];  // 5글자씩 읽기 위해서. 	바이트 배열이 아니라 char 배열로 바꿔줘야 한다. 
-			int readCnt = 0;
+			int readCnt = 0;										// ㄴ 문자로 변환하니까 char타입 배열로.
 			
-			while((readCnt = isr.read(cbuf)) != -1) {
+			while((readCnt = isr.read(cbuf)) != -1) { 	// 배열의 길이보다 실제 읽은 바이트 수가 적으면 읽은 수 만큼만 리턴.
+														// 입력 스트림으로부터 더 이상 읽을 수 없으면 read()는 -1 리턴
 				sb.append(cbuf, 0, readCnt);    // 읽어준 만큼(readCnt)만 추가해라!
 			}
 			

@@ -1,0 +1,42 @@
+* Thread
+
+Thread클래스                     Runnable인터페이스
+----------------                   ---------------------
+run()                                       run()
+start()                                    
+
+
+class Soldier extends Thread {
+      @override
+        public void run() { }
+}
+Soldier s = new Soldier();
+s.start();      // 솔져의 부모인 스레드에 있는  start메소드를, 상속받는 솔져가 쓸 수 있다.
+
+
+class Soldier implements Runnable {
+      @override
+        public void run() { }
+}
+Soldier s = new Soldier();
+Thread thread = new thread(s);
+thread.start();
+러너블에는 start()가 없기 때문에
+스레드를 만들어서 해당 스레드를 진짜 스레드 객체로 바꿔주는 작업이 필요
+
+
+===실행 과정===
+
+new   ------start()-----> ready ------run()-----> ---Run ----> stop
+   |                                   <----timeout---       |
+스레드                       실행                           실행
+생성                          준비                            ↓
+                                                            대기(Block)
+                                      ↖-----------------   sleep() 
+                                      ↖-----------------    join()
+                          notify()   ↖-----------------    wait()
+
+	
+
+>> sleep join은 알아서 실행준비로 돌아가는데
+wait은 알아서 안 하므로 notify로 알리고깨워줘야 돌아감
