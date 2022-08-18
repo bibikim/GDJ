@@ -8,12 +8,11 @@ import java.net.Socket;
 
 public class Client extends Thread {
 
-	private Socket socket; // client는 접속을 위해 socket을 쓰니까 필드 생성
+
 	private BufferedReader in;
 
 	public Client(Socket socket) {
 		try {
-			this.socket = socket;
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -26,7 +25,7 @@ public class Client extends Thread {
 		try {
 			while(true) {
 				String message = in.readLine();
-				if(message.equalsIgnoreCase("exit")) {
+				if(message == null || message.equalsIgnoreCase("exit")) {
 					break;
 				}
 				System.out.println(message);
@@ -38,9 +37,7 @@ public class Client extends Thread {
 				if(in != null) {
 					in.close();
 				}
-				if(socket.isClosed() == false) {
-					socket.close();
-				}
+			
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -36,15 +36,16 @@ public class Server extends Thread {
 		
 		try {
 			InetSocketAddress address = null;
-			String message = null;
 			while(true) {
-				message = in.readLine();
-				if(message.equalsIgnoreCase("exit")) { 	// 채팅창에 exit 입력하면 채팅 종료
+				String message = in.readLine();
+				if(message == null || message.equalsIgnoreCase("exit")) { 	// 채팅창에 exit 입력하면 채팅 종료
 					break;
 				}
 				// 모든 클라이언트에게 메시지 출력
 				address = (InetSocketAddress)client.getRemoteSocketAddress();  // 타입이 안 맞으니 캐스팅
-				ServerMain.sendMessage(address.getHostName() + "의 메시지 : " + message);
+				for(Server server : ServerMain.servers) {
+					server.sendMessage(message);
+				}
 			}
 			
 			// List<Server> servers에서 등록된 서버 제거
