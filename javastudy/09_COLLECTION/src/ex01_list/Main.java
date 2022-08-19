@@ -77,7 +77,7 @@ public class Main {
 		//	System.out.println(arr[i]);		// 배열은 길이를 arr.length -> length라는 필드값(변수)을 참조. 변수임
 			// ㄴ 필드값을 순회하는건 단순 변수 참조라서 ㄱㅊ
 		// }
-		//for(int i = 0; i < list.size(); i++) {	// arraylist는 길이를 list.size 사이즈라는 메소드를 사용
+		//for(int i = 0; i < list.size(); i++) {	// arraylist는 길이를 .size() 사이즈라는 메소드를 사용
 		//	System.out.println(list.get(i)); }
 			// 메소드를 반복하는건 계속서 메소드를 리스트 길이만큼(4번) 호출하는거라 성능이 떨어짐
 			// 그래서 메소드를 한번만 호출할 수 있게끔 식을 고쳐야 해! 

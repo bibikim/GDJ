@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Main {
+public class Main1_XML {
 	
 	// 요청 
 	// 1. request
@@ -139,7 +139,7 @@ public class Main {
 		String response = sb.toString();
 		    //System.out.println(response);
 		
-		// File 생성
+		// XML 파싱
 		File file = new File("c:\\storage", "api1.xml");
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -148,6 +148,9 @@ public class Main {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		// 접속 종료
+		con.disconnect();
 		
 		// xml 분석
 		try {
@@ -192,8 +195,6 @@ public class Main {
 		}
 		
 	
-		// 접속 종료
-		con.disconnect();
 		
 	}
 			
@@ -204,13 +205,14 @@ public class Main {
 	
 	public static void m2() {
 		
+		// 보건복지부_코로나 19 감염현황 조회 서비스
+		
 		// API 주소 만들 때 StringBuilder 사용하기
 		// 인코딩 예외 처리
 		// GET방식이 기본이라 생략 가능
 		
-		
+		// API 주소
 		StringBuilder urlsb = new StringBuilder();
-		
 		try {
 			
 			String serviceKey = "bEQBRPHjt0tZrc7EsL0T8usfsZ1+wT+5jqamBef/ErC/5ZO6N7nYdRmrwR91bh5d3I1AQeY5qdbJOF6Kv0U1CQ==";
@@ -226,6 +228,7 @@ public class Main {
 		}
 		String apiURL = urlsb.toString();   // 스트링빌더로 누적시킨 데이터들을 String으로 바꿔주기
 		
+		// API 주소 접속
 		URL url = null;
 		HttpURLConnection conn = null;
 	
@@ -242,6 +245,9 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		// 입력 스트림 생성
+		// 1. 서버가 보낸 데이터를 읽어야 하므로 입력 스트림이 필요
+		// 2. 서버와 연결된 입력 스트림은 바이트 스트림이므로 문자 스트림으로 변환해야 함
 		BufferedReader rd = null;
 		StringBuilder sb2 = new StringBuilder();
 		

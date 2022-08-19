@@ -1,4 +1,4 @@
-package pracAPI;
+package prac1;
 
 import java.io.File;
 

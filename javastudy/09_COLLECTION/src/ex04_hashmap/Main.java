@@ -55,7 +55,7 @@ public class Main {
 		Map<String, Object> map2 = new HashMap<String, Object>(); 	// object는 모든걸 저장할 수 있다아!
 		map2.put("title", "홍길동전");
 		map2.put("author", "허균");
-		map2.put("price", 20000 + "");
+		map2.put("price", 20000);   //  Object로 관리하니까 ""로 숫자를 텍스트처리 안해줘도 됨
 		System.out.println(map2);
 	}
 	
@@ -64,12 +64,12 @@ public class Main {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("title", "소나기");
 		map.put("author", "황순원");
-		map.put("price", 20000);		// 3개의 Entry로 구성된 것
+		map.put("price", 20000);		// 3개의 Entry(key, value)로 구성된 것
 		
 		// Entry 단위로 순회(for) 				 ★★이 방법으로 학습하면 될듯
 		for(Map.Entry<String, Object> entry : map.entrySet()) {				// map에서 entry단위로 읽어라!
 			System.out.println(entry.getKey() + ":" + entry.getValue());	// 순회를 entry 단위로 진행
-		}
+		}      // entrySet() 메소드는 key, value 값을 모두 출력
 		
 		// key를 이용한 순회(for)
 		for(String key : map.keySet()) { // map에서 key만 뺀다!
@@ -109,8 +109,8 @@ public class Main {
 		list.add(map3);
 		
 		// map자체도 순회가 가능하니까 map으로 for문 돌리기
-		for(Map<String, Object> map : list) {	// List
-			for(Map.Entry<String, Object> entry : map.entrySet()) {		// Map
+		for(Map<String, Object> map : list) {	// List에서 map1,2,3 순회
+			for(Map.Entry<String, Object> entry : map.entrySet()) {		// Map에서 각 entry 순회
 				System.out.println(entry.getKey() + ":" + entry.getValue());		
 			}
 			System.out.println();

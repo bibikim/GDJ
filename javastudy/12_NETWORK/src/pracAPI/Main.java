@@ -24,8 +24,11 @@ public class Main {
 
 	public static void m1 () {
 		
+		// 기상청 41_단기예보 조회서비스
+		
 		String serviceKey = "1bYcGDEwh81BJx5E4lJXOhR5aFY6NfZZ9o2Esn3khsPIZIM8uzs61raBrbdv2xPCWXzlmw0n6QJwVXUhmoT9Jg==";
 		
+		// API 주소 (주소 + 요청 파라미터)
 		StringBuilder urlsb = new StringBuilder();
 		try {
 			
@@ -36,7 +39,7 @@ public class Main {
 			 urlsb.append("&dataType=XML");
 			 urlsb.append("&base_date=20220818");
 			 urlsb.append("&base_time=1100");
-			 urlsb.append("&nx=59");
+			 urlsb.append("&nx=59");   // 지역 좌표
 			 urlsb.append("&ny=124");
 			
 		} catch (UnsupportedEncodingException e) {
@@ -45,6 +48,7 @@ public class Main {
 		
 		String apiURL = urlsb.toString();
 		
+		// API 주소 접속
 		HttpURLConnection con = null;
 		
 		try {
@@ -59,6 +63,10 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		// 입력 스트림 생성
+		// 1. 서버가 보낸 데이터를 읽어야 하므로 입력 스트림이 필요
+		// 2. 서버와 연결된 입력 스트림은 바이트 스트림이므로 문자 스트림으로 변환해야 함
 		
 		BufferedReader rd = null;
 		StringBuilder sb1 = new StringBuilder();
@@ -76,14 +84,17 @@ public class Main {
 				sb1.append(line);
 			}
 			
+			// 스트림 종료
 			rd.close();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("API 응답 실패");
 		}
 		
+		// API로부터 전달받은 xml 데이터
 		String data = sb1.toString(); 
 		
+		// XML File 생성
 		File file = new File("c:\\storage", "api3.xml");
 		
 		try {
@@ -99,6 +110,8 @@ public class Main {
 	}
 	
 	public static void m2() {
+		
+		// xml 파싱
 		
 		File file = new File("c:\\storage", "api3.xml");
 		

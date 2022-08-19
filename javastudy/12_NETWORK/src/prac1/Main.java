@@ -17,6 +17,7 @@ public class Main {
 		// c:\\storage 로 보내라
 		// 요고 잘 해야됨!!!!!!!!!!!
 		
+		// 기상청
 		try {
 			
 			// 접속
