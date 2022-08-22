@@ -1,0 +1,71 @@
+* 데이터베이스
+여러 사람에 의해 공유되어 사용될 목적으로 통합/구조화 되어 저장 및 관리되는 데이터들의 집합
+여러 사람이 동시에 들어가서 사용 가능
+관계형 DB(RDB) - Oracle, My-SQL 대표적
+
+* sqlplus Command line 사용법
+(+) system 계정을 사용하는 DBA(DB관리자)가 사용자를 만들어준다. (DB Administrator)
+1.생성 2.권한 부여(관리자가 해주는거)
+- system 접속: conn system/1111
+   > 생성 쿼리문:  create user user1 identified by 1111; 
+     (1111이라는 비번을 가진 user1 사용자를 만들겠다)
+   > 권한 부여 쿼리문:  grant connect to user1;
+     (user1에게 접속할 수 있는 권한을 주겠다)
+   > conn user1/1111       
+     (새로운 사용자user1이 만들어지고 user1으로 접속 완)
+
+(+) 현재 내가 접속된건 user1인 상황.  user2를 만들고 싶으면 
+user1에서 system 계정으로 바꿔야함. 따라서
+> conn system/1111 (system 관리자 계정으로 재접속. 이 계정만 사용자 생성 및 권한부여가 가능하기 때문에)
+> create user user2 identified by 2222; 
+> grant connect to user2;
+> conn user2/2222 접속 완.
+
+권한/ 읽어볼수있는 사람, DB객체를 만들 수있는 사람, 다 할수있는 사람 이렇게 권한이 분리되어있음
+==>정해진 구문이므로 외우는게 좋다
+
+(+) user1,2 의 접속 권한 회수(system계정이 할 수 있음)
+ conn system/1111 (시스템계정으로 접속부터 하는게 중요)
+> revoke connect from user1; 
+   (user1으로부터 접속 권한을 회수한다)
+ conn system/1111
+> revoke connect from user2;
+
+(+) 자원 사용할 수 있는 권한 부여하기(접속 권한을 먼저 줘야함)
+ conn system/1111
+> grant connect, resource to user1;
+  (접속 권한과 자원 사용 권한을 한번에 부여하는 쿼리문)
+> conn user1/1111 
+> create table a_tbl(no number);         
+  (a_tbl이라는 table을 가지고 있음..그게멍미)
+그럼 이제 정상적인 사용이 가능한 user가 되는 것!
+ 
+ conn system/1111
+> grant connect, resource to user2;
+> conn user2/1111
+>create table a_tbl(no noumber);
+ (a_tbl 동일한 객체이름이지만 사용자가 다르면 존재할 수 있다)
+
+(+) 생성한 사용자와 table 지우기
+ conn system/1111 (마찬가지로 drop권한은 system에게)
+> drop user user1  cascade;          user dropped.
+   (cascade옵션: DB객체를 가지고 있다면 함께 제거한다)
+   (사용자가 가지고 있는 객체가 있으면 사용)
+----------user2의 DB객체, 사용자 차례로 제거
+ conn user2/1111
+> drop table a_tbl;      
+  (user2가 만든 table이기 때문에 user2로 접속 후 user2가 직접 drop)
+> conn system/1111
+   (사용자 제거는 system으로 접속해서 drop한다)
+> drop user user2;
+
+=== create user    < --- > drop user ===
+=== create table   < --- > drop table ===
+
+(+) 관리자가 또다른 관리자를 만드는 방법
+ create user user1 identified by 1111;
+> grant dba to user1;
+ (user1에게 관리자 권한 부여)
+> conn user1/1111  (접속 완)
+> create table a_tbl(no number);    (자원 사용 권한 O)
+ (따로 권한 주지 않았음에도 접속 및 자원 사용 가능해짐.  dba 권한을 주었기 때문에 뭐든지 가능하다)
