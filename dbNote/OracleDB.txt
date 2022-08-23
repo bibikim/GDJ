@@ -1,0 +1,88 @@
+* 테이블 구성 ★★★
+  행(ㅡ) : 로우(Row), 레코드(Record), Entity      
+       ㄴ 데이터베이스의 가로줄 (제목은 row로 보지 않음)
+       ㄴ row 한 행을 자바의 객체로 만들 수 있음  user(1, 여, kim, 서울)
+       ㄴ (cardinality ; row의 갯수)
+  열(ㅣ) : 칼럼(Column), 필드(Field), 속성(Attribute)
+        ㄴ 데이터베이스의 세로줄
+        ㄴ (degree ; column의 갯수)
+   >> 자바로 넘어간다면 테이블 구조 하나 당 클래스가 된다
+* 테이블 용어 ★★★
+  도메인 : 한 칼럼이 가질 수 있는 값의 집합
+         ㄴex) 성별 domain = 남, 여 / 나이 domain = 0~100
+  차수 : Degree, 한 테이블에 있는 칼럼의 갯수
+  기수 : Cardinality, 한 테이블에 있는 로우의 갯수
+  테이블(table) = 릴레이션(relation)
+
+(@)
+ * Key : 어떤 칼럼 하나를 key 라고 부름
+    ㄴ 기본키 primary key      |
+    ㄴ 외래키 foreign key       |  다른 테이블의 기본키와 연결시켜놓은 키(참조 무결성의 특징 - 참조하는 PK값만 가질 것) 다른 테이블을 참조.
+                                                unique하지 않고 동일하게 가질 수 있음. 참조하는 pk값이 삭제되면 null값을 가지거나 에러(설정에 따라)
+  ======> 테이블 생성(Create table)할 때 기본키(PK)와 외래키(FK)는 필수적으로 선언해야 함
+
+   
+ - super key : 테이블의 각 row들을 식별할 수 있는 칼럼 또는 칼럼의 집합
+                     테이블을 분석하여 슈퍼키가 될 수 있는 칼럼이나 칼럼의 집합을 선정.
+                     판단 기준 - 모든 로우가 서로 다른 값을 가지는가? 유일성이라는 특징
+ - candidate key : 최소한의 칼럼으로 구성된 슈퍼키만 선정 (후보키)
+                            유일성 + 최소성이라는 특징을 가짐
+ - primary key : 후보키 중에서 DBA가 선택한 키.  중복이 절대 없는 키!
+                   기본키는 개체 무결성의 특징을 가짐.  ★★ NOT NULL(널값을 가질 수 x)/ UNIQUE(중복값 가질 수 x) ★★
+                        슈퍼키에서 후보키를 추리고 거기서  하나를 고르는데 그게 기본키(PK). 
+                        최종적으로 고객을 식별할때 사용할 칼럼!
+                        기본키까지 추려지면 동일(중복되는)한 키로 식별하는 경우는 다 제외된 상태. 
+                    값이 변할 수 있는 값들은 기본키로서 부적절하다. 다 다르게 가질 수 있어도 의미의 변질이 있을 수 있으므로.
+             ㄴ 자연키(natural key); 실제로 존재하는 데이터. 비즈니스 ㅗ델을 통해서 추출한 키
+             ㄴ 인공키(artificial key); 실제로 존재하지 않는 데이터를 인위적으로 추가한 키. ex)AUTO_INCREMENT 값(고객번호같은..)을 많이 씀
+ - alternate key 대체키 : 후보키에서 기본키를 제외한  나머지 키
+   [[ 슈퍼키 -> (추려서)후보키 -> (row를 식별할 하나의)기본키 -> 나머지 대체키 ]]
+
+회원 테이블 ---- 작성글 테이블  (=> 관계를 맺어주어야 함. pk와 fk)
+회원 테이블에서 pk로 선정된 칼럼의 값을 작성글 테이블에 넣는 것     
+pk가 가지는 값 = domain >> FK는 관계를 맺은 테이블의 키(기본키)의 도메인을 가져야 한다.
+                                               PK에 없는 값은 참조 무결성에 위배되므로 에러가 뜨고 저장도 안됨
+ * PK - 일  대  다 - FK
+         1    :   M
+      pk는 하나밖에 가질 수 없는 unique한 특징을 가지니까 1
+      fk는 중복이 가능하기에 다
+
+    회원 -----------E 게시판 (필수o) > Not null          [바커 표기법]
+    회원 - - - - - -  E 게시판 (필수x)  > null 값 허용    [ IE 표기법]
+
+ * M  :  N  (다 대 다)
+   머리로는 생각할 수 있는 관계지만 DB에서 실제적으로 구현은 안된다.
+   -> 1 : M 관계 n개를 이용해서 구현한다.  기본적으로 테이블 2개로는 불가능. 3개로! 따라서 테이블 하나는 FK가 2개가 됨
+        ○       ◇ 
+         └ ◈ ┘      ◈에는 ○와 ◇에 관계를 맺어서 생긴 FK가 2개가 된다.
+
+
+¶ 데이터베이스 오브젝트 설계
+ * 개념적 설계 (E-R 다이어그램)
+ 요구 사항 분석 결과를 Entity-Relation 다이어그램으로 나타낸다
+ - 개체 - row / 속성 - column / 관계 - relationship
+ - 논리설계 (한글), 물리설계 (영문)
+ - 데이터타입                                         크기                NN               UQ           PK          FK          
+    NUMBER (int, long, double)             byte 수           not null        unique         Y                             => Y/ " " : 제약조건 적을지말지 여부
+    VARCHAR2 (string)                                                   null값x         중복x                                              
+    DATE (Date)
+
+    ㄴ PK와 FK 각각의 데이터타입/크기는 꼭 맞춰야(같아야) 한다.   (칼럼의 이름은 달라도 괜찮다)
+    ㄴ PK의 데이터타입이 NUMBER라면 자동으로 증가(Auto Incerment Value)되는 번호를 쓴다. 
+     ++ 제약조건(constraint) - NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK(값의 유효성 검사)   >  5가지
+           -> 외래키와 본키를 만들 때 CONSTRAINT가 자주 쓰인다
+    number(3) > 글자 최대3글자까지.
+    char(1byte) > 글자 길이가 고정되어 있으면 varchar2가 아닌 char를 쓰기도 함
+  
+
+ * DDL (Data Definition Language) 데의터 정의어
+ - 데이터베이스 객체 추가/수정/삭제
+ - 작업 취소 불가 ! 
+ - 데이터베이스 객체(사용자, 테이블 등)
+    추가: create user, create table
+    수정: alter user, alter table
+    삭제: drop user, drop table
+
+ * Query
+   1. create table -> modeling
+   2. modeling -> create table          // 둘 중 뭘 먼저하든 상관 없다

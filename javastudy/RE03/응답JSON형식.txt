@@ -1,0 +1,37 @@
+{  // obj
+  "rss":{	// JSONObject rss = obj.getJSONObject("rss")
+    "channel":{   // JSONObject channel = rss.getJSONObject("channel")
+      "item":{   // JSONObject item = channel.getJSONObject("item")
+        "author":"기상청",   // String item = item.getString("author")
+        "link":"http://www.kma.go.kr/weather/forecast/timeseries.jsp?searchType=INTEREST&dongCode=1154551000",    // String link = item.getString("link")
+        "guid":"http://www.kma.go.kr/weather/forecast/timeseries.jsp?searchType=INTEREST&dongCode=1154551000",
+        "description":{   // JSONObject description = item.getJSONObject("description")
+          "header":{
+            "x":58,
+            "tm":202208231700,
+            "y":125,
+            "ts":5
+          },
+          "body":{  // JSONObject body = description.getJSONObject("body")
+            "data":[  // JSONArray dataList = body.getJSONArray("data")
+              {"sky":1,"temp":25,"wfKor":"맑음","wd":7,"hour":21},   // JSONObject data = dataList.getJSONObject(0) - int sky = data.getInt("sky"), int temp = data.getInt("temp"), String wfKor = data.getString("wfKor"), int hour = data.getInt("hour")
+              {"sky":1,"temp":25,"wfKor":"맑음","wd":7,"hour":21},   // dataList.getJSONObject(1)
+              {"sky":1,"temp":25,"wfKor":"맑음","wd":7,"hour":21},   // dataList.getJSONObject(2)
+              {"sky":1,"temp":25,"wfKor":"맑음","wd":7,"hour":21},   // dataList.getJSONObject(3)
+              {"sky":1,"temp":25,"wfKor":"맑음","wd":7,"hour":21}   // dataList.getJSONObject(4)
+            ]
+          }
+        },
+        "category":"서울특별시 금천구 가산동",   // String category = item.getString("category")
+        "title":"동네예보(도표) : 서울특별시 금천구 가산동 [x=58,Y=125]"
+      },
+      "link":"http://www.kma.go.kr/weather/main.jsp",   // String link = channel.getString("link")   -> 이게 끝. 더이상 파싱할 것 없음
+      "description":"동네예보 웹서비스",   // String description = channel.getString("description")
+      "generator":"동네예보",   // String generator = channel.getString("generator")
+      "language":"ko",   // String language = channel.getString("language")
+      "title":"기상청 동네예보 웹서비스 - 서울특별시 금천구 가산동 도표예보",  // String title = channel.getString("title")
+      "pubDate":"2022년 08월 23일 (화)요일 17:00"   // String pubDate = channel.getString("pubDate")
+    },
+    "version":2
+  }
+}
