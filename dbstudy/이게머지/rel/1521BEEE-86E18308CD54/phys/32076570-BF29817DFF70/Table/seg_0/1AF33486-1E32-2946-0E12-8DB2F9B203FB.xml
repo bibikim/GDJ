@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="DEPARTMENT" directorySegmentName="seg_0" id="1AF33486-1E32-2946-0E12-8DB2F9B203FB">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>78694F5B-7DCE-A374-A85C-E0DB7F19094B</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="DEPT_LOCATION" id="C9F2BCA7-1E54-BF09-52EE-E0406F0D48F4">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="DEPT_NO" id="D94E3AE2-14A1-58A7-6B45-1463F81B6E81">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="DEPT_NAME" id="EA5525AD-EC3B-1A8C-A5F4-F7FAA1197CDD">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_DEPARTMENT" id="52F65601-2C24-902B-2FF6-4788532268CC">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+</IndexProxy>
+</indexProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_DEPARTMENT" id="C9D32BA9-96F6-4364-2DA9-89069A797E6E">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<existingIndex>52F65601-2C24-902B-2FF6-4788532268CC</existingIndex>
+<indexSegment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

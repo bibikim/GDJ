@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="9A81928E-88A2-C350-B872-D25A6F526066" containerWithKeyObject="F9281702-B412-FD3E-0A76-A72BFC4B3433" localFKIndex="F03DDEBA-B432-8128-5508-7951BB7A7522" name="FK_SCHEDULE_EVENT">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>BEC5238E-8F51-DF76-CA6C-EF2637D35B94</importedID>
+<referredTableLongName>SCOTT.EVENT</referredTableLongName>
+<deleteRule>SET NULL</deleteRule>
+<referredTableID>060FC8EE-A61F-17EC-6F16-02E626D570DE</referredTableID>
+<keyObject>AD5222D1-D844-73BC-FFA9-F83702687DBB</keyObject>
+<referredKeyID>AD5222D1-D844-73BC-FFA9-F83702687DBB</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>E_CODE</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

@@ -1,0 +1,87 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0C7C8BC3-53DB-E94C-7B4D-CF2541E671C4" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="PROJECT">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>2E31A38C-8561-A827-7775-38F2E3771D69</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="PJT_NO" id="F1AC3C04-8F3D-4047-64EB-A07405A02924">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>95621164-74DA-2770-A2FC-B8A522E243A9</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PJT_NAME" id="772B66E8-0A42-499C-DF66-13BD4186C628">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>95C08ACC-EE86-3CF2-A674-1598FC871948</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30 BYTE</dataTypeSize>
+<ownDataTypeParameters>30 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BEGIN_DATE" id="619F488E-BF29-6FD8-8B63-9569592338D3">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>3A1928D8-6D9D-F7A0-2034-C118375A4B2B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="END_DATE" id="AA5F5120-83A1-47C4-F105-4D22D892369E">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>F0D9A451-5544-E3A5-0B3F-B76F9FC3B81A</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="F70974B3-A29E-F3D1-734E-AD50BFE0F1A6" name="PK_PROJECT">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>4E98FC12-159E-7921-9A71-32D72F147521</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F1AC3C04-8F3D-4047-64EB-A07405A02924"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FA93409D-F3AC-8251-6263-2F5BEAF972C2" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="PK_PROJECT">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>D468B137-5251-3AF5-0825-F8DD4CD29DD0</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F1AC3C04-8F3D-4047-64EB-A07405A02924"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

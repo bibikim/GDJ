@@ -1,0 +1,71 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="PROCEEDING" directorySegmentName="seg_0" id="EE76C4AA-3AD3-40F9-2538-6D4F29F4DCA3">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>78694F5B-7DCE-A374-A85C-E0DB7F19094B</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="PJT_NO" id="093D6B57-59F7-F94F-AC49-13A9A4A5E4D3">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PJT_STATE" id="5D35B8A5-916A-D26A-BE5A-386376FCF3F9">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="EMP_NO" id="A9D5F0A4-95B5-3785-CE51-52E1B82B66E8">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PCD_NO" id="D83F8B73-F29F-BEBB-9504-4669D17C813E">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_PROCEEDING" id="521FF1CA-F12F-52E5-A296-7ABE41ADE23A">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_PROCEEDING_EMPLOYEE" id="10366E97-0F40-EE06-BE5B-7BEDE61DE554">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ForeignKey>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_PROCEEDING_PROJECT" id="ECCDE32A-331C-D589-0C2A-5FBBD4B55538">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_PROCEEDING" id="9ECA625F-0674-AAD2-EF5C-1CFA8958B9A8">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<existingIndex>521FF1CA-F12F-52E5-A296-7ABE41ADE23A</existingIndex>
+<indexSegment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

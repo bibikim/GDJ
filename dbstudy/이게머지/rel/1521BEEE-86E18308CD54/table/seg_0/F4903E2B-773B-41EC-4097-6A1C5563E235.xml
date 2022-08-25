@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F4903E2B-773B-41EC-4097-6A1C5563E235" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="EMPLOYEE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>0FD9C736-242E-AE6D-BBB9-262E99020045</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="EMP_NO" id="245DAA0C-1655-6F8D-6788-933CA7B00FEA">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>93C9AADE-9F48-C84C-E40B-4EA7F24424BE</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DEPT_NO" id="0675FE7F-2198-BDE9-1165-F05C0A8BFE22">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>105AD469-89A7-4363-BF12-CD2A311E80F9</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15 BYTE</dataTypeSize>
+<ownDataTypeParameters>15 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8FD0B217-7F6F-8AD5-1FF0-CF135D34405A" referredColumn="D94E3AE2-14A1-58A7-6B45-1463F81B6E81"/>
+</associations>
+</Column>
+<Column name="POSITION" id="9BE0AEA1-FCD7-A8C6-F482-4C3A591A9569">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>C544AD7D-9942-B981-130B-34273E59284A</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>10 BYTE</dataTypeSize>
+<ownDataTypeParameters>10 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NAME" id="6560A9F9-E453-5B41-8E1C-C8F5AC5DB993">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>00EA6025-25D3-D5DD-26E2-CE8F32938960</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15 BYTE</dataTypeSize>
+<ownDataTypeParameters>15 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="HIRE_DATE" id="3273358E-9E2C-854F-99A6-DB9ED7E1127B">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>09EF179E-8E20-1EF5-CD38-410B07291DE6</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SALARY" id="4ADF3B54-8493-CEA7-6ACE-1CEDE5E53250">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>EC8A05D7-8EFC-ED55-A89C-F7F07169472D</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="003228EB-8F51-218D-7113-25D4FC16788C" name="PK_EMPLOYEE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>4B995312-0364-42CF-13E2-3581D0CF775D</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="245DAA0C-1655-6F8D-6788-933CA7B00FEA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E7C87C57-98C0-7E1A-54E3-88A22BAA5B67" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="PK_EMPLOYEE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>3023A9DC-B2C4-8141-AC2E-D14F1E9B85BB</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="245DAA0C-1655-6F8D-6788-933CA7B00FEA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="4C15FB50-5639-3E30-06BE-3DBA46CDA836" name="FK_EMPLOYEE_DEPARTMENT">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0675FE7F-2198-BDE9-1165-F05C0A8BFE22"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

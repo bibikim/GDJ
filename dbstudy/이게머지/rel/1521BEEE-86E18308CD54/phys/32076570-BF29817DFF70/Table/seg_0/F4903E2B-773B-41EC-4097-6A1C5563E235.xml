@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="EMPLOYEE" directorySegmentName="seg_0" id="F4903E2B-773B-41EC-4097-6A1C5563E235">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>78694F5B-7DCE-A374-A85C-E0DB7F19094B</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="DEPT_NO" id="0675FE7F-2198-BDE9-1165-F05C0A8BFE22">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="EMP_NO" id="245DAA0C-1655-6F8D-6788-933CA7B00FEA">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="HIRE_DATE" id="3273358E-9E2C-854F-99A6-DB9ED7E1127B">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="SALARY" id="4ADF3B54-8493-CEA7-6ACE-1CEDE5E53250">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="NAME" id="6560A9F9-E453-5B41-8E1C-C8F5AC5DB993">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="POSITION" id="9BE0AEA1-FCD7-A8C6-F482-4C3A591A9569">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_EMPLOYEE" id="E7C87C57-98C0-7E1A-54E3-88A22BAA5B67">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="FK_EMPLOYEE_DEPARTMENT" id="4C15FB50-5639-3E30-06BE-3DBA46CDA836">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_EMPLOYEE" id="003228EB-8F51-218D-7113-25D4FC16788C">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<existingIndex>E7C87C57-98C0-7E1A-54E3-88A22BAA5B67</existingIndex>
+<indexSegment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

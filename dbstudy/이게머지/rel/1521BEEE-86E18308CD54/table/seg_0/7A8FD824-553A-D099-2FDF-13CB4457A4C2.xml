@@ -1,0 +1,100 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7A8FD824-553A-D099-2FDF-13CB4457A4C2" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="ENROLL">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>7D418A80-E09A-F79B-68A2-E0F46BAD00F3</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ENR_NUM" id="205F6776-50BA-455E-15EC-91957335C883">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>1D1E30C4-FB56-8017-64EC-0C4FDB7F074E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>7</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,7,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ENR_NO" id="6DF256DF-4BAD-F051-B6D7-5920C1346D65">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>DE9D553A-A8C4-EA74-DEAB-15D1F71C6C8B</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="COU_NO" id="1AA7F606-9023-BF7D-F773-72FC53BD7679">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>1BFD904B-E37E-9638-F4C9-53DF2ACDFD67</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2A455857-0975-D046-0490-D8F2E0AF33CA" referredColumn="3F420A89-54FF-A262-4003-28F65E83B0B7"/>
+</associations>
+</Column>
+<Column name="ENR_DATE" id="99342737-E14B-DEAE-F516-D34C11919FCF">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>3A0990F7-1914-41DD-6B70-C2BD66874131</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="87E0A9CB-161C-4A60-5412-BDFF2FEEA4E7" name="PK_ENROLL">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>4EC48E05-373E-4016-F8C2-990E37008799</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="205F6776-50BA-455E-15EC-91957335C883"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="02FC08AE-E0BB-8749-F4AF-C419F0217F39" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="PK_ENROLL">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>8BA280DB-30AB-AE00-21C5-09F2816FA5F3</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="205F6776-50BA-455E-15EC-91957335C883"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E40CC51C-9054-2FE6-D17D-190B53870896" name="FK_ENROLL_COURSE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1AA7F606-9023-BF7D-F773-72FC53BD7679"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

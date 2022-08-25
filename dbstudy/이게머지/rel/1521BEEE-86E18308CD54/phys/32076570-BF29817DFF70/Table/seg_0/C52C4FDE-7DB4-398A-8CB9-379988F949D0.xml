@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="BANK" directorySegmentName="seg_0" id="C52C4FDE-7DB4-398A-8CB9-379988F949D0">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>78694F5B-7DCE-A374-A85C-E0DB7F19094B</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="BANK_CODE" id="82DD99B9-D574-DE4C-49D1-25BAD49BFBF0">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="BANK_PHONE" id="F22B58E2-E288-957E-E4C0-68A0AA0193D1">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="BANK_NAME" id="FC340709-249E-A6B6-B117-923B9625E119">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="PK_BANK" id="F7CED375-2862-16C4-A5FD-5262AD5FE147">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<schemaObject>58BF9FFF-C60F-6901-26DF-0C5647CA9BD8</schemaObject>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+</IndexProxy>
+</indexProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PK_BANK" id="8BF5D205-0B75-3CD4-DA9E-CD806D098A2E">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<segment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</segment>
+<tableSpace>68A8E0F7-BC8E-0E59-EE53-A0E13410A9CF</tableSpace>
+<existingIndex>F7CED375-2862-16C4-A5FD-5262AD5FE147</existingIndex>
+<indexSegment>9CA89A04-FFF2-0CB3-B601-5439B3E91D6A</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

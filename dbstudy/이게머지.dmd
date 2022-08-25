@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="이게머지" id="C7354018-E877-91A2-4B6D-CE33C0663E23" version="3.5">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-24 23:53:08 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>C7354018-E877-91A2-4B6D-CE33C0663E23</designId>
+<usedDesignStorageDescriptors>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="1177EBFF-04A5-5D2F-D3AF-BFF4490015A8">
+<designStoragePath>C:\</designStoragePath>
+</designDescr>
+</usedDesignStorageDescriptors>
+</OSDM_Design>

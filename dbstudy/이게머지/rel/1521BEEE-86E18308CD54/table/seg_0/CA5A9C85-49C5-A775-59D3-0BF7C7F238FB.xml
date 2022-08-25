@@ -1,0 +1,125 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="CA5A9C85-49C5-A775-59D3-0BF7C7F238FB" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="LECTURE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>0054E00D-B9D5-242B-901F-1AC6B11FAD79</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="LEC_NO" id="4585B0E0-2C15-5354-C237-0028FA9F841C">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>90C08D50-B144-C0EA-C3D7-84482368D21C</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,5,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="PROF_NO" id="643944AE-F382-56D1-9933-E95A7D4CFE70">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>30E04C1F-0465-E526-09B1-3225652B4AAE</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DBC03A03-836F-8983-FF7B-87B97D2F2325" referredColumn="5DB2FF82-2578-699B-D86C-11C745ED520C"/>
+</associations>
+</Column>
+<Column name="COU_NO" id="E7923524-4A9D-753F-B628-BE80245CDECB">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>8EEC0286-ABF6-682E-893A-3434D7064DE3</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="0671D108-4CE9-A82E-23F1-39E18003A0B5" referredColumn="3F420A89-54FF-A262-4003-28F65E83B0B7"/>
+</associations>
+</Column>
+<Column name="LEC_NAME" id="88E03768-0E0F-CA43-A51B-53FEAF3695AA">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>4C02EAF2-8D72-EB84-04BC-7297C91F45C6</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>40 BYTE</dataTypeSize>
+<ownDataTypeParameters>40 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="LEC_CLASS" id="B984B600-0467-9556-E866-6A0CA75144BB">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>8F110717-9606-A872-FA4F-14557A18DB4C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 BYTE</dataTypeSize>
+<ownDataTypeParameters>20 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3582102C-0BCA-20A7-04FB-4253C9588627" name="PK_LECTURE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>1D721928-254B-342E-D1C6-A2B6C1C4A23B</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4585B0E0-2C15-5354-C237-0028FA9F841C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9BAFF549-FD69-4133-DC76-34E3F50DA7ED" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="PK_LECTURE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>C9EDD16B-B95B-6BB9-00DE-B89512BE8627</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4585B0E0-2C15-5354-C237-0028FA9F841C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="7FBBCEEC-E434-1434-0953-899779F67F39" name="FK_LECTURE_COURSE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="E7923524-4A9D-753F-B628-BE80245CDECB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="ACDEE6A3-4D59-F7D4-CCAC-1D9436FE3BF4" name="FK_LECTURE_PROFESSOR">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 08:47:55 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="643944AE-F382-56D1-9933-E95A7D4CFE70"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,141 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F9281702-B412-FD3E-0A76-A72BFC4B3433" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="SCHEDULE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>30588818-20AB-B318-7544-2BBFCD4743EA</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="S_NO" id="CCE3ED38-1F7B-46D7-79CB-B79A448396BA">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>7885B101-48BD-573B-025C-222E9DC3B39E</importedID>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,3,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="N_CODE" id="FFF3BE83-7DC8-1641-19EA-E022DA9320CC">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>CB154803-E32C-6FDF-F193-69A54136AC25</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>3</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<ownDataTypeParameters>,3,0</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D1D5EC27-43A7-9C83-75D8-83C12CDF0EE1" referredColumn="DBAC427B-885D-E807-FAF8-AA7C22D8577B"/>
+</associations>
+</Column>
+<Column name="E_CODE" id="F40BA69B-409A-5894-6A75-C116DAF8F167">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>A1F05E8F-69F0-AF88-723E-35894E049126</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9A81928E-88A2-C350-B872-D25A6F526066" referredColumn="709303F0-7E05-1775-C052-77DA67E31583"/>
+</associations>
+</Column>
+<Column name="S_START_DATE" id="57423D88-768D-04D7-F05C-E28C48891B0D">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>067D03AC-381E-83A1-CFFB-6C1D69684BB5</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="S_END_DATE" id="08C4B0E5-4E00-B906-554A-09EC65297AB7">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>9FE0971F-1591-431D-8801-0732CF24B219</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<dataTypeSize>7</dataTypeSize>
+<ownDataTypeParameters>7,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="S_INFO" id="113029E3-239A-E868-39F2-6FE005ADDFBE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>454247E5-4231-7B53-83BF-8CBC059F666C</importedID>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 BYTE</dataTypeSize>
+<ownDataTypeParameters>100 BYTE,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="0624846E-19C5-DEB9-BF98-64788D97D356" name="PK_SCHEDULE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>6C4A602E-24FB-A06B-2EDD-BCF446B7E238</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CCE3ED38-1F7B-46D7-79CB-B79A448396BA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="796F1904-C71D-2043-DC27-926582B7AA40" schemaObject="58BF9FFF-C60F-6901-26DF-0C5647CA9BD8" name="PK_SCHEDULE">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<importedID>3540E032-6A71-DB30-56B4-8863EF11764E</importedID>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="CCE3ED38-1F7B-46D7-79CB-B79A448396BA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F03DDEBA-B432-8128-5508-7951BB7A7522" name="FK_SCHEDULE_EVENT">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F40BA69B-409A-5894-6A75-C116DAF8F167"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="401C9BBE-ACE8-F0B4-F04B-2DE7B8A54139" name="FK_SCHEDULE_NATION">
+<createdBy>GDJ54</createdBy>
+<createdTime>2022-08-25 01:39:50 UTC</createdTime>
+<ownerDesignName>이게머지</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FFF3BE83-7DC8-1641-19EA-E022DA9320CC"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
