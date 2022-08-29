@@ -1,0 +1,30 @@
+* SEQUENCE
+ - 일련번호(자동으로 증가하는 번호)를 생성하는 데이터베이스 객체. DB 객체이기 때문에 CREATE, DROP 으로 생성 및 삭제
+ - 기본키에서 주로 사용한다.
+ - NEXTVAL : 새로운 번호 생성   /   CURRVAL 현재 번호 확인
+ - 테이블 하나 당 시퀀스도 하나 사용
+
+ - 생성 형식
+   CREATE SEQUENCE 시퀀스이름
+       START WIHT 시작값
+       INCREAMENT BY 증가값
+       MINVALUE 최소값
+       MAXVALUE 최대값
+       CACHE사용유무 (대부분 NO CACHE) 
+       CYCLE사용유무;
+
+   -> CREATE~, CACHE 외에는 생략 가능.
+   -> 행 삽입(INSERT INTO)으로 시퀀스를 넣을 때는 VALUES 자리 안에 시퀀스를 사용하고자 하는 값 위치에 시퀀스_이름.NEXTVAL을 적는다.
+
+ 
+ - 자바에서는, 
+
+       int 삽입메소드(DTO) {       --  입력할 데이터를 객체로 만들어서 dto에 넣어준다
+	INSERT ...
+	return n;
+       }
+                                         --  반환타입 int는 실제 삽입된 행을 반환해줌 ( 0 또는 1 )
+
+   -> 오라클에서는 시퀀스가 있어야만 자동으로 증가하는 인공키를 만들 수 있다.
+
+
