@@ -1,0 +1,28 @@
+* JOIN
+ - 2개 이상의 테이블(관계가 있는)을 조회하는 방법
+
+ EMPLOYEE E         ────┐ 
+                              JOIN   ─▶   E.EMP_NO , E.NAME ,  D.DEPT_NAME 
+ DEPARTMENT D    ────┘
+
+ + INNER JOIN
+ - EMPLOYEE 테이블에서 조회하고자 하는데 DEPT_NAME은 DEPARTMENT 테이블에 있음 > JOIN이 필요한 상황
+ - 따라서 INNER JOIN을 통해 각 테이블에 일치하는 모든 행을 조인하는 것으로 FROM절에 넣어준다
+ - ON에는 조인 조건(칼럼 비교)을 적어준다.
+ - 결과값은 두 테이블에 일치하는 행들만 출력
+       SELECT E.EMP_NO, E.NAME, D.DEPT_NAME
+       FROM  DEPARTMENANT D INNER JOIN EMPLOYEE E
+       ON      D.DEPT_NO = E.DEPART;
+        └> ON은 DEPARTMENT 테이블의 DEPT_NO 칼럼과 EMPLOYEE 테이블의 DEPART 칼럼이 같다는걸 명시하기 위함(JOIN 조건)
+
+
+
+ + OUTER JOIN
+ - 모든 사원을 조회시키기 위함, 한 테이블은 일치하는 데이터만, 한 테이블은 일치하지 않아도 모든 데이터 조회. 
+ - 즉, 두 테이블의 칼럼이 일치하지 않아도 조인
+ - 모든 데이터를 조회하고자 하는 테이블을 OUTER JOIN의 왼쪽 혹은 오른쪽 어느쪽에 두느냐에 따라 LEFT / RIGHT로 구분한다.
+ - 결과값은 두 테이블에 일치하는 행들 + 일치하지 않은 행까지 모두 출력
+       SELECT E.EMP_NO, E.NAME, D.DEPT_NAME
+       FROM  DEPARTMENT D RIGHT OUTER JOIN EMPLOYEE E
+       ON      D.DEPT_NO = E.DEPART;
+    └> 모든 데이터를 조회하고 싶은 테이블이 EMPLOYEE, OUTER JOIN의 위치상 오른쪽에 있으니 RIGHT

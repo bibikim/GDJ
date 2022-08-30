@@ -45,7 +45,7 @@ SELECT
 --    칼럼 데이터의 BEGIN 위치부터 LENGTH개만큼 반환
 --    BEGIN은 인덱스가 아니다.(BEGIN은 1부터 시작함)
 SELECT 
-       SUBSTR(FIRST_NAME, 1, 3)  -- 1번째 글짜부터 3글자를 가져옴
+       SUBSTR(FIRST_NAME, 1, 3)  -- 1번째 글자부터 3글자를 가져옴
   FROM EMPLOYEES;
   
 

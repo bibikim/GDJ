@@ -51,8 +51,10 @@ pk가 가지는 값 = domain >> FK는 관계를 맺은 테이블의 키(기본�
     회원 ◀─────E 게시판 ( FK 필수O ) 실선  > FK = NOT NULL         // 바커 표기법
       ㄴ 회원 ◀───X─E 게시판 ( FK 필수O )   >  FK = NOT NULL    [ ON DELETE CASCADE ]  
     회원 ◀- - - - - - E 게시판 ( FK 필수X ) 점선  >  FK = NULL               // IE 표기법
-      ㄴ 회원 ◀- - - - O -E 게시판 ( FK 필수X )   > PK가 지워지면 FK의 NULL값 주겠다.        (탈퇴 시 게시글은 남음)    [ ON DELETE SET NULL ]
-      ㄴ 회원 ◀- - - - X -E 게시판 ( FK 필수X )   > 참조하는 PK가 지워지면 FK도 지워지겠다.  (탈퇴 시 게시글도 삭제)    [ ON DELETE CASCADE ]   
+      ㄴ 회원 ◀- - - - O -E 게시판 ( FK 필수X )   >  FK = NULL (NOT NULL이 아님)
+              └> PK가 지워지면 FK의 NULL값 주겠다.        (탈퇴 시 게시글은 남음)    [ ON DELETE SET NULL ]
+      ㄴ 회원 ◀- - - - X -E 게시판 ( FK 필수X )   >  FK = NULL (NOT NULL이 아님)
+              └>참조하는 PK가 지워지면 FK도 지워지겠다.  (탈퇴 시 게시글도 삭제)    [ ON DELETE CASCADE ]   
           주의: 외래키에 NOT NULL(필수) 해놓고 ON DELETE SET NULL 조건을 넣으면 안 된다!
   
 

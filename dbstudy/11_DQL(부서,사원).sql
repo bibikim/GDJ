@@ -89,11 +89,13 @@ SELECT EMP_NO, NAME, DEPART, POSITION, GENDER, HIRE_DATE, SALARY
  WHERE SALARY BETWEEN 2000000 AND 5000000;
    
 -- 6. 사원 테이블에서 소속부서가 1,2인 사원 조회하기
+--    1) OR 연산자
 SELECT EMP_NO, NAME, DEPART, POSITION, GENDER, HIRE_DATE, SALARY
   FROM EMPLOYEE
  WHERE DEPART = 1
     OR DEPART = 2;          -- OR 연산자 이용. 1 또는 2
     
+--    2) IN 연산자 : 여러 개의 조건값을 하나의 조건으로 처리
 SELECT EMP_NO, NAME, DEPART, POSITION, GENDER, HIRE_DATE, SALARY
   FROM EMPLOYEE
  WHERE DEPART IN(1, 2);     -- IN 연산자 이용. (() 안에 들어있으면 된다.)
