@@ -155,3 +155,8 @@ SELECT E.EMP_NO, E.NAME, D.DEPT_NAME
 -- 4. 셀프 조인 확인
 -- HR 계정에서 EMPLOYEES 테이블 참고
 -- EMPLOYEE_ID와 MANAGER_ID 
+
+
+
+
+

@@ -99,6 +99,16 @@ SELECT
        END AS 구분
   FROM EMPLOYEES
  ORDER BY 구분 ASC;
+ 
+SELECT
+       EMPLOYEE_ID
+     , SALARY
+  FROM EMPLOYEES
+ ORDER BY (CASE
+            WHEN SALARY < 10000 THEN 'C'
+            WHEN SALARY < 20000 THEN 'B'
+            ELSE 'A'
+            END) ASC;
 
 -- EMPLOYEE_ID, HIRE_DATE(YYYY-MM-DD), 근무개월수를 계산해서(MONTHS), 퇴직금정산대상유무 조회
 -- 퇴직금정산대상 : 근무개월수가 240개월 이상이면 '정산대상', 아니면 빈 문자열''(null)
