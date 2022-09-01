@@ -34,11 +34,11 @@ SELECT E.EMPLOYEE_ID, E.LAST_NAME, JH.JOB_ID
 --    평균연봉은 정수로 절사(TRUNC)하고, 사원수의 오름차순(ASC) 정렬하시오.
 -- *은 행을 카운트하기 때문에 안전. 
 -- 특정칼럼을 지정해서 카운트하면 간혹 그 칼럼에 데이터가 없을 수 있는 경우 온전히 모두 카운트를 하지 못할 수 있기 때문에!
-SELECT COUNT(*) AS 사원수, TRUNC(AVG(E.SALARY)), D.DEPARTMENT_NAME  
+SELECT COUNT(*) AS 사원수, TRUNC(AVG(E.SALARY)), D.DEPARTMENT_NAME
   FROM DEPARTMENTS D INNER JOIN EMPLOYEES E
-    ON D.DEPARTMENT_ID = E.DEPARTMENT_ID   -- 조인 조건
+    ON D.DEPARTMENT_ID = E.DEPARTMENT_ID  -- 조인 조건
  GROUP BY D.DEPARTMENT_ID, D.DEPARTMENT_NAME
- ORDER BY 사원수; 
+ ORDER BY 사원수;
 -- ID로 그룹화 하는 것이 안전. ID가 다르면 이름이 같아도 다른 부서이기 때문에 ID를 그룹화 기준으로 잡는 것이 좋다
 -- NAME을 함께 조회해야하니 ID와 NAME 전부 그룹화해서 쿼리를 짜주면 좋다.
 

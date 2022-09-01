@@ -16,7 +16,6 @@
         └> ON은 DEPARTMENT 테이블의 DEPT_NO 칼럼과 EMPLOYEE 테이블의 DEPART 칼럼이 같다는걸 명시하기 위함(JOIN 조건)
 
 
-
  + OUTER JOIN
  - 모든 사원을 조회시키기 위함, 한 테이블은 일치하는 데이터만, 한 테이블은 일치하지 않아도 모든 데이터 조회. 
  - 즉, 두 테이블의 칼럼이 일치하지 않아도 조인
@@ -26,3 +25,9 @@
        FROM  DEPARTMENT D RIGHT OUTER JOIN EMPLOYEE E
        ON      D.DEPT_NO = E.DEPART;
     └> 모든 데이터를 조회하고 싶은 테이블이 EMPLOYEE, OUTER JOIN의 위치상 오른쪽에 있으니 RIGHT
+
+
+
+(+) 모든 회원들의 구매횟수 구하기
+INNER JOIN -> 양쪽에 있는 데이터만 조회해서 출력하기 때문에 구매 이력이 없는 회원은 조회시켜주지 않아 사용 불가
+OUTER JOIN -> 한쪽 테이블은 모든 데이터를 조회. 회원 테이블을 모두 조회할 수 있도록 해주므로 사용

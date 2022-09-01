@@ -47,3 +47,38 @@ for(String key :  map.keySet()) {
 }
 
 key는 중복이 없기 때문에 key를 빼서 보겠다
+
+
+* treemap
+- tree기반으로 데이터를 저장시키는 map
+- 자동으로 key 기준으로 정렬이 되어 저장된다.
+
+interface Animal {
+      void eat();
+}
+
+class Dog imaplements Aniamal {
+@override 
+voie eat();
+voie walk();
+}
+Animal dog = new Dog();
+dog.eat(); 가능
+dog.wakl(); 불가
+-> ((Dog)dog).walk(); 가능
+
+
+
+interface Map {
+       V put(K key, Vvalue);
+
+class Treemap implemnets MapP
+override
+V  put(K , V) {}
+NabigableMap decendingMap(){ }
+}
+
+TreeMap map = new TreeMap();
+
+
+트리맵을 만들땐 트리맵 타입을 쓰는게 낫다

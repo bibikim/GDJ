@@ -1,0 +1,33 @@
+* Object
+ 모든 클래스의 단군 할아버지.. 조상..
+
+Person (extends Object) { }
+extends Object는 생략
+ - Object는 모든 클래스의 공통메소드를 지원
+class Object{
+a();
+b(); 
+}
+class Person extends Object{
+}
+
+Person p = new Person();
+p.a();
+p.b();               >> 가능
+
+object는 모두의 부모클래스기 때문에 모든걸 저장할 수 O
+
+toString
+class Object{
+    String toString(){ }
+}                                 => Class@참조값
+오브젝트가 찍어주는 객체값 싫으니깐
+
+class Person{
+     @Override           
+      String toString(){ }
+}
+오버라이드 해서 toString 메소드를 이용해서 출력
+
+equals
+오브젝트로 저장한건 다운캐스팅을 해야 제대로 사용할 수 있다.
