@@ -100,6 +100,7 @@ SELECT E.EMPLOYEE_ID, E.FIRST_NAME, L.CITY
    AND L.CITY = 'Southlake';
    
 -- 2) 서브쿼리
+SELECT 
 
 
 -- 8. 가장 많은 사원이 근무 중인 부서의 DEPARTMENT_ID와 근무 인원 수를 조회하시오.
