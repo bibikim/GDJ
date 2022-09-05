@@ -144,8 +144,10 @@ SELECT USER_NO, USER_ID, USER_MOBILE1, USER_MOBILE2
 -- PSH     3
 -- KYM     1
 -- LHJ     2
-
-
+SELECT USER_ID, COUNT(*) AS 구매횟수
+  FROM BUYS
+ GROUP BY USER_ID;
+                          
 
 -- 7. 제품을 구매한 이력이 있는 고객의 아이디, 고객명, 구매횟수, 총구매액을 조회하시오.
 -- 아이디  고객명  구매횟수  총구매액
@@ -153,7 +155,11 @@ SELECT USER_NO, USER_ID, USER_MOBILE1, USER_MOBILE2
 -- KYM     김용만  1         200
 -- KHD     강호동  3         1210
 -- PSH     박수홍  3         1860
-
+SELECT B.USER_ID, U.USER_NAME, COUNT(*) AS 구매횟수, SUM(PROD_PRICE * BUY_AMOUNT) AS 총구매액
+  FROM BUYS B INNER JOIN USERS U
+    ON B.USER_ID = U.USER_ID INNER JOIN PRODUCT P
+    ON P.PROD_CODE = B.PROD_CODE
+ GROUP BY B.USER_ID, U.USER_NAME;
 
 
 -- 8. 구매 이력과 상관 없이 고객별 구매횟수를 조회하시오.
@@ -169,6 +175,11 @@ SELECT USER_NO, USER_ID, USER_MOBILE1, USER_MOBILE2
 -- PSH     박수홍  3
 -- SDY     신동엽  0
 -- YJS     유재석  0
+SELECT U.USER_ID, U.USER_NAME, COUNT(*) AS 구매횟수
+  FROM BUYS B RIGHT OUTER JOIN USERS U
+    ON B.USER_ID = U.USER_ID
+ GROUP BY U.USER_ID, U.USER_NAME
+ ORDER BY U.USER_ID;
 
 
 
