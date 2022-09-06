@@ -1,0 +1,15 @@
+* PL/SQL : ORACLE (PROCEDURE/ FUNCTION/ TRIGGER)
+  VARIABLE
+  IF
+  WHILE
+
+프로시저
+ : 한 번에 수행할 쿼리문이 여러 개인 경우
+
+함수
+ : 사용자가 필요한 기능을 함수로 정의
+
+트리거
+ : 행(ROW) 삽입/수정/삭제 시 자동으로 처리되는 기능 정의 - DML 대상으로 
+  EX) 회원 탈퇴 - 삭제된 정보가 그대로 삭제 테이블로 이동
+
