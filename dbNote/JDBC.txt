@@ -3,7 +3,7 @@
 1. Java DataBase Connection
 2. 사용할 클래스/인터페이스
    1) OracleDriver : 오라클(DB벤더)에서 제공 - ojdbc6.jar >> 자바와 디비를 연결하기 위해 db벤더에서 지원. 오라클 설치할 때 ojdbc6.jar 같이 깔림
-     ojdbc6.jar 경로 - C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib (Orahome에 있음)
+     ojdbc6.jar 경로 - C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib (ORA_HOME에 있음)
      클래스 - oracle.jdbc.OracleDriver
      프로젝트의 Build Path - class path에 ojdbc6.jar 라이브러리를 등록해야 함.
 
@@ -21,7 +21,7 @@
    5) ResultSet : SELECT문 실행 결과
                     (insert delete update 실행 결과는 int. 1행/0행이 삽입/인서트/업뎃되었습니다라고 콘솔창에 뜨니깐.. 반환타입이 int이기 때문에 별도의 클래스가 없음)
   
-    < ojdbc6.jar의 OracleDriver.class 경로 >> oracle.jdbc.OracleDriver > 
+    < ojdbc6.jar의 OracleDriver.class 경로 >> oracle.jdbc.OracleDriver >
 
 
   - SQL Injection
@@ -33,7 +33,11 @@
           (1) id : abc
           (2) pw : ' OR  1=1 --
       4) 쿼리에 변수 값 대입
-          SELECT * FROM 회원 WHERE 아이디 = 'abc' AND 비밀번호='' OR  1=1 --'     이렇게 하면 보안에 취약
+          SELECT * FROM 회원 WHERE 아이디 = 'abc' AND 비밀번호='' OR  1=1 --'     이렇게 하면 보안에 취약.  변수값이 쿼리문으로 인식됨 
+                                               ---------------false-------------
+						               -----true---
+					      └─ OR에 의해 true 가 됨┘    
+       							--> 로그인이 되어버림. 큰일나!
  	ㄴ> ID는 abc(true), 비밀번호는 빈문자열(false) 또는 1=1(true)   뒤에는 주석처리--
 
   -★ SQS Injection을 방지하려면 PreparedStatement를 사용하면 된다! ★★
@@ -41,12 +45,15 @@
     1) "SELECT * FROM 회원 WHERE 아이디=? AND 비밀번호=?"
     2) 변수
        (1) id : abc
-       (2) pw : ' OR 1=1 --
+       (2) pw : ' OR 1=1 --       <--요런 변수값보다 미리 sql을 준비해놓고 나중에 들어오는거임.
       사전에 쿼리문을 미리 컴파일 한 뒤 ?으로 처리되는 부분에만 나중에 변수 값을 문자열로 넣어 처리하므로 어떤 형태의 사용자 입력이든 쿼리문으로 인식하지 않고 문자열로 처리하므로 SQL Injection으로부터 안전하다.
       (사용자가 입력한 게 쿼리문으로 인식하면 안되는 거임. 그걸 방지하기 위해 PreparedStatment가 개발된 것)
 
     3) SELECT * FROM 회원 WHERE 아이디='abc' AND 비밀번호='' OR 1=1 --'  >> 빈문자열로 인식하지 않고 OR 1=1 -- 자체를 비밀번호로 인식함
-
+ 
+    => 즉, ps = con.preparedStatement(sql);  쿼리문 실행을 먼저 해주는 것
+             ps = 
+     
 
  - CREATE, DROP
     1. 실행은 execute()메소드   
@@ -56,10 +63,16 @@
     2. Auto Commit이기 때문에 코드로 commit을 할 필요가 없다. 
 
  - SELECT 
-
+    1. 실행은 executeQuery() 메소드를 이용
+    2. 실행 결과는 ResultSet 객체이다. 
+    3. ResultSet 객체는 테이블을 행(Row) 단위로 스캔하고 가져올 수 있는 객체
+    4. next() 메소드를 이용해서 행(Row) 단위로 스캔한다. next() 메소드 한번 당 행(Row) 하나! 
+       (셀렉트의 결과로 10개의 행이 나온다 -> next() 메소드 10번)
+       ResultSet rs = new Result();
+       rs.next(); -> 10번 호출해야 결과 모두를 행단위로 조회. 따라서 while문(행 n개)/if문(행 1개)을 사용한다.
 
  - DTO와 DAO클래스
-   1. DTO : Data Transfer Object 데이터 전송 객체, DB로 전송할 데이터는 하나로 모아서 처리, 클래스를 이용해 객체로 만들어서 전달하는 형태, 데이터 저장 객체를 처리하는 영역으로 도메인(domain)
+    1. DTO : Data Transfer Object 데이터 전송 객체, DB로 전송할 데이터는 하나로 모아서 처리, 클래스를 이용해 객체로 만들어서 전달하는 형태, 데이터 저장 객체를 처리하는 영역으로 도메인(domain)
               ex) Board -> BoardDTO     Board값을 전달하기 위한 객체
             -- 하나로 만드는 방법 
              (1) 객체

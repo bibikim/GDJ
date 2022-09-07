@@ -10,8 +10,8 @@ import java.sql.Date;
 
 public class Board {
 	
-	private int board_no;
-	private String title;
+	private int board_no;   // 칼럼 하나 당 변수 하나. 같은 이름, 같은 타입으로 1:1 매칭
+	private String title;   
 	private String content;
 	private int hit;
 	private Date create_date;   // Date java.sql
@@ -67,6 +67,12 @@ public class Board {
 	
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
+	}
+
+	@Override
+	public String toString() {
+		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", hit=" + hit
+				+ ", create_date=" + create_date + "]";
 	}
 	
 

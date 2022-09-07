@@ -33,16 +33,23 @@ public class InsertMain {
 		
 		try {
 			
-			Class.forName("oracle.jdbc.OracleDriver");
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			// OracleDriver 클래스 로드
+			// OracleDriver 클래스가 저장된 ojdbc6.jar 파일을 Class path에 등록
+			Class.forName("oracle.jdbc.OracleDriver");  // oracle.jdbc 패키지에 저장되어있는 OracleDriver.class
+			
+			// DB접속 - Connection 객체 생성
+			String url = "jdbc:oracle:thin:@localhost:1521:xe";  // 쓰고 있는 Oracle 버전에 따라 다름
 			String user = "SCOTT";
 			String password = "TIGER";
+			// DriverManager 클래스
 			con = DriverManager.getConnection(url, user, password);
-		
+			
+			// 쿼리문 작성(변수 처리할 부분은 ?로 처리)
 			String sql = "INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, HIT, CREATE_DATE) VALUES(BOARD_SEQ.NEXTVAL, ?, ?, 0, SYSDATE)";
 			// ? = 변수
 		
-			// PreparedStatement 객체 생성
+			// PreparedStatement 객체 생성(쿼리문Statement을 미리 준비하라~)
+			// SQL Injection으로부터 공격을 막 대비를 해놓은 
 			// 역할 : 쿼리문 실행을 담당
 			ps = con.prepareStatement(sql);
 			

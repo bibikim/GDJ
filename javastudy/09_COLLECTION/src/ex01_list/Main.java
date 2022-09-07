@@ -99,10 +99,11 @@ public class Main {
 		// 제너릭
 		// 1. 참조 타입만 사용 가능
 		// 2. 기본 타입이 필요한 경우 기본 타입의 Wrapper Class를 사용
-		// 기본타입을 클래스화한 8개의 클래스. 뭘 저장하든 타입은 다 제너릭
+		//        └> 기본타입을 클래스화한 8개의 클래스. ex) 기본형(int)을 객체(Integer)로 바꾸어 사용할 수 있는 방법
+		//        └> 제너릭은 선언할 수 있는 타입이 객체 타입. 뭘 저장하든 타입은 다 제너릭
 		
 		// List<int> list = new ArrayKist<int>();    오류남
-		List<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<Integer>();   // -> Integer타입의 객체들만 add 가능
 		
 		list.add(1);
 		list.add(2);
