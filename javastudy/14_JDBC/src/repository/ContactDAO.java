@@ -5,7 +5,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+
+import domain.ContactDTO;
 
 public class ContactDAO {
 
@@ -60,10 +64,11 @@ public class ContactDAO {
 	/********************* Field **************************/
 	
 	// 데이터베이스에 접근할 때 사용하는 공통 요소
-	private Connection con;
-	private PreparedStatement ps;
-	private ResultSet rs;
-	
+	private Connection con;			// DB 접속
+	private PreparedStatement ps;	// 쿼리문 실행
+	private ResultSet rs;  			// SELECT 결과
+	private String sql;				// 쿼리문
+	private int result;    			// INSERT, UPDATE, DELETE 결과
 	
 	/********************* Method **************************/
 	
@@ -117,6 +122,140 @@ public class ContactDAO {
 		}
 		
 	}
+	
+	// DAO가 DB처리할 애들
+	// 연락처 추가 메소드
+	// 1. 매개변수 : ContactDTO
+	// 2. 반환값   : 0 또는 1 (int값)  <- ps.executeUpdate()의 실행결과
+	public int insertContact(ContactDTO contact) {  // 매개변수 contact. 여기에 이름, 연락처, 메일 들어있다
+							
+		try {
+			con = getConnection();  // 필드 con
+			sql = "INSERT INTO CONTACT VALUES(CONTACT_SEQ.NEXTVAL, ?, ?, ?, SYSDATE)";  // 이름은 contact에 들어있음. 변수처리하면 됨
+			ps = con.prepareStatement(sql);
+			ps.setString(1, contact.getName());  // 따라서 contact의 getter
+			ps.setString(2, contact.getTel()); 
+			ps.setString(3, contact.getEmail());  
+			result = ps.executeUpdate();   // 결과는 0 아니면 1. 쿼리 실행하고 실행돼서 나오는 값(0, 1)을 result에 저장
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();   // 위에 닫아주는 메소드 close() 만든걸 가져와서 호출만 해주면 됨.
+		}
+	
+		return result;   // result값을 그대로 반환(return)하라
+	}
+	
+	// 연락처 수정 메소드
+	// 1. 매개변수 : ContactDTO
+	// 2. 반환값   : 0 또는 1 (int값)  <- ps.executeUpdate()의 실행결과
+	public int updateContact(ContactDTO contact) {   // 수정할 내용이 담길 contactDTO
+		
+		try {
+			con = getConnection();
+			sql = "UPDATE CONTACT SET NAME = ?, TEL = ?, EMAIL = ? WHERE CONTACT_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, contact.getName());
+			ps.setString(2, contact.getTel());
+			ps.setString(3, contact.getEmail());
+			ps.setInt(4, contact.getContact_no());   // contact에 4개의 정보 모아주기
+			result = ps.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+	
+	// 연락처 삭제 메소드
+	// 1. 매개변수 : contact_no   삭제할 때는 연락처번호만 있으면 돼서 하나로 모아줄 필요가 x. 그냥 전화번호만 넘겨주면 됨
+	// 2. 반환값   : 0 또는 1 (int값)  <- ps.executeUpdate()의 실행결과
+	public int deleteContact(int contact_no) {
+		
+		try {
+			con = getConnection();
+			sql = "DELETE FROM CONTACT WHERE CONTACT_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, contact_no);   // contact_no - 삭제하려고 받아온 번호 그대로 전달
+			result = ps.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return result;
+	}
+	
+	// 연락처 조회 메소드
+	// 1. 매개변수 : contact_no              -> 반환값은 매개변수와 동일한 연락처 하나의 정보
+	// 2. 반환값   : ContactDTO 또는 null    -> 조회시 반환값이 없을 때 null
+	public ContactDTO selectContactByNo(int contact_no) {   // 전화번호를 매개변수로 받아온다
+	
+		ContactDTO contact = null;
+		
+		try {
+			con = getConnection();
+			sql = "SELECT CONTACT_NO, NAME, TEL, EMAIL, REG_DATE FROM CONTACT WHERE CONTACT_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, contact_no);
+			rs = ps.executeQuery();   // select문은 결과가 rs, executeQuery()로 실행.
+	 	 // └> rs는 지금 아무것도 안 가리키고 있는 상태. next를 넣어줌으로써 가리킨다. 검색된 결과가 있는지 없는지 확인(if)			 
+			if(rs.next()) {  // contact_no는 PK이기 때문에 중복값 없음. 반환하는게 1 아니면 0이므로 반복문이 아니라 if로.
+				contact = new ContactDTO(); 		  // rs로 스캔 결과가 있으면 contactDTO를 만든다
+				contact.setContact_no(rs.getInt(1));
+				contact.setName(rs.getString(2));
+				contact.setTel(rs.getString(3));
+				contact.setEmail(rs.getString(4));
+				contact.setReg_date(rs.getDate(5));	  // 조회 결과가 있으면 ContactDTO를 만들고 그 결과를 contact에 저장
+			} 
+			// rs로 스캔 결과가 없으면 null
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return contact;
+	}
+	
+	// 연락처 목록 메소드
+	// 1. 매개변수 : 없음
+	// 2. 반환값 : List<ContactDTO>  -> ContactDTO 하나 당 연락처 하나. ContactDTO가 여러개 있다: List
+	public List<ContactDTO> selectAllContacts(){ 
+		
+		List<ContactDTO> contacts = new ArrayList<ContactDTO>();  // 실제로는 ArrayList를 만든건 맞음
+		
+		try {
+			
+			con = getConnection();
+			sql = "SELECT CONTACT_NO, NAME, TEL, EMAIL, REG_DATE FROM CONTACT";
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			// 결과가 여러개니까 반복문
+			while(rs.next()) {    // resultSet은 반드시 1행씩밖에 읽지 않으므로 반복문 돌리기~
+				ContactDTO contact = ContactDTO.builder()
+						.contact_no(rs.getInt(1))
+						.name(rs.getString(2))
+						.tel(rs.getString(3))
+						.email(rs.getString(4))
+						.reg_date(rs.getDate(5))
+						.build(); 						// set과 new~대신 builder패턴을 이용해서 만들어보기! 같은거임:)
+				contacts.add(contact);  // ArrayList에 저장
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return contacts; // contacts의 타입이 List, 반환타입은 arrayList -> 따라서 반환타입 오류를 잡기 위해 array를 지워준다
+						 // 실제로 ArrayList에 만든건 맞음. 다만 List가 인터페이스...~~~~??
+	}
+	
 	
 	
 	

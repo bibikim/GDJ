@@ -22,10 +22,10 @@ public class ContactDTO {
 	private String email;
 	private Date reg_date;
 
-	// dto로 만들어서 db로 보내주고
+	// DTO로 만들어서 DB로 보내주고
 	// 반대로 해도 ㅇㅇ
-	// db로 보내주는 것도 dto에 저장
-	// db에서 넘겨주는 것도 dto
+	// DB로 보내주는 것도 DTO에 저장
+	// DB에서 넘겨주는 것도 DTO
 	// 칼럼과 1:1로 작업
 
 }
