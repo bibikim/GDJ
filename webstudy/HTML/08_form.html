@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>    
+
+    <!--  
+        <form> 태그
+            
+        1. 사용자의 입력/선택을 서버측으로 전송하는 태그
+        2. 서브밋(submit)
+            1) <form> 태그의 모든 요소를 서버측으로 보낸다는 뜻
+            2) 서버의 경로를 action이라고 하고, 보내는 방법을 method라고 함
+        3. <form> 태그의 하위 태그
+            1) <input>    : 사용자 입력/선택(단일 행 입력)
+            2) <textarea> : 사용자 입력(다중 행 입력)
+            3) <select>   : 사용자 선택
+            4) <button>   : 서브밋하기 위한 요소 (버튼을 하나 만들어주고 버튼을 누르면 서브밋 완.)
+            5) <fieldset> : 입력/선택 요소들을 그룹화. 입력을 위한 요소들을 하나의 요소라고 묶어주는 것
+                            동일한 입력 요소들을 그룹으로 묶어줌
+        4. <form> 태그의 속성
+            1) action
+                (1) 데이터를 전송할 서버의 경로
+                (2) 서버 내부 경로를 주로 작성
+            2) method
+                (1) 데이터를 전송하는 방식
+                (2) GET 방식
+                    ① 디폴트(생략 가능)
+                    ② 전송하는 데이터가 주소(URL)에 노출
+                    ③ 빠른 전송이 가능하지만, 보안은 취약
+                (3) POST 방식
+                    ① 전송하는 데이터를 본문에 포함시킴(노출되지 않음)
+                    ② 느린 전송, 우수한 보안
+            3) enctype
+                (1) 파일을 첨부할 때 사용하는 속성
+                (2) 파일 첨부가 필요한 <form> 태그
+                    ① method="post"     -> 파일은 본문에 포함시켜야 되기 때문에 post방식만 가능
+                    ② enctype="multipart/form-data"
+    -->
+
+    <!-- 1. <input> 태그 -->
+    <input type="text"     placeholder="텍스트"><br>
+    <input type="password" placeholder="비밀번호"><br>
+    <input type="number"   placeholder="숫자" min="0" max="100"><br> <!-- 숫자만 입력 가능 -->
+    <input type="email"    placeholder="이메일"><br>                 <!-- 이메일만 입력 가능. 서브밋할 때 입력된 값이 이메일인지 아닌지 검사 -->
+    <input type="url"      placeholder="URL"><br>
+    <input type="file"><br>                                          <!-- 파일 첨부할 때 사용 -->
+
+    <hr>
+
+    <!-- 
+        2. name 속성 
+            1) 서버 측에서 인식하는 파라미터(parameter)의 이름
+            2) 동일한 name이 없는 경우 서버 측에서는 변수로 인식
+            3) 동일한 name이 여러 개 있으면 서버 측에서는 배열로 인식
+            4) 서브밋(서버로 데이터를 보내는 것. submit)할 때 사용
+            5) 자바에서 곧바로 인식하기 때문에 자바 네이밍(camel case)을 사용       
+    -->
+    <form>
+        <input type="text" placeholder="성" name="lastName">
+        <input type="text" placeholder="이름" name="firstName">
+        <button>전송</button>
+        <!-- ?lastName=김&firstName=한비 => name 속성이 서버에서 인식하는 파라미터의 이름이 됨. -->
+    </form>
+
+    <input type="text" placeholder="성" name="lastName">
+    <input type="text" placeholder="이름" name="firstName">
+    <button>전송</button>
+    <!-- <form>이 있으나 없으나 모양은 똑같음. 그러나 주소에 파라미터가 붙지 않음 → 서버로 전송X 따라서 반드시 <form>이 있어야 함 -->
+
+    <!-- 
+        3. 단일 선택 <input> 태그 
+            1) <input type="radio">
+            2) 여러 개의 선택 중 하나만 선택할 수 있음
+            3) 동일한 항목을 작성하는 경우 동일한 name 속성을 사용해야 함
+                -> 서버 측에서 변수로 인식
+            4) 모든 선택 요소에는 value 속성이 지정되어 있어야 서버 측에서 value 속성을 확인할 수 있음
+               (선택이나 목록에서 고르는 것들)
+    -->
+    <form>
+        <fieldset>
+            <legend>성별</legend>
+            <input type="radio" name="gender" value="1">남&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="gender" value="2">여&nbsp;&nbsp;&nbsp;
+            <!-- name 속성을 똑같이 가져야 함 -->
+            <input type="radio" name="gender" value="3">선택안함&nbsp;&nbsp;&nbsp;
+            <button>전송</button>
+            <!-- 선택을 안 하고 전송을 하면 서버 측으로 보내지도 않음 -->
+            <!-- 서버는 남/여/선택안함 중에 뭘 보냈는지 알 수 없음. gender라는걸 찍어서 보냈구나만 알고 있음 -->
+            <!-- 사용자가 입력한 값들은 value 속성 값이 돼서 그 value 속성 값이 전달 되는 것. 
+                 성별처럼 선택하는 것은 어떤 것을 보낸 것인지 서버에게 인식시키기 위해 추가로 입력(value="")해줘야 함-->
+        </fieldset>
+    </form>
+
+    <!-- 
+        4. 다중 선택 <input> 태그 
+            1) <input type="checkbox">
+            2) 여러 개의 선택 중 원하는대로 선택할 수 있음
+            3) 동일한 name 속성을 사용 -> 서버 측에서 배열로 인식
+               다른 name 속성을 사용   -> 서버 측에서 변수로 인식(name이 서로 달라도 전송 가능) 
+            4) 모든 선택 요소에는 value 속성이 지정되어 있어야 서버 측에서 value 속성을 확인할 수 있음
+    -->
+    <form>
+        <fieldset>
+            <legend>동의여부</legend>
+            <input type="checkbox" name="agreement" value="1">개인정보약관&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" name="agreement" value="2">사이트이용약관&nbsp;&nbsp;&nbsp;
+            <input type="checkbox" name="agreement" value="3">맞춤광고동의&nbsp;&nbsp;&nbsp;
+            <!-- 각각 agreement1, 2, 3 이라고 다르게 이름을 줘도 전송 된다 -->
+            <button>전송</button>
+        </fieldset>
+    </form>
+
+    <!-- 
+        5. <textarea> 태그
+        
+            1) <input type="text"> 태그는 사용자 입력이 한 줄만 가능
+            2) <textarea></textarea> 태그는 사용자 입력이 여러 줄 가능 (한줄 짜리는 input type="text")
+            3) rows 속성 : 행(row)의 개수     
+            4) cols 속성 : 열(column)의 개수
+               rows=3, cols=5 -> 5개 글자를 입력할 수 있는 3개의 줄이 생김(textarea 크기 지정, 생략하면 제한 없이 사용 가능)
+    -->
+    <form>
+        <textarea name="conference" placeholder="회의록 작성" rows="3" cols="5"></textarea><br>
+        <!-- 서버측으로의 전송을 위해 name 속성 필수 -->
+        <button>전송</button>
+    </form>
+
+    <!--  
+        6. 선택 <select> 태그
+
+            1) 목록을 만드는 태그
+            2) 목록 중 1개(그 이상)를 선택할 수 있음
+            3) 목록의 각 항목은 <option> 태그로 작성
+            4) 각 <option> 태그들은 value 속성이 지정되어 있어야 서버 측에서 확인할 수 있음
+            5) name을 다르게 주면 변수 3개 보내는 것, 같게 주면 배열을 하나 보내는 것. 따라서 상관 없음
+               -> 일반적으로는 이름을 다르게 줘서 변수 처리함.
+               -> 배열로 처리할 시 자바 코드 ▼
+                  String[] tel;
+                  String[] tel = request.getParameterValues("tel"); 
+                                 (└> request=사용자가 서버측으로 보내는 것)
+    -->
+    <form>
+        <select name="start">
+            <option value="">선택안함</option>
+            <option value="010">010</option>
+            <option value="02">02</option>
+            <option value="031">031</option>
+            <option value="032">032</opttion>
+            <!-- 이 중에서 하나를 고를 수 있음 -->
+        </select>
+        -
+        <input name="middle" type="text" maxlength="4" size="4">
+        -
+        <input name="end" type="text" maxlength="4" size="4">
+        <button>전송</button>
+    </form>
+
+
+
+
+    <!--  
+        서버측으로 보내주고 싶은(검색하고 싶은) 데이터(=> 요청 request)를 <form></form>안에 담아두는 것!
+        로그인   → <form> 안에 ID,PW 데이터 두 개를 담아두면 2개의 데이터를 서버측으로 보냄
+        회원가입 → 하나의 <form></form> 안에 ID,PW, 이름, 주소 등의 데이터를 담아두고 서버측으로 한번에 보냄
+        
+        즉, 한번에 보내줘야되는 데이터는 하나의 <form></form>에 담아두어야 함.
+            
+        https://search.naver.com/search.naver?query=%EB%82%A0%EC%94%A8
+                호스트         /   내부경로  ? 파라미터
+            
+        <form action="/search.naver">
+            → 이 <form> 안에 있는 데이터는 여기(호스트)로 보내주라! 라는 뜻
+              입력창 name=query
+    -->
+                
+
+</body>
+</html>
