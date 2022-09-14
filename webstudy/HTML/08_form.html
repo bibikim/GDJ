@@ -41,6 +41,22 @@
                     ① method="post"     -> 파일은 본문에 포함시켜야 되기 때문에 post방식만 가능
                     ② enctype="multipart/form-data"
     -->
+    <!--  
+        서버측으로 보내주고 싶은(검색하고 싶은) 데이터(=> 요청 request)를 <form></form>안에 담아두는 것!
+        로그인   → <form> 안에 ID,PW 데이터 두 개를 담아두면 2개의 데이터를 서버측으로 보냄
+        회원가입 → 하나의 <form></form> 안에 ID,PW, 이름, 주소 등의 데이터를 담아두고 서버측으로 한번에 보냄
+        
+        즉, 한번에 보내줘야되는 데이터는 하나의 <form></form>에 담아두어야 함.
+            
+        https://search.naver.com/search.naver?query=%EB%82%A0%EC%94%A8
+                호스트         /   내부경로  ? 파라미터
+            
+        <form action="/search.naver">
+            → 이 <form> 안에 있는 데이터는 여기(호스트)로 보내주라! 라는 뜻
+              입력창 name=query
+    -->
+
+
 
     <!-- 1. <input> 태그 -->
     <form>
@@ -73,10 +89,11 @@
     <input type="text" placeholder="성" name="lastName">
     <input type="text" placeholder="이름" name="firstName">
     <button>전송</button>
-    <!-- <form>이 있으나 없으나 모양은 똑같음. 그러나 주소에 파라미터가 붙지 않음 → 서버로 전송X 따라서 반드시 <form>이 있어야 함 -->
+    <!-- <form>이 있으나 없으나 모양은 똑같음. 그러나 주소에 파라미터가 붙지 않음 
+          → 서버로 전송X 따라서 반드시 <form> 안에 있어야 함 -->
 
     <!-- 
-        3. 단일 선택 <input> 태그 
+        3. 단일 선택 <input> 태그 - radio
             1) <input type="radio">
             2) 여러 개의 선택 중 하나만 선택할 수 있음
             3) 동일한 항목을 작성하는 경우 동일한 name 속성을 사용해야 함
@@ -100,7 +117,7 @@
     </form>
 
     <!-- 
-        4. 다중 선택 <input> 태그 
+        4. 다중 선택 <input> 태그 - checkbox
             1) <input type="checkbox">
             2) 여러 개의 선택 중 원하는대로 선택할 수 있음
             3) 동일한 name 속성을 사용 -> 서버 측에서 배열로 인식
@@ -150,7 +167,7 @@
     <form>
         <select name="start">
             <option value="">선택안함</option>
-            <option value="010" selected>010</option> <!-- selected : 010을 기본으로 설정 -->
+            <option value="010" selected>010</option> <!-- selected : 010을 기본값으로 설정 -->
             <option value="02">02</option>
             <option value="031">031</option>
             <option value="032">032</opttion>
@@ -204,7 +221,7 @@
         1) <form method="post">여야 함
         2) <form enctype="multipart/form-data">여야 함
         3) 다중 첨부가 필요한 경우 multiple 속성(boolean 속성 : true/false)을 추가함(속성값 없음 ="" > X)
-                                                   ㄴ multiple="true"   그치만 권장 x
+                                                   ㄴ 적으려면 이렇게 multiple="true"   그치만 권장x 생략o
     -->
     <form method="post" enctype="multipart/form-data">
         증명사진
@@ -239,23 +256,22 @@
         </fieldset>
     </form>
 
+    <form>
+        <fieldset>
+            <legend>동의여부</legend>
+            <input type="checkbox" id="personal" name="agreement" value="1">
+            <label for="personal">개인정보약관</label>
+            &nbsp;&nbsp;&nbsp;
+            <input type="checkbox" id="site" name="agreement" value="2">
+            <label for="site">사이트이용약관</label>
+            &nbsp;&nbsp;&nbsp;
+            <input type="checkbox" id="ad" name="agreement" value="3">
+            <label for="ad">맞춤광고동의</label>
+            &nbsp;&nbsp;&nbsp;
+            <button>전송</button>
+        </fieldset>
+    </form>
 
-
-    <!--  
-        서버측으로 보내주고 싶은(검색하고 싶은) 데이터(=> 요청 request)를 <form></form>안에 담아두는 것!
-        로그인   → <form> 안에 ID,PW 데이터 두 개를 담아두면 2개의 데이터를 서버측으로 보냄
-        회원가입 → 하나의 <form></form> 안에 ID,PW, 이름, 주소 등의 데이터를 담아두고 서버측으로 한번에 보냄
-        
-        즉, 한번에 보내줘야되는 데이터는 하나의 <form></form>에 담아두어야 함.
-            
-        https://search.naver.com/search.naver?query=%EB%82%A0%EC%94%A8
-                호스트         /   내부경로  ? 파라미터
-            
-        <form action="/search.naver">
-            → 이 <form> 안에 있는 데이터는 여기(호스트)로 보내주라! 라는 뜻
-              입력창 name=query
-    -->
-                
 
 </body>
 </html>
