@@ -54,6 +54,10 @@
         <form action="/search.naver">
             → 이 <form> 안에 있는 데이터는 여기(호스트)로 보내주라! 라는 뜻
               입력창 name=query
+
+        ★ 서버 측은 <form>에 포함된 name속성들을 모두 서버 측으로 보내주는 파라미터로 인식함
+            -> 이 파라미터들은 나중에 자바에서도 모두 인식할 수 있어야하기 때문에 이름을 맞춰줘야 함
+            (파라미터를 저장하는 값은 value속성에 저장)
     -->
 
 
@@ -272,6 +276,37 @@
         </fieldset>
     </form>
 
+    <!-- 네이버 검색창 -->
+    <h3>네이버</h3>
+    <form action="https://search.naver.com/search.naver" method="get">
+            <!-- 주소창에 보내는 파라미터가 노출되면 GET방식 -->
+        <!-- hidden : 눈에 안 보임. -->
+        <input type="hidden" name="where" value="nexearch"> 
+        <input type="hidden" name="sm" value="top_hty">
+        <input type="hidden" name="fbm" value="0"> 
+        <input type="hidden" name="ie" value="utf8">
+        <!-- 검색창(검색창에서는 사용자가 내용이 value 속성으로 등록되기 때문에 따로 지정X) -->
+        <input type="text" name="query">  
+        <button>검색</button>
+        <!-- 어디로, 어떤걸 보낼지 주소를 통해서 확인해보면 된다. -->
+    </form>
+
+    <!-- 다음 검색창 -->
+    <h3>다음</h3>
+    <form action="https://search.daum.net/search" method="get">
+        <input type="hidden" name="w" value="tot">
+        <input type="hidden" name="DA" value="YZR">
+        <input type="hidden" name="t__nil_searchbox" value="btn">
+        <!-- value 값이 없는 애들은 포함시키지 않아도 된다. -->
+        <input type="hidden" name="sug">
+        <input type="hidden" name="sugo">
+        <input type="hidden" name="sq">
+        <input type="hidden" name="o">
+        <!-- 검색창 -->
+        <input type="text" name="q">
+        <button>검색</button>
+        
+    </form>
 
 </body>
 </html>

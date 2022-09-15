@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            color:lawngreen;
+        }
+        p{
+            color:mediumpurple!important;
+            /* !important가 지정되면 최우선 적용(남용 금지, 가급적 사용 자제할 것) */
+        }
+    </style>
+
+</head>
+<body>
+    <!-- 
+        inline 스타일
+
+        1. 태그에 style 속성으로 CSS를 직접 적용
+        2. 가장 우선순위가 높은 적용 방법(style 속성을 지정하면 무조건 적용됨) ← 기존의 속성을 덮어쓴단 의미
+          CSS는 일반적으로 써놓으면 다 되는데 마지막에 지정한 것만 기존의 속성들을 덮어써서 살아남음
+          전체적으로 적용할 것은 상단, 일부 수정할 것만 덮어쓰기용으로 하단에 지정함
+            >> 덮어쓰기는 F12로 확인해보면 적용이 아예 안된게 아니라 적용됐다가 덮어쓰기로 적용 취소된 상태라는 의미로 가운데줄이 그어져 있다.
+    -->
+
+    <h1 style="color:coral;">hello css</h1>
+    <p style="color:lightskyblue;">만나서 방가방가</p>
+
+
+</body>
+</html>
