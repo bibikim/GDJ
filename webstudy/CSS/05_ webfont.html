@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Contenst Delivery Network, CDN 방식 -->
+    <!-- 
+        font는 구글폰트 
+        icon은 fontawesome.com / cdnjs.com(에서 fontawesome 검색) 사이트에서 각각 가져다 쓸 수 있다. 
+                                    ㄴ copyURL은 @import/ copyLinkTag는 <link> 태그 이용해서 사용
+    -->
+    <!-- 
+        1. <link> 태그를 이용한 구글 폰트 사용
+            1) <link> 태그를 복붙
+            2) CSS속성 font-family를 복붙
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
+    <style>
+        h1 {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        h2 {
+            font-family: 'East Sea Dokdo', cursive;
+        }
+    </style>
+
+
+    <!-- 
+        2. @import를 이용한 구글 폰트 사용(*.css파일 분리해서 사용하는 방법) 
+            1) 05_webfont.css 파일 생성
+            2) css 파일에 @import + font_family 모두 복붙
+            3) <link> 태그를 이용해서 css 파일 포함
+    -->
+    <link rel="stylesheet" href="05_ webfont.css">    
+
+</head>
+<body>
+
+    <h1>Hello CSS</h1>
+    <p>만나서 반갑섭니당</p>
+
+    <h2>안녕안뇽방가워</h2>
+    <p>단단대스 단단대앤스 단단댄스 저슷대애앤</p>
+
+
+</body>
+</html>
