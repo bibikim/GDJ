@@ -21,14 +21,15 @@
         5. 선택자
            .클래스
 
-        공통적으로 주고 싶은 CSS가 있으면 같은 class 이름을 주고 속성을 지정,
+        공통적으로 주고 싶은 CSS 속성이 있으면 같은 class 이름을 주고 속성을 지정,
         각각 다르게 주고 싶은 부분이 있으면 또 다른 class 이름을 부여하고 각각의 속성을 지정하면 된다.
     -->
     <style>
         .primary {     /* class를 부르는 방법 : .클래스이름 */
             font-size: 40px;
             background-color: tan;
-        }
+        }     /* class는 공통 속성을 주기 위해 많이 씀 */
+        
         .first{
             text-align: center;
         }
@@ -44,6 +45,7 @@
     <div class="primary second">2구역</div> <!-- primary라는 class, second라는 class 총 2개 -->
     <span class="primary third">3구역</span> <!-- primary라는 class, third라는 class 따로따로 2개인 것 -->
     <!-- class로 1, 2구역 구분 가능, 동일한 class 이름을 가지기 때문에 CSS가 똑같게 적용 -->
+
 
 
     <!--  

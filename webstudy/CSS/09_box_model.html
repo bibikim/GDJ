@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- box 네모난 구역 만들 때 필요한 것 : width height border padding(내용물과 테두리 사이의 간격) margin(다른 box와의 간격(바깥쪽 간격)) -->
+
+    <style>
+        .box1 {
+            /* 너비 */ width: 100px;
+            /* 높이 */ height: 100px;
+            background-color: cadetblue;
+        }
+        .box2 {
+            /* 인라인 요소(span, a, ...)는 너비/높이 적용 불가 */    
+            width: 100px;
+            height: 100px;
+            background-color: silver;
+        }
+    </style>
+    <div class="box1">BOX1</div>
+    <span class="box2">BOX2</span>
+
+    <hr>
+
+    <style>
+        .wrap {
+            /* 부모 */
+            width: 200px;
+            height: 200px;
+            background-color: beige;
+        }
+        .wrap > .box3 {    /* 이렇게 호출해도 되고 .box4처럼 호출해도 됨 */
+            /* 자식 : %의 기준은 부모의 크기 */
+            width: 50%;
+            height: 50%;
+            background-color: cornflowerblue;
+        }
+        .box4 {
+            width: 25%;
+            height: 25%; /* 반응형 웹의 핵심. px로 크기를 지정해놓는 것이 아니라 %로 부모 크기가 줄어들면 자식 크기도 비율에 맞게 줄어들게 함 */
+            background-color: chocolate;
+        }
+    </style>
+    <div class="wrap">
+        <div class="box3">BOX3</div>
+        <div class="box4">BOX4</div>
+    </div>
+
+    <hr>
+
+    <style>
+        .box5 {
+            /* 테두리 두께 */ border-width: 1px;
+            /* 테두리 종류 */ border-style: solid;  /* 실선 */
+            /* 테두리 색상 */ border-color: rgb(7, 128, 54);
+            /* 단축 속성 */   border: 2px dashed rosybrown; /* 한번에 여러 속성 지정하기 */
+            /* 방향 선택 */   border-bottom: 10px double skyblue; /* top, bottom, left, right */
+            /* 단축속성, 방향선택 자주 사용 */
+        }
+    </style>
+    <div class="box5">BOX5</div>
+
+    <br>
+
+    <style>
+        .box6 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+            /* 모서리 곡률(둥글게 다듬기) */ /* 4가지 다 자주 사용 */
+            border-radius: 5px;
+            border-radius: 10px 0px;
+            border-radius: 20px 0px 50px;
+            border-radius: 5px 10px 15px 20px;   /* 곡률 순서는 시계 방향 */
+        }
+    </style>
+    <div class="box6">BOX6</div>
+
+    <br>
+
+    <style>
+        .box7 {
+            border: 2px solid blueviolet; /* border(박스)와 BOX7 글자의 위아래 간격이 padding(top, bottom, left, right */
+            /* 내부 여백 : content와 border 사이 공간 */
+            padding: 0;
+            padding: 10px 20px;          /* top,bottom  left,right */
+            padding: 20px 0 20px;        /* top  left,right  bottom */
+            padding: 5px 10px 15px 25px; /* 순서는 시계방향 : top right bottom left */
+            padding-top: 30px;
+        }
+    </style>
+    <div class="box7">BOX7</div>
+
+
+</body>
+</html>
