@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <style>
+        * { /* 내부 여백, 외부 여백 모두 0으로 초기화 해두고 작업하는 것이 좋다 */
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+        ul {
+            /* 글머리기호 없애고 난 왼쪽의 공간은 padding-left값이 있는 상태 */
+            /* padding 값이 자동으로 잡혀있는 경우가 있음. 이런 것들은 0로 만들어두고 시작하는 것이 좋다 */
+            list-style: none;         /* ul 글머리 기호 지우기 */
+            overflow: hidden;         /* 수평 레이아웃 배치 */
+            border-top: 1px solid lightgray;
+            border-bottom: 1px solid lightgray;
+        }
+        ul > li {
+            width: 80px;
+            height: 50px;
+            text-align: center;  /* 가로 가운데 정렬 */
+            line-height: 50px;   /* 세로 가운데 정렬 */
+            float: left;
+        }
+        ul > li > a { 
+            /* 인라인 레벨인 <a> 태그를 block 레벨로 변경해준뒤 크기 지정 */
+            display: block;
+            /* %의 기준은 부모. 부모 요소 li와 같은 너비/높이 */
+            width: 100%;
+            height: 100%; 
+        }
+        ul > li:hover {
+            box-sizing: border-box;
+            /* height: 47px;   border-bottom만큼 높이가 늘어나지 말라고 50px로 고정시키기 위해 높이를 border-bottom 값만큼 줄여주기 */
+            border-bottom: 3px solid limegreen;
+        }
+        ul > li:hover > a {
+            color: limegreen;
+        }
+
+    </style>
+    <ul>
+        <li>
+            <a href="javascript:void(0)">사전</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">뉴스</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">증권</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">부동산</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">지도</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">VIBE</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">도서</a>
+        </li>
+        <li>
+            <a href="javascript:void(0)">웹툰</a>
+        </li>
+    </ul>
+    
+</body>
+</html>

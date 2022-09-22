@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <style>
+        .box1 {
+            width: 200px;
+            height: 100px;
+            border: 1px solid teal;
+            overflow: scroll;
+            /* overflow: scroll  내용물이 영역을 벗어나면 스크롤 바를 생성 */
+        }
+        /* 영역이 있고 영역을 넘친 애들(영역 안에 들어오지 못한 것들)을 overflow라고 부름 */
+
+        .box2 {
+            width: 200px;
+            height: 100px;
+            border: 1px solid teal;
+            /* overflow-x: scroll 가로 방향 스크롤 생성 */
+            overflow-x: scroll;
+            /* overflow-y: scroll 세로 방향 스크롤 생성 */
+            overflow-y: scroll;
+        }
+        .box3 {
+            width: 200px;
+            height: 100px;
+            border: 1px solid teal;
+            /* overflow: hidden   영역을 벗어난 내용물을 모두 숨김 처리 */
+            overflow: hidden;
+        }
+    </style>
+    <div class="box1">
+        m ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis nisl non laoreet viverra. Donec ut nibh ac elit facilisis luctus bibendum non metus. Duis interdum ex interdum condimentum consequat. In sit amet libero id ex pharetra tristique. Aenean lacinia pulvinar lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis fermentum tortor, id rutrum massa mollis rhoncus. Nulla luctus elit sed magna dictum viverra. Quisque condimentum ante quis hendrerit consectetur. Nam at nulla eleifend, sagittis arcu molestie, volutpat neque. Donec eget vestibulum lectus. Phasellus purus leo, hendrerit non erat et, accumsan ornare ipsum. Nunc tristique hendrerit elit, et tristique mi gravida nec. In dapibus tortor nunc, in iaculis urna dapibus vel. Vestibulum porta pellentesque tellus, quis egestas dui pharetra eu. Sed in enim et eros iaculis volutpat eu et arcu.
+    </div>
+
+    <hr>
+
+    <div class="box2">
+        m ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis nisl non laoreet viverra. Donec ut nibh ac elit facilisis luctus bibendum non metus. Duis interdum ex interdum condimentum consequat. In sit amet libero id ex pharetra tristique. Aenean lacinia pulvinar lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis fermentum tortor, id rutrum massa mollis rhoncus. Nulla luctus elit sed magna dictum viverra. Quisque condimentum ante quis hendrerit consectetur. Nam at nulla eleifend, sagittis arcu molestie, volutpat neque. Donec eget vestibulum lectus. Phasellus purus leo, hendrerit non erat et, accumsan ornare ipsum. Nunc tristique hendrerit elit, et tristique mi gravida nec. In dapibus tortor nunc, in iaculis urna dapibus vel. Vestibulum porta pellentesque tellus, quis egestas dui pharetra eu. Sed in enim et eros iaculis volutpat eu et arcu.
+    </div>
+
+    <hr>
+
+    <div class="box3">
+        m ipsum dolor sit amet, consectetur adipiscing elit. Etiam mattis nisl non laoreet viverra. Donec ut nibh ac elit facilisis luctus bibendum non metus. Duis interdum ex interdum condimentum consequat. In sit amet libero id ex pharetra tristique. Aenean lacinia pulvinar lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mattis fermentum tortor, id rutrum massa mollis rhoncus. Nulla luctus elit sed magna dictum viverra. Quisque condimentum ante quis hendrerit consectetur. Nam at nulla eleifend, sagittis arcu molestie, volutpat neque. Donec eget vestibulum lectus. Phasellus purus leo, hendrerit non erat et, accumsan ornare ipsum. Nunc tristique hendrerit elit, et tristique mi gravida nec. In dapibus tortor nunc, in iaculis urna dapibus vel. Vestibulum porta pellentesque tellus, quis egestas dui pharetra eu. Sed in enim et eros iaculis volutpat eu et arcu.
+    </div>
+
+    <hr>
+
+    <style>
+        .box4 {
+            width: 200px;
+            height: 50px;
+            border: 1px solid gray;
+            overflow: hidden;  /* 자기 영역을 벗어난 박스들은 다 hidden */
+        }
+        .box4 > div {
+            width: 150px;
+            height: 40px;
+            border: 1px solid gray;
+
+        }
+    </style>
+    <div class="box4">
+        <div>BOX1</div>
+        <div>BOX2</div>
+        <div>BOX3</div>
+
+    </div>
+</body>
+</html>
