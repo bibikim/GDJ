@@ -159,6 +159,33 @@
 
     <hr>
 
+    <style>
+        .box11 {
+            border: 1px solid orangered;
+            /* 세로 가운데 정렬 - 1 : padding(내부 여백 주기) */
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        </style>
+    <div class="box11">BOX11</div>
+    
+    <hr>
+    <br>
+
+    <style>
+        .box12 {
+            border: 1px solid green;
+            /* 세로 가운데 정렬 - 2 : line-height */
+            /* height 값이 고정되어 있을 때 사용 가능 */
+            /* height 값과 line-height 값을 똑같게 주는 것이 핵심 */
+            /* 안 되는 경우 - text가 2줄 이상인 박스에선 사용 불가. 1줄짜리 text에서만 사용 가능 */
+            height: 50px;        /* 박스의 높이 */
+            line-height: 50px;   /* 텍스트의 높이 */
+            text-align: center;
+
+        }
+    </style>
+    <div class="box12">BOX12</div>
 
 </body>
 </html>
