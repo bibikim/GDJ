@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        div 태그의 여러 이름
+        <header></header>        상단 부분
+        <nav></nav>              네비게이션부분(gnb)
+        <section></section>      본문
+            <article></article>  본문
+        <aside></aside>          본문 옆에 배치하는 사이드 부분
+        <footer></footer>        하단 부분
+    -->
+    <style> 
+
+        /* CDN 외부로부터 가져오는 content */
+        /* 최후에는 <style> 태그 부분을 *.css파일로 빼내서 <link>로 포함시켜 처리한다 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+       
+        /* *{} 모든 요소들에 CSS 적용 */
+        * {
+            box-sizing: border-box;  /* width와 height가 실제 크기가 됨 */
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        /* CSS 초기화 관련 작업. *{}과 같은 호출. 구글링 하면 잘 만들어진 거 있음~ 그거 쓰는 것 추천 */
+        body, header, section, article, footer, aside, nav, h1, h2, h3, h4, h5, h6,
+        div, p, pre, ul, ol, li, dl, dt, dd {
+            padding: 0;
+            margin: 0;
+        }
+
+        a {
+            color: silver;
+            text-decoration: none;
+        }
+
+        body {
+            padding: 10px;
+            background-color: lightblue;
+        }
+        header {
+            padding: 30px;
+            background-color: #fff;
+        }
+        header > h1 {
+            text-align: center;
+        }
+        .gnb {
+            height: 40px;
+            list-style-type: none;       /* 글머리 기호 없애기 */
+            background-color: black;
+            display: flex;               /* <li>의 메뉴바들 나란히 정렬하는 수평 레이아웃 */
+        }
+        .gnb > li {
+            width: 100px;                /* 각 메뉴의 너비. 각 메뉴마다 다른 크기를 주려면 padding값을 주는 것이 일반적 */
+        }
+        .gnb > li > a {
+            display: block;              /* <a> 태그를 블록레벨로 변경, <li> 태그의 크기만큼으로 키우기 */
+                width: 100%;
+                height: 100%;
+                text-align: center;      /* 가로 가운데 정렬 */
+                line-height: 40px;       /* 세로 가운데 정렬 : height값과 line-height값을 맞춰주기 */
+        }
+        .gnb > li > a:hover {
+            background-color: cornflowerblue;
+        }
+        .main_section {
+            display: flex;
+        }
+        .left_section {
+            border: 1px solid gray;
+            flex: 3; /* width: 75%; */   /* 크기를 %나 flex로 주면 반응형 웹 */
+            
+            margin-right: 15px;
+        }
+        .right_section {
+            border: 1px solid gray;
+            flex: 1; /* width: 25%; */
+        }
+        article {
+            margin: 10px 5px 0;         /* top 10px, left/right 5px, bottom 0 */
+            padding: 10px;              /* 전체 10px */
+            background-color: #fff;
+        }
+        .img {
+            padding: 20px;
+            background-color: #888;
+        }
+        footer {
+            height: 150px;
+            margin-top: 10px;
+            padding-top: 50px;
+            border-top: 1px solid black; 
+            background-color: white;
+        }
+        footer > p {
+            text-align: center;
+        }
+
+    </style>
+
+    <header>
+        <h1>Website</h1>
+    </header>
+
+    <nav>
+        <ul class="gnb">
+            <li><a href="javascript:void(0)">Menu1</a></li>
+            <li><a href="javascript:void(0)">Menu2</a></li>
+            <li><a href="javascript:void(0)">Menu3</a></li>
+            <li><a href="javascript:void(0)">Menu4</a></li>
+            <li><a href="javascript:void(0)">Menu5</a></li>
+        </ul>
+    </nav>
+
+    <!-- 본문 좌우로 두개 나란히 배치하기 -> 수평 레이아웃을 만드려면 부모 요소 필수! -->
+    <section class="main_section">
+        <section class="left_section">
+            <article>
+                <h2>Title1</h2>
+                <p>Description1</p>
+                <div class="img"></div>
+                <p>Content1</p>
+            </article>
+            <article>
+                <h2>Title2</h2>
+                <p>Description2</p>
+                <div class="img"></div>
+                <p>Content2</p>
+            </article>
+        </section>
+        <section class="right_section">
+            <article>
+                <h2>Title3</h2>
+                <div class="img"></div>
+                <p>Content3</p>
+            </article>
+            <article>
+                <h2>Title4</h2>
+                <div class="img"></div>
+                <div class="img"></div>
+                <div class="img"></div>
+            </article>
+            <article>
+                <h2>Title5</h2>
+                <p>Description5</p>
+                <p>Content5</p>
+            </article>
+        </section>
+    </section>
+
+    <footer>
+        <p>footer area</p>
+    </footer>
+
+</body>
+</html>

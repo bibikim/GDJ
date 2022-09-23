@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <style>
+        /*  
+            1. position: static
+                1) HTML 기본 흐름대로 배치
+                2) 상대적 위치 조정(top, bottom, left, right) 불가
+                3) 디폴트
+            2. position: relative
+                1) HTML 기본 흐름대로 배치
+                2) 상대적 위치 조정(top, bottom, left, right) 가능
+                3) 옵셋 기준 : 원래 자신의 위치(있었어야 하는 자리)
+            3. position: absolute
+                1) HTML 기본 흐름을 깨고 배치
+                2) 상대적 위치 조정(top, bottom, left, right) 가능
+                3) 옵셋 기준 : 부모 요소(즉, 부모가 없으면 사용 불가)
+                4) 부모 요소가 position: static이라면 absolute 적용 불가
+                5) 대부분의 경우 부모 요소는 position: relative, 자식 요소 position: absolute 로 맞춰 놓는다.
+                   (absolute를 부모, 자식 동시에 주는 것도 가능) (내가 원하는 요소를 자식으로 둬서 배치를 시킴)
+            4. position: fixed
+                1) HTML문서 특정 위치에 고정(항상 보임)
+                2) 상대적 위치 조정(top, bottom, left, right) 가능
+                3) 옵셋 기준 : 브라우저 화면 전체
+                
+        */
+    </style>
+
+    <style>
+        .box1 {
+            position: static;
+            border: 1px solid gray;
+            top: 100px;     /* 적용 안 됨 */
+            left: 100px;    /* 적용 안 됨 */
+        }
+    </style>
+    <div class="box1">
+        static position
+    </div>
+
+
+    <style>
+        .box2 {
+            position: relative;
+            border: 1px solid gray;
+            top: 100px;     /* 적용 됨 */
+            left: 100px;    /* 적용 됨 */
+        }
+    </style>
+    <div class="box2">
+        relative position
+    </div>
+
+
+    <style>
+        .wrap {               /* 부모 요소 */
+            margin-top: 150px;
+            width: 300px;
+            height: 300px;
+            position: relative;
+            border: 1px solid gray;
+        }
+        .wrap > div {        /* 자식 요소 */
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            position: absolute;            /* 모든 <div>들 absolute 상태 */
+        }
+        .spring {
+            top: 10px;
+            left: 10px;
+        }
+        .summer {
+            top: 10px;
+            right: 10px;
+        }
+        .autumn {
+            bottom: 10px;
+            right: 10px;
+        }
+        .winter {
+            bottom: 10px;
+            left: 10px;
+        }
+    </style>
+    <div class="wrap">
+        <div class="spring">봄</div>
+        <div class="summer">여름</div>
+        <div class="autumn">가을</div>
+        <div class="winter">겨울</div>
+    </div>
+
+
+    <style>
+        .box3 {
+            position: fixed;
+            /* 기준 : 웹 브라우저 화면, 이만큼 떨어진 자리에 고정되어 있겠다 */
+            top: 300px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            border: 1px solid gray;
+        }
+    </style>
+    <div class="box3">
+        fixed position
+    </div>
+
+    <hr>
+
+    <style>
+        .help {
+            color: teal;
+            cursor: help;
+            position: relative;
+        }
+        /* help는 부모 */
+        /* after는 help의 자식 */
+        .help:hover::after {
+            /* help를 기준으로 해서 help의 자식 요소를 가상으로 만들어 주는 것이 :after(오른쪽), :before(왼쪽)*/
+            content: attr(data-desc); /* = content: '메롱'; */  /* after에 들어갈 내용 */
+            display: inline-block;      /* 너비는 줄 수 있으나 같은 줄에 나오게 inline-block */
+            width: 80px;                /*  인라인 레벨이기 때문에 너비 값을 먹지 않는다 */
+            border: 1px solid bisque;
+            border-radius: 5px;         /* 모서리 다듬기 */
+            background-color: beige;
+            color: gray;
+            position: absolute;         /* 위치 '여기'라는 텍스트 기준 */
+            top: 25px;
+            left: 100px;
+        }
+    </style>
+    <p><span class="help" data-desc="메롱">여기</span>를 선택하시오.</p>
+    <!-- class와 data-는 속성(attribute). data- 뒤에는 내가 이름 붙이면 되는 거임 -->
+    <!-- 메롱은 꺼내서 쓰려고 넣은 값. 특정값을 태그에 저장해 두고 값을 꺼내다 쓰는 방식 -->
+
+</body>
+</html>
