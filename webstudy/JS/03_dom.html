@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            DOM
+
+            1. Document Object Model(문서 객체 모델)
+            2. HTML문서(Document)의 구성요소(Object)를 알아내고, 사용할 수 있음   -> 태그를 객체(object)로 저장해 두는 것이 DOM의 개념
+            3. 문서 객체 : HTML문서의 구성요소를 의미함
+                1) document.getElementById('아이디')         : 변수       -> id속성을 이용해서 하나의 데이터만 가져옴
+                2) document.getElementsByClassName('클래스') : 배열       -> class속성을 이용해서 여러개의 데이터를 가져옴              
+                3) document.getElementsByTagNmae('태그')     : 배열       -> tag를 이용해 여러개의 데이터 가져옴
+                4) document.querySelector('선택자')          : 변수       -> (.변수데이터)를 가져옴. 혹여나 여러개를 가져와도 첫번째거 하나만 사용
+                5) document.querySelectorAll('선택자')       : 배열       ->
+                doucment = html문서 -> HTML 문서 전체에서 특정 id 가져오기 or 특정 class 가져오기
+                document.querySelectorAll('.box1') 클래스속성은 2개 이상이기 때문에 All로 불러야 함 ????
+                --- 4), 5)는 JS에서 많이 안 쓰고 1)을 제일 많이 씀
+            4. 문서 객체 속성 : HTML 구성 요소의 속성(Attribute)을 의미함
+                1) 객체.속성  >> 이 방식으로 호출
+                2) 주요 속성
+                    (1) textContent : 태그 내부 텍스트
+                    (2) innerHTML   : 태그 자체
+                    (3) style       : CSS
+                3) 조작 방법
+                    (1) 속성을 직접 조작
+                    (2) getAttributer(), setAttribute() 메소드 활용. 속성값을 확인할 땐 get 속성값을 바꿀 때는 set
+                        ① 속성 알아내기 : getAttribute('속성이름')
+                        ② 속성 변경하기 : setAttribute('속성', '값')
+        */
+    </script>
+
+    <h1 id="hello">Hello World</h1>
+    <script>
+        // 1. 아이디로 인식하면 변수로 가지고 옴
+        var a = document.getElementById('hello');
+        console.log(a)
+        // 2. 태그로 인식하면 배열로 가지고 옴 (길이가 1인 배열, 첫번째 요소 index 0에 h1#hello가 들어있단 의미)
+        var b = document.getElementsByTagName('h1');
+        console.log(b);
+        // 자바스크립트 배열 표기법 : [] (JSON)      -> HTMLCollection [h1#hello, hello: h1#hello]
+    </script>
+    <!-- document.getElementsByTagNmae('h1') -- 이렇게 불러내면 실제 <h1> 몇 개이건 무조건 배열에 저장해버림.
+         따라서 식별하기 위해 id값을 주고 document.getElementById('hello')를 이용한다. 
+         변수 a에 <h1 id="hello">Hello World</h1>가 통째로 저장된 것을 확인. id로 인식시키면 변수로 가져온다. -->
+
+
+    <h1 id="hi">Hi World</h1>
+    <script>
+        // 문서 객체의 속성들 사용하는 것이 목적
+
+        // 문서 객체
+        var a = document.getElementById('hi')   // 변수 a에 저장
+        // 문서 객체 속성 알아내기
+        console.log(a.id);                  // id속성의 직접 호출
+        console.log(a.getAttribute('id'))   // getter를 이용한 호출
+        // 문서 객체 속성 변경하기(조작)
+        a.id = 'heehee';                    // 속성의 직접 조작.      id 이름이 heehee로 바뀜. 개발자도구 Elements에서 확인 가능
+        a.setAttribute('id', 'hoho');       // setter를이용한 조작.   setter로 id 이름을 hoho로 바꿈
+    </script>
+
+    <!-- 연습 : 주소를 네이버로 바꿔서 연결하기 -->
+    <div>
+        <a href="https://www.google.com" id="naver">네이버</a>
+    </div>
+    <script>
+        var n = document.getElementById('naver');
+        // n.setAttribute('href', 'https://www.naver.com');
+        n.href = 'https://www.naver.com'; 
+    </script>
+
+
+    <!-- ★중요★ 연습 많이 하기  -->
+    <div id="box1">
+        <h1>Hello World</h1>
+    </div>
+    <script>
+        var a = document.getElementById('box1');
+        console.log(a.textContent);         // 태그 내부 텍스트만을 가져옴
+        a.textContent = '안녕 세계';        // <h1> 태그 자체가 없어지고 '안녕 세계'라는 텍스트로만 존재
+    </script>
+
+
+    <div id="box2">
+        <h1>Hello World</h1>
+    </div>
+    <script>
+        var a = document.getElementById('box2');
+        console.log(a.innerHTML);           // 태그까지 태그 자체를 가져옴
+        a.innerHTML = '<h3>안녕 세계</h3>'  // 태그가 포함된 텍스트 -> 해당 태그로 변경. 태그로 인식되려면 innerHTML 사용
+    </script>
+
+    <div id="box3">
+        <h1>Hello World</h1>
+    </div>
+    <script>
+        var a = document.getElementById('box3');
+        console.log(a.innerHTML);            // 태그까지 태그 자체를 가져옴
+        a.innerHTML += '<h3>안녕 세계</h3>'  // += -> 기존거 유지하고 새로운 것 추가하는 거면 += 사용하기.
+                                             // 결과 : <div id="box3"><h1>Hello World</h1><h3>안녕 세계</h3></div>
+                                             
+        // 따라서, 글자만 조작하고 싶으면 textContent, 태그도 조작하고 싶으면 innerHTML !!!!
+    </script>
+
+    <!-- 연습. 구글로 이동하는 구글 로고 이미지 넣기 -->
+    <div><a id="google"></a></div>
+    <script>
+        var gg = document.getElementById('google');
+        gg.href = 'https://www.google.com';    // <a id="google" href="https://www.google.com"></a>
+        // gg.textContent = '구글';            // <a id="google" href="https://www.google.com">구글</a>
+        gg.innerHTML = '<img alt="google로고" src="../../images/google.png">';  // <img>는 태그니까 innerHTML 사용해서 조작, 
+                  // └> 기존에 있는 태그에 추가하는 것이 아니므로 =
+    </script>
+
+    <!-- 연습. 목록 추가하기 -->
+    <ul id="front">
+        <li>HTML</li>
+        <li>CSS</li>
+    </ul>
+    <script>
+        var f = document.getElementById('front');
+        f.innerHTML += '<li>JS</li>';     // 기존 <li> 태그에 목록을 추가(누적)하는 것이므로 +=
+    </script>
+
+    <!-- 연습. 봄 여름 가을 겨울 목록 만들기 -->
+    <ul id="season"></ul>
+    <script>
+        // 변수 안 쓰고 만들기
+        document.getElementById('season').innerHTML = '<li>봄</li><li>여름</li><li>가을</li><li>겨울</li>';
+        // var a = document.getElementById('season')     ▲
+        // a.innerHTML = '';                            ─┘  같은 것
+    </script>
+
+    
+    <div class="primary" id="area">텍스트영역</div>
+    <script>
+        // ★★ 모든 속성 확인하기 ★★      중요해유~~
+        // 속성
+        // 1. HTML 태그 관점 : attribute        - attr 관점에서는 클래스이름이 class
+        // 2. DOM(JS) 관점   : property         - prop 관점에서는 클래스이름이 className 클래스
+        // 개발자 도구 - Elements - Properties(블록 보여주는 그림 옆 카테고리에 properties 있음)
+    </script>
+
+</body>
+</html>
