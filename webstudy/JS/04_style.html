@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <style>
+        #box {
+            color: orangered;
+        }
+    </style>
+    <div id="box">
+        BOX
+    </div>
+    <script>
+        /*
+            JS의 CSS 처리
+
+            1. style 속성 활용(속성으로 활용하는 거니까 inline 스타일로 한다는 얘기 - CSS 3번 파일)
+            2. inline style로 처리되므로 언제나 적용됨
+            3. 작성 방식
+                1) 마침표(.)  : 하이픈(-) 제거 후 camel case 방식으로 CSS 속성을 사용
+                2) 대괄호([]) : 문자열('', "") 방식으로 CSS 속성을 그대로 사용
+        */
+       var a = document.getElementById('box');
+       a.style.fontSize = '32px';        // 마침표 활용 방법
+       a.style['font-weight'] = '900';   // 대괄호 표기 방법
+       a.style.color = 'skyblue';        // inline style 처리. 이기 때문에 우선순위 적용되서 하늘색으로 바뀜
+    </script>
+
+</body>
+</html>

@@ -140,12 +140,21 @@
     
     <div class="primary" id="area">텍스트영역</div>
     <script>
-        // ★★ 모든 속성 확인하기 ★★      중요해유~~
+        // ★★ 모든 속성 확인하기 ★★      너무너무 중요해유~~
         // 속성
         // 1. HTML 태그 관점 : attribute        - attr 관점에서는 클래스이름이 class
         // 2. DOM(JS) 관점   : property         - prop 관점에서는 클래스이름이 className 클래스
+        //                        └> a라고 저장된 변수는 더이상 attribute가 아닌 property임
         // 개발자 도구 - Elements - Properties(블록 보여주는 그림 옆 카테고리에 properties 있음)
-    </script>
 
+
+        // HTML 태그에서는 class와 id라는 속성으로 존재하지만 JS로 속성들을 변수 a에 저장시킨 후에는 
+        // class란 이름과 id란 이름을 사용하지 않을 수 있고 똑같지 않을 수 있다.
+        document.getElementById('area').className = 'hahahaha'
+        // . 찍어봤을 때 자동완성으로 attr로서의 class는 없음. property인 className으로만 있슈
+        document.getElementById('area').setAttribute('class', 'hihello');
+        // └> html관점 class = JS관점 className 같다라는 것을 확인(변경되니까)!
+        // 즉, 동일한 이름을 사용할 수도 있지만 다른 이름을 사용할 수도 있다.
+    </script>
 </body>
 </html>
