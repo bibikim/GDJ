@@ -105,5 +105,141 @@
         })();
 
     </script>
+
+    <script>
+        /*
+            4. 인수와 매개변수
+                ★ 1) 매개변수 선언 시 선언 키워드(var, let, const)를 사용하지 않음 ★
+                2) 전개 연산자
+                    (1) 여러 개의 인수를 저장하는 하나의 매개변수(2개를 전달하든 3개를 전달하는 하나만 적고 다 받을 수 있다)
+                    (2) 형식 : ...매개변수
+                    (3) 전개 연산자를 사용한 매개변수는 변수가 아닌 배열이 사용됨
+                3) 디폴트
+                    (1) 전달하는 인수와 이를 저장하는 매개변수의 갯수가 다를 수 있음
+                    (2) 인수가 전달되지 않는 경우 기본적으로 사용하는 매개변수의 값을 디폴트라 함
+                4) arguments 객체
+                    (1) 매개변수가 없어도 전달된 인수는 arguments 객체에 저장됨(매개변수가 없어도 전달이 가능하단 이야기)
+                    (2) arguments 객체는 내장된 객체로, 유사 배열의 형태를 가짐
+        */
+
+       // 함수 정의
+       function func4(name, age) {    // 변수를 선언하되 변수 이름만 줌
+            console.log(name, age);
+       }
+
+        // 함수 정의
+        func4('아이유', 30);          // 함수로 전달하는 인수 2개
+
+        
+        // 함수 정의(전개 연산자)
+        function func5(...params) {
+            if(params[0] == undefined) {
+                console.log('전달된 인수 없음');
+            } else {
+                console.log(params[0], params[1]);   
+            }
+            // 배열의 첫번째, 두번째 요소, params[2]-> 없는건 undefiened(값이 저장된 적이 없는 상태) 처리
+        }
+
+        // 함수 호출
+        func5();
+        func5('김연아', 32);
+
+        // 함수 정의(디폴트)
+        function func6(name, greet) {
+            // 1. undefined 활용한 디폴트
+            /*
+            if(greet == undefined) {        // greet이 undefined(전달되지 않았을 때의 상태)면 greet에 '안녕'을 주겠다
+                greet = '안녕'
+            }
+            */
+           // undefiened는 boolean 관점에서 false로 처리되는 특징을 가짐
+           // 원래 false인데 !(NOT)를 붙여서 true로 만들어준다
+            if(!greet){
+                greet = '안녕'
+            }
+            // 2. 논리 OR 연산의 Short Circuit Evaluation 활용
+            // greet에 값이 전달되었다면 greet은 undefined가 아니므로 true로 처리됨 -> greet이 true면 논리 OR(||)은 true이므로 (greet = '안녕')을처리하지 않음 
+            // greet에 값이 전달되지 않는다면 greet은 undefined이므로 false 처리됨 -> greet이 true면 논리 OR(||)은 계속 수행되므로 (greet= '안녕')을 처리함
+
+            greet || (greet = '안녕');   // greet에 값이 전달되었다면 true이기 때문에 ||(OR) 뒤에 식은 greet을 안녕으로 바꾸지 않음
+            // └> 즉, greet이 저장된 값이 있으면 greet을 쓰고 없으면 '안녕'을 쓰겠다는 의미
+            console.log(greet, name);
+        }
+
+        // 함수 호출
+        func6('이지은');            // 안녕 이지은 (기본 인사로 안녕이 사용)
+        func6('이지은', 'hello');   // hello 이지은 (전달된 인사 hello가 사용됨)
+
+        // ------------------------------------------------
+        function fn(name, age) {        // 받는 입장
+            console.log(name, age); 
+        }
+
+        name = '이지은'
+        age = 30;
+        fn(name, age);                // 전달하는 입장
+        // ------------------------------------------------
+
+        // 함수 정의 (arguments 객체)
+        function func7(){      // 매개변수가 없는데 '김한비'가 전달됨......!!
+            console.log(arguments[0]);      // '김한비' 하나 전달하니까 [0]
+        }
+
+        // 함수 호출
+        func7('김한비');
+    </script>
+
+    <script>
+        /*
+            5. 콜백 함수
+                1) 어떤 함수를 다른 함수에 전달할 수 있음
+                2) 함수를 인수로 전달하면 매개변수는 함수를 저장함
+                3) 매개변수에 저장된 함수가 콜백 함수임
+                4) 선언적 함수, 익명 함수 모두 콜백 함수로 사용할 수 있음
+        */
+
+        // 1. 콜백 함수(선언적 함수)
+        // 정의
+        function info(name, age) {
+            console.log('이름 ' + name + ' 나이 ' + age +'살');
+        }
+        function introduce(name, age, func) { 
+            func(name, age);    // 호출에서 받아온 함수 info를 func에 전달, func함수는 name과 age를 호출
+        }
+        // 호출
+        introduce('구교환', 42, info);   // name, age, info라는 이름의 함수를 호출
+        // introduce 함수에 info 함수 전달, 함수를 변수처럼 받아서 그 변수는 함수처럼 다시 씀
+
+
+        // ★ 2. 콜백 함수(익명 함수)  - 전달할 때 콜백 함수를 만들어버리는 방식(더 많이 쓰임)
+        // 정의
+        function introduce(name, age, func) {
+                        // 여기로 '이세영'과 30이 전달되고 이 전달된 name, age가 바로 밑에줄 name, age쪽으로 전달
+            func(name, age);
+               // 위에서 전달된 이름, 나이가 밑에 function의 이름, 나이로 전달
+        }
+        // 정의, 호출                 
+        introduce('이세영', 30, function(name, age) {            
+            // 이름과 나이가 introduce함수 매개변수에 전달이 되고, 나머지 function() {}) 부분이 func으로 전달
+            console.log('이름 ' + name + ' 나이 ' + age +'살');
+        });
+
+
+        // howMany 함수
+        // 첫 번째 인수 : 수행할 횟수
+        // 두 번째 인수 : 수행할 함수
+        // 정의
+        function howMany(cnt, func) {    // function(cnt) { console.log('hello world'); }); 를 func에 저장
+            for(let n = 0; n < cnt; n++) {  // for문에서 0부터 시작할 때 조건 : 1. 길이가 count인 배열, 2. count만큼 반복하는 for문
+            func(); // 매개변수가 없으니 ()로 두면 됨
+            }
+        }
+        // 호출
+        howMany(3, function() { 
+            console.log('hello world'); 
+        });
+
+    </script>
 </body>
 </html>
