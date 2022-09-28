@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        /*
+            1. 이벤트 타입
+                1) 이벤트 종류를 의미함
+                2) 이벤트 객체의 type 속성으로 확인
+                3) 주요 이벤트 타입
+                    (1) click     : 클릭 ( ex) 클릭하면 색깔을 주거나 할 때)
+                    (2) dbclick   : 더블클릭
+                    (3) load      : HTML문서 모두 읽음 -> 모두 읽은 후 동작
+                    (4) mouseover : 마우스 가져다 대면 동작
+                    (5) mouseout  : 마우스 나감
+                    (6) keydown   : 키가 내려감 (입력 직전. 입력 된 것은 x)
+                    (7) keyup     : 키가 올라옴 (입력 직후 - ex) 아이디/비번 생성 시 n자 이상이어야 된다고 뜨게 하는 것)
+                    (8) focus     : 포커스를 가짐
+                    (9) blur      : 포커스를 잃음  ( ex) 비밀번호 입력하기 위해 focus를 주었다가 입력 없이 빠져나오면 뜨는 '비밀번호를 입력해주세요')
+                   (10) submit    : 서브밋 (form 태그의 모든 입력 요소를 서버로 보냄)
+            2. 이벤트 대상
+                1) 이벤트가 동작하는 HTML구성요소를 의미함
+                2) 이벤트 객체의 target 속성으로 확인
+            3. 이벤트 리스너
+                1) 이벤트가 발생하면 동작하는 함수
+                   ex) onload = function(){} -> onload의 리스너가 function()
+                2) 선언적 함수, 익명 함수 모두 리스너로 등록 가능
+                3) 이벤트 리스너의 매개변수에는 자동으로 이벤트 객체가 전달됨
+            4. 이벤트 객체
+                1) 해당 이벤트의 상세 정보를 저장한 객체
+                2) 이벤트 발생 시 자동으로 생성
+                3) 이벤트 발생 시 이벤트 리스너에 인수로 자동으로 전달 (알아서 만들어지고 알아서 전달됨)
+        */
+    </script>
+
+<!--
+    ----------------------------------------------- 나중에 정리 해주신다니 대충 훑고만 말자~ -------------------------------------
+    <button id="btn">버튼</button>
+    <script>
+        // 버튼을 클릭하면 function()을 실행시켜라  -> 클릭할 때마다 이벤트 발생
+        document.getElementById('btn').onclick = function(ev){   
+            console.log(ev.type);       // ev의 type(종류)은 click
+            console.log(ev.target);    //  ev의 target(대상)은 button    ev객체의 type과 target 속성 확인.
+            console.log(ev);
+            // 매개변수는 (ev), 이벤트 리스너는 function(ev) -> 이벤트 리스너(함수)의 매개변수 ev에 자동으로 이벤트 객체가 전달
+        }
+    </script>
+-->
+
+    <script>
+        onload = function() {
+            document.getElementById('box').textContent = 'hello world';
+            // load(HTML문서 다 읽음) 한 다음에 function 내부 수행하세요~
+        }
+        // div 위치를 밑으로 옮기면 화면에 안 찍힘. error: Cannot set properties of null  
+        // document.getElementById('box')가 null // null.textContent로 동작된 것 -> box를 못 찾아서. 
+        // 당연함. box를 본 적이 없음. 아랫줄에 있으니까. id=box가 31라인 위에 있어야 만들어 냄.
+        // 그래서 있는게 load 이벤트 => 일단 문서를 다 읽어봐라 그다음에 하라고 시키면 id=box가 있다는 것을 알고 있으니까 정상 동작이 된다
+
+        // script가 div보다 위에 올라와있는 경우이면 load 이벤트 사용한 것임! (ex: 네이버 메인페이지 Element 확인)
+    </script>
+    <div id="box"></div>  
+
+
+</body>
+</html>

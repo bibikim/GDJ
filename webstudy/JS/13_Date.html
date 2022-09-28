@@ -19,7 +19,7 @@
         // 2. 특정 날짜와 시간
         var datetime1 = new Date(2022, 9, 28);             // 2022-10-28 (월: 0~11)    > 자바 calendar도 마찬가지
         var datetime2 = new Date(2022, 9, 28, 15, 30, 45)  // 2022-10-28 15:30:45
-        var datetime3 = new Date('2022-10-28 15:30:45');   // 2022-10-28 15:30:45 (문자열로 전달하는 경우 월을 그대로 표기)
+        var datetime3 = new Date('2022-10-28 15:30:45');   // 2022-10-28 15:30:45 (문자열로 전달하는 경우 월을 그대로 사용)
         console.log(datetime1, datetime2, datetime3);
 
         // 3. 년, 월, 일, 시, 분, 초 추출 (2022-9-28)
@@ -36,7 +36,60 @@
         var week = ['일', '월', '화', '수', '목', '금', '토'];  // 0 ~ 6
         console.log(week[now.getDay()] + '요일');
                          // 0 ~ 6
+
+        // 심화. Date 클래스에 요일을 반환하는 getDayName() 메소드 추가
+        // prototype을 이용해서 추가해 두면 됨
+        Date.prototype.getDayName = function(){
+            return ['일', '월', '화', '수', '목', '금', '토'][new Date().getDay()] + '요일';
+        }           // 현재 날짜(new Date())의 요일 번호(.getDay())를 배열의 인덱스로 지정
+        console.log(now.getDayName());
+        // 속성을 추가할 때 프로토타입 활용해서 function 을 사용하는 방법
     </script>
 
+    
+    <style>
+        span {
+            font-weight: 200;
+        }
+        #ampm {
+            font-size: 22px;
+        }
+        .over50 {
+            color : red;
+        }
+    </style>
+    <div>
+        <h1>
+            <span id="hour"></span> : 
+            <span id="minute"></span> :
+            <span id="second"></span>
+            <span id="ampm"></span>
+        </h1>
+    </div>
+    <script>
+        // 문제. 초시계
+        setInterval(function(){
+            var nowTime = new Date();
+            var hour = nowTime.getHours();
+            var minute = nowTime.getMinutes();
+            var second = nowTime.getSeconds();
+            document.getElementById('hour').textContent = appendZero(hour >= 13 ? hour - 12 : hour);
+            document.getElementById('minute').textContent = appendZero(minute);
+            document.getElementById('second').textContent = appendZero(second);
+            document.getElementById('ampm').textContent = hour < 12 ? 'AM' : 'PM';
+            if(second >= 50) {
+                document.getElementById('second').className = 'over50';   // second가 50이상이면 class(Name)를 'over50'라고 주겠다
+            } else {                                                      // 어떤 클래스를 조건이 되면 주는 식으로 만들어주는것
+                document.getElementById('second').className = ''; 
+            }
+        }, 1000);
+     
+        // 0 ~ 9 => 00 ~ 09
+        function appendZero(n){
+            return (n <= 9) ? '0' + n : '' + n;  // 받아온 데이터 값(n)이 9 이하이면 앞에 0을 붙여서 n을 반환, 아니면 n을 그대로 반환
+        }
+
+
+    </script>
 </body>
 </html>

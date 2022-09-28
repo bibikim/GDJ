@@ -221,7 +221,7 @@
             }
         }
         
-            // 외부에서 prototype 추가하는 방법
+            // 외부에서 prototype 추가하는 방법  - 한번만 지정 가능, 두번째부터는 무시됨. 따라서 위에 내부 방법만 동작함
             Korean.prototype.country = 'Korea';     // Korean을 class처럼 인식하고 있음
             Korean.prototype.slogan = function(){
                 console.log('8282');
