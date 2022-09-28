@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            JSON 
+            1. Java Script Object Notation(자바스크립트 객체 표기법)
+            2. 클라이언트와 서버 간 데이터 교환 표준 형식 중 하나
+                (XML -> JSON)
+            3. 실제 데이터 교환
+                클라이언트(front)              서버(back)
+                문자열 형식의 JSON('{}')  <->  인스턴스(자바 객체), Map(자바 map), List
+                                           ▲
+                                        library(Jackson)에 맡겨서 바꿈
+        */
+    </script>
+
+    <script>
+        
+        // 객체 생성(JSON 생성과 사실상 같음)
+        var person = {
+            'name': '이나현',
+            'age': 31
+        };
+
+        // 객체(JSON) -> 문자열(로 바꿔서 보내주는 작업)
+        var strPerson = JSON.stringify(person); 
+             // └> 서버측으로 보내는건 strPerson
+        console.log(strPerson, typeof strPerson);   // json 데이터에서는 ("")가 표준 문자열 표기
+
+        // 문자열(형식의 JSON데이터) -> 객체     (서버가 클라이언트 측으로 결과를 내어주는 것)
+        var objPerson = JSON.parse(strPerson);
+        console.log(objPerson, typeof objPerson);   // 객체 표기법으로 바뀜
+        
+
+    </script>
+</body>
+</html>
