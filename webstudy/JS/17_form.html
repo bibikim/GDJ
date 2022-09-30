@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!-- 둘 다 연습/공부 필수! -->
+
+    <!-- 1. <button>/<input type=submit>을 이용한 서브밋 --> <!--  -->
+    <form id="frm1" action="https://search.naver.com/search.naver">
+        <input type="text" name="query" id="query">
+        <button>검색</button>   <!-- 얘가 submit 한 것. submit = action으로 파라미터(name속성)를 다 보내주는 것. ~id 아님~ -->
+        <input type="submit" value="네이버검색">
+    </form>
+    <script>
+        // 문서객체
+        var frm1 = document.getElementById('frm1');
+        var query = document.getElementById('query'); 
+
+        // 서브밋 이벤트 
+        frm1.onsubmit = function(event) {       // 이벤트를 부르는 이벤트 대상(target) -> <form id="frm1"> frm1, 즉 form임      -> 평가 때 나올 개념
+            if(query.value == '') {             // 사용자가 입력한 값이 없으면(검색어가 없는 상황)
+                alert('검색어를 입력하세요.');  // 창 띄우기
+                query.focus(); // focus() 메소드 : 커서를 옮겨주면  // 검색버튼 눌렀다는건 = submit하겠다 -> submit 이벤트 동작(클릭이벤트가 아님!)
+                event.preventDefault();  // 기본 이벤트 동작 방지(서브밋 동작 방지)
+                return; // 이벤트 리스너(함수) 종료
+            }
+        }
+
+        /*
+        query.onkeyup = function(event) {
+            console.log(query.value);  // 콘솔창에 query의 value속성 보내줌
+            // └▶ 입력상자에 입력된 데이터를 알아보는 방법 => value속성으로 확인 가능. 사용자가 입력한건 value속성에 전달되므로.
+        }
+        */
+    </script>
+
+
+    <!-- 2. <input type=button>을 이용한 서브밋 -->
+        <!-- 이 버튼은 하는 일이 없음. 이 버튼으로 서브밋을 하려면 클릭 이벤트를 만들어줘야함 -->
+    <form id="frm2" action="https://www.google.com/search">
+        <input type="text" name="q" id="q">
+        <input type="button" value="구글검색" id="btn_google">  <!-- submit을 하는 버튼이 아니니까 아무일도 안 일어나는거 맞음 -->
+    </form>
+    <script>
+        // 문서객체
+        var frm2 = document.getElementById('frm2');
+        var q = document.getElementById('q');
+        var btnGoogle = document.getElementById('btn_google');
+
+        // 버튼에 클릭 이벤트 주기
+        btnGoogle.onclick = function(event) {
+            if(q.value == '') {   // q에 입력된 value가 비어있는 문자열이면
+                alert('검색어를 입력하세요.');
+                q.focus(); // alert창 확인 누르고 난 후에 input 창에 focus 주는 메소드!!!!
+                return;    // 애초에 submit이 아니기 때문에 이벤트 동작 방지는 필요 없음
+            }
+            // 서브밋 강제시키기 (if문 나와서)
+            frm2.submit();  // 서브밋 메소드 이용해서 서브밋 시키기
+        }
+
+    </script>
+
+    <!-- 연습. 이름이 2 ~ 6자 사이가 아니면 경고메시지 띄우고 서브밋 방지 -->
+    <form id="frm3" action="/">
+        <label for="name">
+            이름
+            <input type="text" name="name" id="name">
+        </label>
+        <button>조회</button>
+    </form>
+    <script>
+        var frm3 = document.getElementById('frm3');
+        var nm = document.getElementById('name');
+
+        frm3.onsubmit = function(event) {
+            if(nm.value == '' || nm.value.length < 2 || nm.value.length > 6) {  // 변수 nm(input type=text)에 입력되어 전달되는 value의 string 길이(length)
+                alert('이름은 2~6자 이내로 입력해주세요.')
+                event.preventDefault();
+                return;
+            } 
+        }
+
+    </script>
+
+
+    <!-- 3. 전체선택/개별선택 -->
+    <form id="frm4">
+        <label for="check_all">
+            <input type="checkbox" id="check_all" class="lbl_check_all">
+            <span>모두 동의합니다.</span>
+        </label>
+        <label for="service">
+            <input type="checkbox" id="service" class="check_one">
+            <span>개인정보 동의합니다.</span>
+        </label>
+        <label for="privacy">
+            <input type="checkbox" id="privacy" class="check_one">
+            <span>이용약관 동의합니다.</span>
+        </label>
+        <label for="location">
+            <input type="checkbox" id="location" class="check_one">
+            <span>위치정보 동의합니다.</span>
+        </label>
+        <label for="email">
+            <input type="checkbox" id="email" class="check_one">
+            <span>이메일 수신 동의합니다.</span>
+        </label>
+
+    </form>
+    <style>
+        label {
+            display: block;   /*한줄에 하나씩 나오게 블록 처리*/
+            width: 500px;
+        }
+        .lbl_check_all {
+            padding-bottom: 10px;
+            border-bottom: 1px solid gray;
+        }
+    </style>
+    <script>
+        // 문서객체
+        var checkall = document.getElementById('check_all');
+        var checkone = document.getElementsByClassName('check_one');   // class=check_one이 총 4개 -> 배열! getElements
+
+        // 전체선택 클릭 이벤트
+        checkall.onclick = function(event) {
+            // 선택이 안되어 있으면 checked라는 property가 false임
+            for(let i = 0; i < checkone.length; i++) {
+                checkone[i].checked = checkall.checked;  // checkall.checked가 true면 checkone[i]들도 checked
+            };
+            /*
+            if(checkall.checked == true) {
+                checkone[0].checked = true;
+                checkone[1].checked = true;
+                checkone[2].checked = true;
+                checkone[3].checked = true;
+            } else {
+                checkone[0].checked = false;
+                checkone[1].checked = false;
+                checkone[2].checked = false;
+                checkone[3].checked = false;
+            }
+            */
+        }
+
+        // 개별선택 클릭 이벤트 --> onclick이 4개 -> for문
+        for(let i = 0; i < checkone.length; i++) {
+            checkone[i].onclick = function(event) {     // 배열의 모든 요소(checkone[i]가 클릭 이벤트의 타겟
+                // 클릭 이벤트가 동작시 항상 체크 갯수를 세게 하고 4개가 체크 되면 '모두동의'에도 체크되게끔 만들기
+                let checkcnt = 0;   // 먼저 
+                for(let j = 0; j < checkone.length; j++) {
+                    // if(checkone[i].checked == true)         // true는 숫자관점에서 숫자 1과 같다. 느슨한 타입의 JS 특징을 이용해 == 1도 가능
+                    // checkcnt++;   ┌(아래와 같은 코드)
+                    checkcnt += checkone[j].checked; 
+                }
+                // 체크된 갯수가 checkone의 길이(갯수)와 같으면 checkall에도 체크박스 쳌!
+                checkall.checked = (checkcnt == checkone.length);
+            }
+        }
+    </script>
+
+</body>
+</html>

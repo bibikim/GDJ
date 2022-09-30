@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .member-wrapper {
+        margin: 0 auto;
+        min-width: 290px;
+        max-width: 460px;   /* 반응형 웹이어서 주는 스타일. 줄어들어도 최대 290, 늘어나도 최대 460 */
+        padding: 0 4.35%;
+    }
+    .member-header {
+        width: 100%;
+        position: relative;
+    }
+    .member-logo {
+        width: 100%;
+        margin: 0 auto;
+        padding-top: 10.27%;
+    }
+    .member-logo_link {
+        display: block;
+        /* 부모 헤더기준 */
+        width: 43.83%;
+        max-width: 195px;
+        max-height: 46px;
+        padding-top: 10%;
+        margin: 0 auto;   /*헤더의 중앙으로 <a>만듦*/
+        background-image: url(https://static.coupangcdn.com/image/static/login/logo-coupang.x2.20201201.png); /*이미지를 a 링크로도 줄 수 있다*/
+        background-size: cover;   /* 박스는 큰데 이미지가 작을 때(둘이 사이즈가 다를 때 쓰는 방법) */
+    }
+    .member-main {
+        width: 100%;
+    }
+    .member-join {
+        width: 100%;
+    }
+    .section-title {
+        padding: 20px 0 10px 0;
+        font-size: 14px;    /* em 단위 : 부모 기준으로 n배 */
+        font-weight: bold;  
+        line-height: 1.29;  /* 원래 행 높이의 1.29배란 의미 */
+        color: #111;
+    }
+    .join-content {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .section-body {
+        width: 100%;
+    }
+    .member-field-wrap {
+        width: 100%;
+        margin-top: 2.9%;
+    }
+    .member-input-field {
+        width: 100%;
+    }
+    .member-input-wrap {      /*label 구역 -> block 주고 height 줌*/
+        display: block;
+        height: 48px;
+        padding: 0;
+        border: 1px solid #CCC;
+        background-color: #FFF;
+    }
+    .member-input-group-icon-label {   /*메일 아이콘 들어가는 구역*/
+        position: relative;
+        float: left;       /*왼쪽 배치*/
+        min-width: 44px;
+        height: 100%;
+        border-right: 1px solid #CCC;    /*큰 틀인 label 테두리를 줬으니까 오른쪽만 주면 깔껌쓰 */
+        background-color: #FAFAFA;
+    }
+    .join-sprite {
+        background-image: url(//img1a.coupangcdn.com/image/static/login/sprite-join.20160902.svg);
+        background-repeat: no-repeat;
+        background-size: 77px 80px;
+    }
+    .join-sprite-email {
+        position: absolute;  /*부모: span class="member-input-group-icon-label"*/
+        top: 50%;   /*위치*/
+        left: 50%;  /**/
+        height: 16px;
+        margin: -8px 0 0 -10px; /**/
+        padding-left: 19px; /**/
+        background-position: -1px -1px; /**/
+    }
+    /* 인라인 레벨이 포지션:absolute를 가지면 width 값을 주면 먹음. */
+    /* line-height가 font-size랑도 연관 있을 수 있음 */
+    .member-input-group {
+        display: block;
+        width: 90%;
+        margin: 0;
+    }
+    .member-input {
+        box-sizing: border-box;
+        width: 85%;
+        height: 48px;
+        margin: 0;
+        padding: 16px 0 12px;
+        font-size: 14px;
+        line-height: 20px;   /* padding 값을 줬기 대문에 먹힘 */
+        text-indent: 12px;   /* padding-left: 12px; 과 같은 효과*/
+        outline: none;
+    }
+</style>
+<body>
+    
+    <div class="member-wrapper">
+        <header class="member-header">
+           <!-- 윗쪽에 주는 div가 <header> / 중간 <section>, 하단 <footer> -->
+               <h1 class="member-logo">   <!-- 낭독기를 위해 넣어줌 -->
+                   <a href="http://www.coupang.com" class="member-logo_link"></a>
+                </h1> 
+        </header>
+        <div class="member-main">
+            <div class="member-join">
+                <div class="section-title">
+                    회원 정보를 입력해주세요
+                </div>
+                <div class="join-content">
+                    <div class="section-body">
+                        <div class="memeber-field-wrap">    <!--아이디 입력 박스-->
+                            <div class="member-input-field">
+                                <label class="member-input-wrap" for="join-email-input">
+                                    <span class="member-input-group-icon-label"> 
+                                        <i class="join-sprite join-sprite-email"></i>  <!-- 아이콘 들어가는 자리 -->
+                                        <!-- 1번째클래스-전체모든아이콘이미지  2번째클래스-그중에 이메일아이콘이미지 -->
+                                    </span>
+                                    <span class="member-input-group"> <!-- 입력상자 들어가는 구역 -->
+                                        <input type="email" id="join-email-input" class="member-input" maxlength="80" placeholder="아이디(이메일)">
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
