@@ -17,7 +17,7 @@
                 1) window  : 최상위 객체. 생략 가능
                 2) screen  : 화면 객체. 화면의 너비/높이
                 3) history : 방문 경로 저장하고 있는 객체  <-뒤로가기
-                4) location : 경로 객체. 주소창 조적(URL 조작)
+                4) location : 경로 객체. 주소창 조작(URL 조작)
         */
     </script>
 
@@ -80,6 +80,25 @@
                 2) window.close()
         */
     </script>
+    <hr>
+    <button id="btn2">열기</button>
+    <script>
+        /*
+            window.open(url, name, features)
 
+            1. url  : 열어 줄 파일의 경로
+            2. name : 창 이름
+            3. features : 창 특징
+                1) width/height : 창의 너비/높이
+                2) top/bottom/left/right : 열리는 창의 위치
+        */
+        
+        // 19_popup.html 열기 (열어주는 애가 parent. 자식 popup.html)
+        document.getElementById('btn2').onclick = function(event) {
+            var features = 'width=640px, height=500px, top=100px, left=100px';
+            window.open('19_popup.html', '팝업', features);
+        }
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- 부모창과 자식창 간에 데이터 주고받기~ -->
+    <h1 id="msg_child"></h1>
+    <div style="margin: 20px auto; text-align: center;">
+        <button id="btn">반사</button>
+    </div>
+    <script>
+        document.getElementById('btn').onclick = function(event) {
+            opener.document.getElementById('msg_parent').textContent = document.getElementById('msg_child').textContent; 
+            // 나를 열어준 창 : opener                                   // 보내줄 것(내용)
+        }
+    </script> 
+</body>
+</html>

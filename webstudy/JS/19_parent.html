@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="msg_parent"></h1>
+    <input type="text" id="parent_ipt">
+    <button id="btn">전송</button>
+    <script>
+        // 문서객체
+        var parentIpt = document.getElementById('parent_ipt')
+        var btn = document.getElementById('btn')
+
+        // 전역변수(함수를 사용할 때 창 객체는 전역변수로 선언하고 모든 함수에서 사용)
+        var childWindow = null;
+
+        // 창 열기 함수
+        function openChildWindow(url, name) {
+            const windowWidth = 480;
+            const windowHeight = 320;
+            const left = (screen.width - windowWidth) / 2;
+            const top = (screen.height - windowHeight) / 2;
+            const features = 'width=' + windowWidth + 'px, height=' + windowHeight + 'px, left=' + left + 'px, top=' + top + 'px';
+            if(childWindow == null || childWindow.closed) {   // window.closed 윈도우의 프로퍼티값 => 창이 닫혔다
+                childWindow = open(url, name, features);  // 창이 없거나(null) 닫힌상태(closed)일 때만 창을 open 하겠다
+            }
+        }    // 팝업 창을 정 중앙에 띄우려면 screen.width or availwidth를 활용해서 계산해야됨!
+
+        // 데이터 보내기 함수
+        function sendData() {
+            // onload : 자식창이 모두 열린 뒤 처리가 되는 이벤트
+            childWindow.onload = function(event) {
+                // 자식창의 문서요소에 입력값 집어넣기
+                childWindow.document.getElementById('msg_child').textContent = parentIpt.value;   // 다큐먼트 앞에 창 객체 올 수 있음!   
+            }
+        }
+
+        // 버튼 클릭 이벤트
+        btn.onclick = function(event) {
+            openChildWindow('19_child.html', '자식창');
+            sendData(); // sendData 펑션 호출!
+        }
+    </script>
+</body>
+</html>
