@@ -86,7 +86,7 @@
 
     <hr>
 
-    <!-- 1. XML 읽기 -->
+    <!-- 1. XML 읽기 - books1.xml -->
 
     <div><button id="btn2">클릭</button></div>
     <div id="box2">
@@ -112,7 +112,7 @@
                 if(xhr.readyState == 4 && xhr.status == 200) {
                     // XML응답은 responseXML 속성으로 받아옴
                     var data = xhr.responseXML;
-                    // console.log(data)
+                    console.log(data)
                     // <books> 태그 가져오기
                     var books = data.getElementsByTagName('books')[0];   // getElement's' 니까 books는 배열! 하나여도 준비는 배열인 것.
                     // 배열 준비했지만 books 요소는 1개뿐 [<books></books>]. 하나만 가져오면 되니까 [0]을 붙여서 변수로 만들어줌
@@ -140,7 +140,7 @@
 
     <hr>
 
-    <!-- 2. xml 읽기 -->
+    <!-- 2. xml 읽기 - books2.xml -->
     <div><button id="btn3">클릭</button></div>
     <div id="box3">
         <table border="1">
@@ -190,6 +190,9 @@
             }
         }
     </script>
+
+    <hr>
+
     <!--  네이버는 tag불러와서, 기상청 데이턴 속성 불러와서 연습~ -->
     <!-- 3. XML 읽기 연습 - naver_search.xml -->
     <div><button id="btn4">클릭</button></div>
@@ -216,29 +219,188 @@
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'naver_search.xml', true);
             xhr.send();
-            xhr.onreadystatechange = function(evnet) {
+            xhr.onreadystatechange = function(event) {
                 if(xhr.readyState == 4 && xhr.status == 200){
                     var data = xhr.responseXML;
-                    console.log(data)
-                    var channel = data.getElementsByTagName('channel')[0]
+                    // console.log(data)
+                    // item 태그 가져오기(많이)
                     var item = data.getElementsByTagName('item');
+                    // items 순회하며 만들기
                     var items = '';
                     for(let i=0; i < item.length; i++) {
                         items += '<tr>';
-                        items += '<td>' + item[i].getElementsByTagName('title')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('image')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('author')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('price')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('discount')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('publisher')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('pubdate')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('isbn')[0] + '</td>';
-                        items += '<td>' + item[i].getElementsByTagName('description')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('title')[0].textContent + '</td>';
+                        items += '<td><a href="' + item[i].getElementsByTagName('link')[0].textContent + '"><img src="' + item[i].getElementsByTagName('image')[0].textContent + '" width="80px" height="120px"></td>';
+                        items += '<td>' + item[i].getElementsByTagName('author')[0].textContent + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('price')[0].textContent + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('discount')[0].textContent + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('publisher')[0].textContent + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('pubdate')[0].textContent + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('isbn')[0].textContent + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('description')[0].textContent + '</td>';
                         items += '</tr>';
+
                     }
-                    document.querySelector('#box4 .search_list').innerHTML = items;
+                    document.getElementById('search_list').innerHTML = items;
                 }
             }
+        }
+    </script>
+
+    <hr>
+
+    <!-- 4. XML 읽기 연습 - sfc_web_map.xml -->
+    <div><button id="btn5">click</button></div>
+    <div id="box5">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>지역명</td>
+                    <td>날씨</td>
+                    <td>온도</td>
+                </tr>
+            </thead>
+            <tbody id="weather_list"></tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('btn5').onclick = function(event) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'sfc_web_map.xml', true);
+            xhr.send();
+            xhr.onreadystatechange = function(event) {
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    var data = xhr.responseXML;
+                    // console.log(data)
+
+                    var local = data.getElementsByTagName('local');
+                    var locals = '';
+                    for(let i = 0; i < local.length; i++) {
+                        locals += '<tr>';
+                        locals += '<td>' + local[i].textContent + '</td>'
+                        locals += '<td>' + local[i].getAttribute('desc') + '</td>'
+                        locals += '<td>' + local[i].getAttribute('ta') + '</td>'
+                        locals += '</tr>';
+
+                    }
+                    document.getElementById('weather_list').innerHTML = locals;
+                }
+            }
+        }
+    </script>
+
+    <hr>
+
+    <!-- 6. JSON 읽기 - books.json -->
+    <div><button id="btn6">클릭</button></div>
+    <div id="box6">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목</td>
+                    <td>저자</td>
+                    <td>가격</td>
+                </tr>
+            </thead>
+            <tbody class="book_list"></tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('btn6').onclick = function(event) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', 'books.json', true);
+            xhr.send();
+            xhr.onreadystatechange = function(event) {
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                //    console.log(xhr.responseText)          // json데이터는 단순text다. 그걸 객체로 가져오는 것임
+                   var data = JSON.parse(xhr.responseText)   // 객체로 인식. 자바스크립트의 배열과 객체로 바꿔주는 것이 좋당
+                   var bookList = '';
+                   for(let i = 0; i < data.length; i++) {
+                        // 1. 객체 속성       ( 자스 객체의 속성을 호출할 때 )
+                        //     1) data[i].title (= object.property)
+                        //     2) data[i].['title'] 
+                        // 2. 객체 순회
+                        //    1) 속성의 직접 지정
+                        //       data[i].title
+                        //       data[i].author
+                        //       data[i].price
+                        //    2) for-in문을 이용한 객체 순회
+                        //       for(let prop in data[i]) {
+                        //           data[i][prop]                -> for-in문에서는 대괄호 표기법만 가능
+                        //       }
+                        bookList += '<tr>';
+                        bookList += '<td>' + data[i].title + '</td>';
+                        bookList += '<td>' + data[i].author + '</td>';
+                        bookList += '<td>' + data[i].price + '</td>';         // for-in문으로 바꿔보기 10, 11장 참고!
+                        bookList += '</tr>'
+                        // console.log(data[i].title, data[i].author, data[i].price)  // 각 객체
+                   }
+                   document.querySelector('#box6 .book_list').innerHTML = bookList;
+                }
+            }
+        }
+        // 자스는 객체도 for-in문을 돌릴 수 있음 -> 10, 11장 참고!
+    </script>
+
+    <hr>
+
+    <!-- 7. JSON 읽기 - car.json -->
+    <div><button id="btn7">click</button></div>
+    <script>
+        document.getElementById('btn7').onclick = function(event) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', 'car.json', true);
+            xhr.send();
+            xhr.onreadystatechange = function(event) {
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    console.log(data.model)
+                    console.log(data.maker)
+                    console.log(data.price)
+
+                    for(let i = 0; i < data.option.length; i++) {
+                        console.log(data.option[i]);
+                    }
+                    /* 위 for문은 아래 코드를 만듦
+                    console.log(data.option[0]);
+                    console.log(data.option[1]);
+                    console.log(data.option[2]); */
+
+                    for(let prop in data.info) {
+                        console.log(data.ingo[prop]);
+                    }
+                    /* 위 for-in문은 아래 코드를 만듦
+                    console.log(data.info.year);
+                    console.log(data.info.discount); */
+                }
+            }
+        }
+    </script>
+
+    <hr>
+
+    <!-- 8. JSON 읽기 - cctv.json -->
+    <!-- 전체 cctv는 몇 대인가? -->
+    <div><button id="btn8">클릭</button></div>
+    <div>
+        마포구 전체 CCTV 개수 : <span id="cctv_count"></span>대
+    </div>
+    <script>
+        document.getElementById('btn8').onclick = function(event) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', 'cctv.json', true)
+            xhr.send();
+            xhr.onreadystatechange = function(event) {
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var totalCnt = 0;
+                    for(let i = 0; i < data.length; i++) {
+                        totalCnt += Number(data[i].카메라대수);      // data.카메라대수 = 문자   -> 숫자로 가져오기          
+                    }
+                    document.getElementById('cctv_count').textContent = totalCnt;
+                }
+            }
+
         }
     </script>
 </body>
