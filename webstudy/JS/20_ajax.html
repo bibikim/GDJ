@@ -29,55 +29,217 @@
         */
     </script>
 
+    <div><button id="btn1">click</button></div>
     <div id="box1"></div>
     <script>
         
-        // data.txt 파일이 서버가 보낸 데이터라고 가정~
+        document.getElementById('btn1').onclick = function(event) {
 
-        // 1. XMLHttpRequest 객체 생성
-        var xhr = new XMLHttpRequest();
-
-        // 2. open() - 요청 정보 만들기
-        //    open(HTTP메소드, 요청서버경로, 통신방식)
-        //     1) HTTP 메소드
-        //        (1) GET  : GET방식  (기본)
-        //        (2) POST : POST방식
-        //     2) 요청서버경로
-        //         /컨텍스트패스/URLMapping 
-        //     3) 통신방식
-        //        (1) 동기 통신   : false
-        //        (2) 비동기 통신 : true 
-        xhr.open('GET', 'data.txt', true);
-
-        // 3. send() - 요청하기
-        xhr.send();
-
-        // 4. 응답 처리
-        //    응답이 오는지 점검하기 위한 readystatechange 이벤트가 필요 (응답이 오면 호출되는(동작) 이벤트)
-        //      ㄴ> 요청만 하는게 아니라 응답이 왔는지 점검을 해줘야 되는 것이 비동기 통신 방식
-        xhr.onreadystatechange = function(event) {
-            // 응답이 오면 이 이벤트가 동작함
-            // 응답에 관련된 속성
-            // 1. readyState (통신 확인)
-            //     1) 0(OPENED)
-            //     2) 1(UNSEND)
-            //     3) 2(HEADERS_RECEIVE)
-            //     4) 3(LOADING) 
-            //     5) 4(DONE)     -> 이것만 기억하면 됨.  4가 아니면 제대로 통신된 것 아님!
-            // 2. status (응답 코드)
-            //     1) 200 : 응답 성공    -> 이것만 기억
-            //     2) 40X : 요청 실패(client 잘못)
-            //     3) 50X : 서버 오류(server 잘못)
-            if(xhr.readyState == 4 && xhr.status == 200) {   // 정상 실행되었다면~
-                // 응답 데이터 속성(property값)
-                // 1. 텍스트 형식 응답 : responseText
-                // 2. XML    형식 응답 : responseXML
-                // 3. JSON   형식 응답 : JSON.parse(repsonseText)   (text형태로 오기 때문에. 12_json.html 참고)
-                document.getElementById('box1').textContent = xhr.responseText;
-                
+            // data.txt 파일이 서버가 보낸 데이터라고 가정~
+    
+            // 1. XMLHttpRequest 객체 생성
+            var xhr = new XMLHttpRequest();
+    
+            // 2. open() - 요청 정보 만들기
+            //    open(HTTP메소드, 요청서버경로, 통신방식)
+            //     1) HTTP 메소드
+            //        (1) GET  : GET방식  (기본)
+            //        (2) POST : POST방식
+            //     2) 요청서버경로
+            //         /컨텍스트패스/URLMapping 
+            //     3) 통신방식
+            //        (1) 동기 통신   : false
+            //        (2) 비동기 통신 : true 
+            xhr.open('GET', 'data.txt', true);
+    
+            // 3. send() - 요청하기
+            xhr.send();
+    
+            // 4. 응답 처리
+            //    응답이 오는지 점검하기 위한 readystatechange 이벤트가 필요 (응답이 오면 호출되는(동작) 이벤트)
+            //      ㄴ> 요청만 하는게 아니라 응답이 왔는지 점검을 해줘야 되는 것이 비동기 통신 방식
+            xhr.onreadystatechange = function(event) {
+                // 응답이 오면 이 이벤트가 동작함
+                // 응답에 관련된 속성
+                // 1. readyState (통신 확인)
+                //     1) 0(OPENED)
+                //     2) 1(UNSEND)
+                //     3) 2(HEADERS_RECEIVE)
+                //     4) 3(LOADING) 
+                //     5) 4(DONE)     -> 이것만 기억하면 됨.  4가 아니면 제대로 통신된 것 아님!
+                // 2. status (응답 코드)
+                //     1) 200 : 응답 성공    -> 이것만 기억
+                //     2) 40X : 요청 실패(client 잘못)
+                //     3) 50X : 서버 오류(server 잘못)
+                if(xhr.readyState == 4 && xhr.status == 200) {   // 정상 실행되었다면~
+                    // 응답 데이터 속성(property값)
+                    // 1. 텍스트 형식 응답 : responseText
+                    // 2. XML    형식 응답 : responseXML
+                    // 3. JSON   형식 응답 : JSON.parse(repsonseText)   (text형태로 오기 때문에. 12_json.html 참고)
+                    document.getElementById('box1').textContent = xhr.responseText;
+                    
+                }
             }
         }
 
+        </script>
+
+    <hr>
+
+    <!-- 1. XML 읽기 -->
+
+    <div><button id="btn2">클릭</button></div>
+    <div id="box2">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목</td>
+                    <td>저자</td>
+                    <td>가격</td>
+                </tr>
+            </thead>
+            <tbody class="book_list"></tbody>
+        </table>
+    </div>
+    <script>
+
+        document.getElementById('btn2').onclick = function(evetn) {
+
+            var xhr = new XMLHttpRequest();  // ajax처리 객체 만들기
+            xhr.open('GET', 'books1.xml', true)  // 원래는 서버주소 받는거 ㅇㅇ 파일로 대신
+            xhr.send();
+            xhr.onreadystatechange = function(event) { // 상태 변화 방지
+                if(xhr.readyState == 4 && xhr.status == 200) {
+                    // XML응답은 responseXML 속성으로 받아옴
+                    var data = xhr.responseXML;
+                    // console.log(data)
+                    // <books> 태그 가져오기
+                    var books = data.getElementsByTagName('books')[0];   // getElement's' 니까 books는 배열! 하나여도 준비는 배열인 것.
+                    // 배열 준비했지만 books 요소는 1개뿐 [<books></books>]. 하나만 가져오면 되니까 [0]을 붙여서 변수로 만들어줌
+    
+                    // <book> 태그 가져오기(3개)
+                    var book = books.getElementsByTagName('book');
+                    // bookList 배열 순회하며 <tr>...</tr> 3개 만들기(<tbody>에 집어 넣을 것들)
+                    var bookList = '';
+                    for(let i = 0; i < book.length; i++) {
+                        bookList += '<tr>';
+                        bookList += '<td>' + book[i].getElementsByTagName('title')[0].textContent + '</td>';    
+                            // book[i]는 제목+저자+출판사 한 덩어리가 하나. 그 안에서 title은 하나밖에 없으니까 [0]을 붙여서 변수처리
+                        bookList += '<td>' + book[i].getElementsByTagName('author')[0].textContent + '</td>';
+                        bookList += '<td>' + book[i].getElementsByTagName('price')[0].textContent + '</td>';
+                        bookList += '</tr>'
+                    }
+                    // <tbody class="bookList">에 bookList 추가(만들어주기)
+                    document.querySelector('#box2 .book_list').innerHTML = bookList;  // 가지고 온 데이터가 변수일 때 쓰는 것 -> 하나의 요소를 가져옴
+                        // document.querySelectorAll('#box2 .book_list')              // 가지고 온 데이터가 배열일 때 쓰는 것
+                }
+            }
+        }
+
+    </script>
+
+    <hr>
+
+    <!-- 2. xml 읽기 -->
+    <div><button id="btn3">클릭</button></div>
+    <div id="box3">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목</td>
+                    <td>저자</td>
+                    <td>가격</td>
+                </tr>
+            </thead>
+            <tbody class="book_list"></tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('btn3').onclick = function(event) {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'books2.xml', true);
+            xhr.send();
+            xhr.onreadystatechange = function(event) {
+                if(xhr.readyState == 4 && xhr.status == 200){
+                    // XML 응답은 responseXML
+                    var data = xhr.responseXML;
+                    // console.log(data);
+                    // └▶ 1과 차이점 : <book>태그 밑에 아무 태그 없음. 태그가 아니기 때문에 getElementsByTagName 불가
+                    //     title="", author="", price="" 형식 -> 속성! 속성으로 불러오면 됨.
+
+                    // <books> 태그 (1개)
+                    var books = data.getElementsByTagName('books')[0]
+                    // <book> 태그 (3개)
+                    var book = books.getElementsByTagName('book'); 
+                    // <book> 태그 3개 순회하면서 bookList 만들기
+                    var bookList = '';
+                    for(let i = 0; i < book.length; i++) {
+                        // 속성 가져오기
+                        // 1. book[i].title                 :  <book> 태그 하나의 title 속성 가져오기
+                        // 2. book[i].getAttribute('title') ->  속성이름을 그대로 가져다 쓸 때는 getAttribute 속성을 쓰는 것이 안전하다. 1번이 안 먹힐 수 있음
+                        bookList += '<tr>';
+                        bookList += '<td>' + book[i].getAttribute('title') + '</td>'
+                        bookList += '<td>' + book[i].getAttribute('author') + '</td>'
+                        bookList += '<td>' + book[i].getAttribute('price') + '</td>'
+                        bookList += '</tr>';
+                    }
+                    // <tbody class="book_list"></tobdy>에 표시
+                    document.querySelector('#box3 .book_list').innerHTML = bookList;
+                }
+            }
+        }
+    </script>
+    <!--  네이버는 tag불러와서, 기상청 데이턴 속성 불러와서 연습~ -->
+    <!-- 3. XML 읽기 연습 - naver_search.xml -->
+    <div><button id="btn4">클릭</button></div>
+    <div id="box4">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목(title)</td>
+                    <td>썸네일(image+link)</td>
+                    <td>저자(author)</td>
+                    <td>정상가(price)</td>
+                    <td>할인가(discount)</td>
+                    <td>출판사(publisher)</td>
+                    <td>출판일(pubdate)</td>
+                    <td>ISBN(isbn)</td>
+                    <td>개요(description)</td>
+                </tr>
+            </thead>
+            <tbody id="search_list"></tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('btn4').onclick = function(event) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'naver_search.xml', true);
+            xhr.send();
+            xhr.onreadystatechange = function(evnet) {
+                if(xhr.readyState == 4 && xhr.status == 200){
+                    var data = xhr.responseXML;
+                    console.log(data)
+                    var channel = data.getElementsByTagName('channel')[0]
+                    var item = data.getElementsByTagName('item');
+                    var items = '';
+                    for(let i=0; i < item.length; i++) {
+                        items += '<tr>';
+                        items += '<td>' + item[i].getElementsByTagName('title')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('image')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('author')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('price')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('discount')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('publisher')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('pubdate')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('isbn')[0] + '</td>';
+                        items += '<td>' + item[i].getElementsByTagName('description')[0] + '</td>';
+                        items += '</tr>';
+                    }
+                    document.querySelector('#box4 .search_list').innerHTML = items;
+                }
+            }
+        }
     </script>
 </body>
 </html>

@@ -153,8 +153,10 @@
         document.getElementById('area').className = 'hahahaha'
         // . 찍어봤을 때 자동완성으로 attr로서의 class는 없음. property인 className으로만 있슈
         document.getElementById('area').setAttribute('class', 'hihello');
-        // └> html관점 class = JS관점 className 같다라는 것을 확인(변경되니까)!
-        // 즉, 동일한 이름을 사용할 수도 있지만 다른 이름을 사용할 수도 있다.
+        // └> html관점에서 class와 JS관점에서 className 같다라는 것을 확인(변경되니까)!
+
+        // ★ 동일한 이름을 사용할 수도 있지만 다른 이름을 사용할 수도 있다.
+        // 속성이름을 그대로 가져다 쓸 때는 getAttribute 속성을 쓰는 것이 안전.
     </script>
 </body>
 </html>
