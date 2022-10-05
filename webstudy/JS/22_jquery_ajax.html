@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.6.1.min.js"></script>
+</head>
+<body>
+    
+    <div id="box1">
+        <button id="btn1">클릭</button>
+    </div>
+    <script>
+        $('#btn1').on('click', function(event){
+            // ★★★★★★★★★ 중 요 ! 외 워 외 워 ★★★★★★★★★
+            $.ajax({                        // key와 value >> ajax의 설정값은 객체로 들어간다 (property : 값)    Java에서는 Map으로, JS에서는 Object로 key:value 형태
+                'type': 'GET',              // 요청 메소드(Request Method)
+                'url': 'data.txt',          // 요청 서버 경로
+                'async': true,              // 통신 방식(true: 비동기 통신, false: 동기 통신, 생략하면 비동기 통신)      참고 ajax에서 a는 비동기 약자!
+                'dataType': 'text',         // 응답 데이터 타입(text, xml, json) -> 받아오는 데이터 타입을 적어주면 됨
+                'success': function(data) { // 매개변수 data로 응답 데이터가 전달됨(responseText, responseXML 등) 
+                    $('#box1').append($('<div>').text(data));  // #box1에 받아온 <div> 만들어서 data(data.txt)를 넣어 주겠다
+                },                          // 응답 성공하면? : function()을 동작하겠다     if(xhr.readyState == 4 && xhr.status == 200) ==> 'success'
+                'error': function(jqXHR, textStatus, errorThrown){
+                    console.log('status', jqXHR.status);                // status: 응답 코드(숫자) 확인 가능 (404)
+                    console.log('statusText', jqXHR.statusText);        // statusText: 응답 코드 텍스트 확인 가능   (Not Found)
+                    console.log('responseText', jqXHR.responseText);    // 응답 텍스트(서버측에서 전송한 예외메시지)  
+                                                                        //  └▶ 문제 발생 -> java에서 예외메시지 던지기 -> JS에서 'error'로 넘어와 responseText를 통해 에러메시지 뜸
+                    console.log(textStatus);    // error     (안 중요)
+                    console.log(errorThrown)    // Not Found (안 중요)
+                    }                           // 응답 실패하면? : function()을 동작하겠다
+            });
+        });
+    </script>
+
+    <hr>
+
+    <!-- 1. XML 읽기(태그) - books1.xml -->
+    <div><button id="btn2">클릭</button></div>
+    <div id="box2">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목</td>
+                    <td>저자</td>
+                    <td>가격</td>
+                </tr>
+            </thead>
+            <tbody class="book_list"></tbody>
+        </table>
+    </div>
+    <script>
+        $('#btn2').on('click', function(event) {
+            $.ajax({
+                'type': 'GET',
+                'url': 'books1.xml',
+                'dataType': 'xml',
+                'success': function(data) {   // data로 넘어가는 데이터는 xhr.responseXML인 것! (JS: var data = xhr.responseXML)
+                 // $(data).find('book');     // book 태그 하나가 책 한 권. 따라서 book만 찾아서 가지고 오면 됨. 부모 - 자식 간의 검색 이용 -> 부모.find(자식요소)
+                                              // 일반 변수는 $()로 묶어주는 것이 필수! find()가 jquery 메소드니까~
+                                              // ~~~ is not a function == jquery가 아니라서 동작하지 않았음을 의미하는 에러메시지 -> $()로 변수를 감싸준다!!
+                    $.each($(data).find('book'), function(i, book) {   // ★ jquery 반복 메소드 :  $.each(배열, function(인덱스, 요소)) ★
+                    // $(data).find('book') -> <book> 태그 3개 : 배열, 태그가 하나씩 넘어가는 자리가 '요소'
+
+                        /*
+                        var tr = '<tr>';
+                        tr += '<td>' + $(book).find('title').text() + '</td>';
+                        // <book>이 가진 <title> 태그 -> 부모-자식 find() 이용 (book.find('title')까지는 <title>@@</title> 태그 자체)
+                        tr += '<td>' + $(book).find('author').text() + '</td>';
+                        tr += '<td>' + $(book).find('price').text() + '</td>';
+                        tr += '</tr>'
+                        $('#box2 .book_list').append(tr);  // .append() or .prepend()   == innerHTML과 같은 기능이라 보면 됨  // html()은 book 하나를 덮어씀.. 못 쓴다요
+                        */
+
+                        // jquery 식으로 짠 코드. 위 아래 둘 같은 코드 :) 편한 것 쓰자!
+                        var tr = $('<tr>');     
+                        tr.append($('<td>').text($(book).find('title').text()));     // tr은 변수 tr에 $('<tr>')로 묶어줬기 때문에 이 라인부터는 $() 안 써줘도 $()에 묶인 것
+                        tr.append($('<td>').text($(book).find('author').text()));
+                        tr.append($('<td>').text($(book).find('price').text()));
+                        $('#box2 .book_list').append(tr);
+                        // $('<tr>').append($('<td>').text($(book).find('title').text())); X3 은 <tr> 태그를 3개 만들겠다는 거;; 의도와 맞지 않음
+                        // $() = jQuery() 반복해서 많이 쓰면 성능 저하되므로 변수로 선언하고 그렇게 쓰는 것이 좋은 것 :)
+
+                    });
+                }
+            });
+        });
+    </script>
+
+    <hr>
+
+    <!-- 2. XML 읽기(속성) - books2.xml -->
+    <div><button id="btn3">클릭</button></div>
+    <div id="box3">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목</td>
+                    <td>저자</td>
+                    <td>가격</td>
+                </tr>
+            </thead>
+            <tbody class="book_list"></tbody>
+        </table>
+    </div>
+    <script>
+        $('#btn3').on('click', function(event){
+            $.ajax({    // 데이터 받아오기
+                'type': 'GET',
+                'url': 'books2.xml',
+                'dataType': 'xml',
+                'success': function(data) {   // 받아오는 data는 function의 매개변수로 들어간다!   data = books2.xml 전체 내용
+                    $.each($(data).find('book'), function(i, book){    // <book> 태그 3개.  이 자체가 배열이므로 $.each로 반복메소드 돌리기~
+                        // book.getAtrribute('title') -> JS 방식 
+                        // $(book).attr('title')      -> jquery 방식
+                        var tr = $('<tr>');
+                        tr.append('<td>' + $(book).attr('title') + '</td>');   // js와 jquery의 끔찍한 혼종으로도 코드 짜기 가넝!   // '</td>' 닫아주는 태그 생략 가능
+                        tr.append($('<td>').text($(book).attr('author')));
+                        tr.append($('<td>').text($(book).attr('price')));
+                        $('#box3 .book_list').append(tr);  // 부모-자식
+                        // tr.appendTo('#box3 .book_list');   // 자식-부모
+                    })
+                }
+            })
+        })
+
+
+    </script>
+
+
+    <!-- 3. XML 읽기 연습 - naver_search.xml -->
+    <div><button id="btn4">클릭</button></div>
+    <div id="box4">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목(title)</td>
+                    <td>썸네일(image+link)</td>
+                    <td>저자(author)</td>
+                    <td>정상가(price)</td>
+                    <td>할인가(discount)</td>
+                    <td>출판사(publisher)</td>
+                    <td>출판일(pubdate)</td>
+                    <td>ISBN(isbn)</td>
+                    <td>개요(description)</td>
+                </tr>
+            </thead>
+            <tbody id="search_list"></tbody>
+        </table>
+    </div>
+    <script>
+        $('#btn4').on('click', function(event){
+            $.ajax({
+                'type': 'GET',
+                'url': 'naver_search.xml',
+                'dataType': 'xml',
+                'success': function(data){
+                $.each($(data).find('item'), function(i, item){
+                    var tr = $('<tr>');
+                    tr.append($('<td>').html($(item).find('title').text()));  // <td> 만들고 거기에 들어갈 text(@@@) 데이터는 item에 들어가 있는 title 태그 값인데 title 찾으면 내부 text 가져올게요~
+                    tr.append($('<td>').html($('<a>').attr('href', $(item).find('link').text()).append($('<img>').attr('src', $(item).find('image').text()).attr('width', '80px').attr('height', '120px'))));
+                    //  └=>  <a href="<link>"><img src="<image>"></a>
+                    tr.append($('<td>').html($(item).find('author').text()));
+                    tr.append($('<td>').html($(item).find('price').text()));
+                    tr.append($('<td>').html($(item).find('discount').text()));
+                    tr.append($('<td>').html($(item).find('publisher').text()));
+                    tr.append($('<td>').html($(item).find('pubdate').text()));
+                    tr.append($('<td>').html($(item).find('isbn').text()));
+                    tr.append($('<td>').html($(item).find('description').text()));
+                    tr.appendTo('#search_list');
+                    //$('#box4 search_list').append(tr);
+                    // text 내부에 <> 태그들을 없애려면 .html()을 이용해서 html 태그 인식을 시켜줘야 함
+                   })
+                }
+            })
+        })
+    </script>
+
+</body>
+</html>
