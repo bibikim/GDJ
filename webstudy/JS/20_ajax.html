@@ -290,7 +290,7 @@
 
     <hr>
 
-    <!-- 6. JSON 읽기 - books.json -->
+    <!-- 5. JSON 읽기 - books.json -->
     <div><button id="btn6">클릭</button></div>
     <div id="box6">
         <table border="1">
@@ -343,7 +343,7 @@
 
     <hr>
 
-    <!-- 7. JSON 읽기 - car.json -->
+    <!-- 6. JSON 읽기 - car.json -->
     <div><button id="btn7">click</button></div>
     <script>
         document.getElementById('btn7').onclick = function(event) {
@@ -352,7 +352,7 @@
             xhr.send();
             xhr.onreadystatechange = function(event) {
                 if(xhr.readyState == 4 && xhr.status == 200) {
-                    var data = JSON.parse(xhr.responseText);
+                    var data = JSON.parse(xhr.responseText);   // 받아온 데이터가 텍스트라 파싱(JSON.parse)을 해줌
                     console.log(data.model)
                     console.log(data.maker)
                     console.log(data.price)
@@ -366,7 +366,7 @@
                     console.log(data.option[2]); */
 
                     for(let prop in data.info) {
-                        console.log(data.ingo[prop]);
+                        console.log(data.info[prop]);
                     }
                     /* 위 for-in문은 아래 코드를 만듦
                     console.log(data.info.year);
@@ -378,7 +378,7 @@
 
     <hr>
 
-    <!-- 8. JSON 읽기 - cctv.json -->
+    <!-- 7. JSON 읽기 - cctv.json -->
     <!-- 전체 cctv는 몇 대인가? -->
     <div><button id="btn8">클릭</button></div>
     <div>

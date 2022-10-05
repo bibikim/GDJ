@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.6.1.min.js"></script>
+    <!-- └▶ 시험에 나옴미다. jquery 돌리려면 필수로 입력해야 되는 값 -->
+</head>
+<body>
+    <script>
+        // ★ ajax 처리의 문제점
+        // ajax 처리는 비동기 처리이기 때문에
+        // ajax 처리가 끝날 때까지 기다려주지 않고,
+        // 다음 코드를 처리해버리는 문제가 있다.
+        // 따라서 $.ajax 안에 $.ajax 처리는 불가능
+
+        // 함수 정의
+        function func1() {
+            var a;  // undefined
+            $.ajax({
+                'type': 'GET',
+                'url': 'data.txt',            // 요청(request-url)을 하고
+                'dataType': 'text',
+                'success': function(data) {   // 응답(response)이 올 때까지 JS가 기다려주지 않고 그냥 쭊쭊 진행
+                                              // 응답을 기다리는 것은 '동기 통신' 그치만 동기 처리는 ajax의 목적이 아님
+                    a = data;  // ajax 실행 결과를 변수 a에 저장
+                }
+            });
+            return a;
+        }
+        // 함수 호출
+        console.log(func1());  // $ is not defined 기다리질 않아서 undefined 상태
+        // 비동기 처리는 응답이 오길 기다리지 않음. -> $.ajax 처리가 끝날 떄까지 JS는 기다리지 않음
+    </script>
+
+    <script>
+    
+        // 콜백 함수를 이용하여 ajax의 문제점 해결하기
+        function func2(callback) {
+            $.ajax({
+                'type': 'GET',
+                'url': 'data.txt',
+                'dataType': 'text',
+                'success': function(data) {    // 성공했을 때 요청된 data를 받아온다
+                    callback(data);   // data는 전달하는 인수. 인수가 호출의 익명함수 인수로 전달?
+                }
+            });
+        }
+        
+        // 함수 호출(익명 함수를 callback으로 전달)
+        func2(function(data){
+            // function(){} 가 callback으로 전달, 호출하면 callback(data) -- 익명으로전달하는 데이터-> function(data)로 전달
+            console.log(data);
+        });
+    </script>
+
+    <script>
+
+        // 콜백 지옥 (Callback Hell)
+
+        // 사용자 입력(fn_parse) -> 입력 정보 인증(fn_auth) -> 인증 후 화면 표시(fn_display)
+
+        function fn_parse(a, callback1) {
+            callback1(a);
+        }
+        function fn_auth(b, callback2) {
+            callback2(b);
+        }
+        function fn_display(c, callback3) {
+            callback3(c);
+        }
+        // Hello World가 함수 3개 타고 넘어온 것..
+
+        $.ajax({
+            'type': 'get',
+            'url': 'data.txt',
+            'dataType': 'text',
+            'success': function(user_input) {              // 사용자의 입력을 받아왔다
+                fn_parse(user_input, function(user_id) {   // parse 메소드에 user_input을 전달하겠다
+                    fn_auth(user_id, function(result){
+                        fn_display(result, function(data){ // result값을 data로 받아서 console에 찍겠다
+                            console.log(data);
+                        })
+                    })
+                })
+            }
+        });
+        // 콜백 지옥은 그러쿠나~~ 하고 넘어가면 되는 코드..
+    </script>
+
+
+    <!-- 여기서부터 promise 설명 -->
+    <script>
+        /*
+            Promise
+
+            1. 비동기 처리의 완료(대표적으로 ajax)를 기다리는 객체
+            2. new Promise() 방식으로 생성
+            3. 비동기 처리의 성공(success)과 실패(error)를 각각 처리할 수 있음
+            (promise 객체에 function을 전달해서 해당 함수에 성공했을 때 호출할 함수(resolve), 실패했을 때 호출할 함수(reject)을 매개변수로)
+        */
+    </script>
+
+    <script>
+        // Promise 사용해보기
+        // $.ajax를 2번 이상 연속해서 호출해야할 때 사용 가능
+        new Promise(function(resolve, reject){
+
+            // resolve는 비동기 처리가 성공했을 때 호출할 함수
+            // resolve('성공');      // resolve는 then 구문에 선언된 익명 함수를 호출    // resolve는 함수 이름임!!
+
+            // reject는 비동기 처리가 실패했을 때 호출할 함수
+            reject('실패');       // reject는 catch 구문에 선언된 익명 함수를 호출
+        }).then(function(msg){              // 성공 시
+            console.log('then', msg);
+        }).catch(function(errorMsg){        // 실패 시
+            console.log('catch', errorMsg)
+        });
+        // promise 안에 들어와있으면 ajax처리가 끝날 때까지 ajax 내부를 모두 처리하고 
+        // ajax 처리가 성공하면 then으로 넘어가고 실패하면 catch로 넘어간다
+        // ajax 처리가 성공하면 'success' -> resolve 호출, 실패하면 'error' -> reject를 호출
+    </script>
+
+    <script>
+
+        // ajax와 Promise 함께 사용하기
+
+        new Promise(function(resolve, reject){
+            $.ajax({
+                'type':'GET',
+                'url':'data12.txt',                      // 요청
+                'dataType':'text',
+                'success': function(data){             // 응답받음
+                    resolve(data);                     // 응답받은 데이터는 resolve로 전달, then으로 넘어간다
+                },
+                'error': function(jqXHR){              // jqXHR = jquery의 XMLHTTPRequest
+                    // 전달하는 인수 1개
+                    reject(jqXHR.status + '(' + jqXHR.statusText + ')');    // 응답받지 못하면 reject로 jqXHR을 전달, catch로 넘어간다
+                    
+                    // 전달하는 인수 2개
+                    //reject(jqXHR.status, jqXHR.statusText); // 전달하는 인수가 2개
+                }
+            });
+        }).then(function(data){       // 매개변수 잡아야 함
+            console.log('then', data);
+        }).catch(function(err){
+            console.log('catch', err);
+        })
+    </script>
+
+    <script>
+
+        // ★★★ 연속된 ajax 처리와 Promise ★★★        Promise 공부/꼭 이해해야 하는 부분
+
+        function fn_varify() {
+            new Promise(function(resolve, reject){
+                // 입력된 이메일이 회원 정보(DB)에 있는지 체크하는 ajax
+                $.ajax({
+                    'success': function(data){
+                        resolve();  // 회원이 맞는 경우 -> then으로 감
+                    },
+                    'error': function(jqXHR){
+                        reject();   // 회원이 아닌 경우 -> catch로 감
+                    }
+                })
+            }).then(function(){  
+                    $.ajax({  // ajax 연속 호출
+                        // 입력된 이메일로 인증코드를 보내는 ajax (서버로 보내줘야 하기 때문에 ajax처리 필요)
+                        'suceess': function(){
+                            // 인증코드 발송 성공
+                        },
+                        'error': function(){
+                            // 인증코드 발송 실패
+                            alert('인증코드 발송에 실패하였습니다.')
+                        }
+                    })
+            }).catch(function(){
+                // 입력한 이메일이 회원 정보에 없는 경우(회원이 아니거나 이메일을 잘못 적었거나)
+                alert('입력한 이메일이 맞는지 확인하세요')
+            })
+        }
+    </script>
+
+
+    <script>
+        
+        // Promise가 필요한 또다른 경우 : 타이머 함수(비동기 작업) 사용할 때
+
+        // timer 함수도 ajax와 같은 문제점을 가짐
+        /*
+        console.log('111111');
+        setTimeout(function(){       // timer 함수가 끝날 때까지 JS가 기다려주지 않음
+            console.log('222222');
+        }, 1000);
+        console.log('333333');
+        */
+
+        new Promise(function(resolve, reject){
+            setTimeout(function(){
+                resolve(1);   // 1을 전달하겠다
+            }, 3000);
+        }).then(function(n){   // 1을 전달 받을 수 있는 파라미터 n 선언
+            console.log(n)     // 3초 실행 끝날때까지 기다렸다가 3초 후에 resolve(1)을 실행
+            return n+1;        // 2번째 then으로 n+1을 반환하는 값
+        }).then(function(n2){
+            console.log(n2);
+        });
+
+        // 타이머함수를 짜려면 타이머함수가 끝나면 실행할 resolve 구현해야함! (reject까진 안 해도 됨.)
+    </script>
+</body>
+</html>

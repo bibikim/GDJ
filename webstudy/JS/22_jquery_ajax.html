@@ -178,5 +178,136 @@
         })
     </script>
 
+    <hr>
+
+    <!-- 4. XML 읽기 연습 - sfc_web_map.xml -->
+    <div><button id="btn5">날씨click</button></div>
+    <div id="box5">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>지역명</td>
+                    <td>날씨</td>
+                    <td>온도</td>
+                </tr>
+            </thead>
+            <tbody id="weather_list"></tbody>
+        </table>
+    </div>
+    <script>
+        $('#btn5').on('click', function(event){
+            $.ajax({
+                'type': 'GET',
+                'url': 'sfc_web_map.xml',
+                'dataType' : 'xml',
+                'success': function(data) {
+                    $.each($(data).find('local'), function(i, local){
+                        var tr = $('<tr>');
+                        tr.append($('<td>').text($(local).text()));
+                        tr.append($('<td>').text($(local).attr('desc')));
+                        tr.append($('<td>').text($(local).attr('ta')));
+                        tr.appendTo('#weather_list');
+                    })
+                }
+            })
+        })
+    </script>
+
+    <hr>
+
+    <!-- 5. JSON 읽기 - books.json -->
+    <div><button id="btn6">클릭</button></div>
+    <div id="box6">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>제목</td>
+                    <td>저자</td>
+                    <td>가격</td>
+                </tr>
+            </thead>
+            <tbody class="book_list"></tbody>
+        </table>
+    </div>
+    <script>
+        $('#btn6').on('click', function(event){
+            $.ajax({
+                'type': 'GET',
+                'url': 'books.json',
+                'dataType': 'json',
+                'success': function(data) {
+                    console.log(data);   // 받아온 데이터가 텍스트가 아니라서 파싱이 필요 없음. data 자체가 배열!
+                    $.each(data, function(i, book){
+                        var tr = $('<tr>');
+                        /* 반복문 처리 가능
+                        tr.append($('<td>').text(book.title));
+                        tr.append($('<td>').text(book.author));
+                        tr.append($('<td>').text(book.price));
+                        */
+                        for(let prop in book) {   // book이라는 객체가 갖고 있는 prop를 하나씩 빼라~
+                            tr.append($('<td>').text(book[prop]));  // 문자열로 가지고 오기 때문에 [] 표기법
+                        }
+                        tr.appendTo('#box6 .book_list');
+                    })
+                }
+            })
+        })
+    </script>
+
+    <hr>
+
+    <!-- 6. JSON 읽기 - car.json -->
+    <div><button id="btn7">차click</button></div>
+    <div id="box7">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Model</td>
+                    <td>Maker</td>
+                    <td>Price</td>
+                </tr>
+            </thead>
+            <tbody class="car_info"></tbody>
+        </table>
+    <script>
+        $('#btn7').on('click', function(event){
+            $.ajax({
+                'type': 'GET',
+                'url': 'car.json',
+                'dataType': 'json',
+                'success': function(data) {
+                    console.log(data)
+                    var tr = $('<tr>');
+                    tr.append($('<td>').text(data.model));
+                    tr.append($('<td>').text(data.maker));
+                    tr.append($('<td>').text(data.price));
+                    
+                    /*
+                    for(let prop in data) {
+                        tr.append($('<td>').text(data[prop]));
+                        //tr.append($('<td>').text(data.option[prop]));
+                    }
+                    */
+                    $.each(data.option, function(i, option){
+                        tr.append($('<td>').text(option));
+                    })
+                    
+                    tr.appendTo('.car_info');
+                }
+            })
+        })
+    </script>
+
+
+    <!-- 7. JSON 읽기 - cctv.json -->
+    <!-- 전체 cctv는 몇 대인가? -->
+    <div><button id="btn8">클릭</button></div>
+    <div>
+        마포구 전체 CCTV 개수 : <span id="cctv_count"></span>대
+    </div>
+    <script>
+
+    </script>
+
 </body>
 </html>
