@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- 1. GET 방식 요청 : <a> 태그 --> 
+	<!-- ex03패키지의 AnchorServlet 파일과 연결 되어 있음. 여기서 crtl+F11 하면 실행 된다! -->
+	<div>
+		<a href="http://localhost:9090/01_Servlet/AnchorServlet">정상링크1</a>
+		<!-- 컨텍스트 패스 : 01_Servlet  // URLMapping : AnchorServlet -->
+	</div>
+	<div>
+		<!-- 폴더가 어디에 있건, 경로가 어떻게 됐건 '링크2'의 예시처럼 주소를 만들면 된다!!! -->
+		<!-- ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ -->
+		<a href="/01_Servlet/AnchorServlet">정상링크2(추천)</a>
+		<!-- 위와 같이 context path랑 servlet만 표기해도 똑같은 결과가 나옴! -->
+	</div>
+	<div>
+		<a href="/AnchorServlet">불량링크1(슬래시로 시작하면 컨텍스트 패스로 인식)</a>
+		<!-- HTTP 404 오류 : /로 시작하면 컨텍스트패스인줄 앎. (http://localhost:9090/AnchorServlet)-->
+	</div>
+	<div>
+		<a href="01_Servlet/AnchorServlet">불량링크2(컨텍스트 패스는 슬래시로 시작해야 함)</a>
+		<!-- HTTP 404 오류 : /가 없으면 컨텍스트 패스로 인식이 안되고 URLMapping으로 이해함 -->
+	</div>
+	<div>
+		<a href="AnchorServlet">불량링크3(URL매핑으로 인식되지만 HTML 문서의 경로에 따라 실행 여부가 다름)</a>
+		<!-- HTTP 404 오류 : urlMapping으로 인식은 하는데, 경로에 따라 실행 여부가 다름 -->
+	</div>
+	<!-- ★★★ web root = webapp.  따라서 webapp까지가 컨텍스트패스 -->
+	
+	
+	<!-- 연습. -->
+	<!-- 응답 : 1+2=3 -->
+	<div>
+		<a href="/01_Servlet/AnchorServlet?a=10&b=22">더하기</a>
+	</div>
+	
+	<hr>
+	
+	<!-- 2. GET 방식 요청 : 자바스크립트 location -->
+	<!-- webapp 하위에 js 폴더 만들고 jquery3.6.1 파일 드래그해서 카피파일하기 -->
+	<div>
+		<button id="btn1">링크1</button>
+		<button id="btn2" data-name="개비">링크2</button>  <!-- 태그 안에다가 데이터를 저장하는 방법 = data 속성 -->
+	</div>
+	<script src="../js/jquery-3.6.1.min.js"></script>
+	<script>
+		$('#btn1').on('click', function(evnt) {
+			// 10/12 시험문제
+			// location.href = '/01_Servlet/LocationServlet'; 
+			open('/01_Servlet/LocationServlet');   // open(url, name, features)  => name, features은 생략 가능
+			// open은 새 창으로 열어서 보여줌. location이랑 open의 차이점
+		});
+		$('#btn2').click(function(event) {   // 이벤트 타입이 메소드 이름이 되는 경우~ 똑같이 click 이벤트임
+			location.href = '/01_Servlet/LocationServlet?param=' + $(this).data('name');
+			 // event.type = click. param에 저장되는건 click!  event.target = btn2
+			 // 버튼을 부르는 방법 : ^event.target^ or ^this^
+			 // data 속성, name은 일종의 변수 이름 같은 것.
+			 // param이라는 이름으로 '개비(= $(this).data('name'))' 를 꺼내서 보냄 
+			 // this(버튼)에 해당하는 데이터의 name값을 꺼내서 보내준 거!
+			 // 그냥 this하면 또 작동이 안 됨. data-라는 속성이 jquery거라서 $() 필요
+		});
+	</script>
+	
+	
+	
+	
+</body>
+</html>
