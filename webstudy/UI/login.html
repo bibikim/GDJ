@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://gdu.co.kr/main/main.html">
+                <img src="https://gdu.co.kr/images/main/logo.png" alt="goodee_logo">
+            </a>
+        </header>
+        <section>
+            <form method="POST" action="/">   <!-- / = context path 의미 -->
+                <div class="gubun">
+                    <span class="gubun_desc">※ 회원 구분을 위해 체크해 주세요</span> 
+                    <!--인라인요소로 해야 줄이 바뀌지 않으니까 div가 아닌 span 사용 (옆에 type="radio"를 둬야하니까 줄바꿈 없어야 함)-->
+                    <label for="student">
+                        <input type="radio" name="gubun" value="student" id="student">수강생  <!--value는 서버측으로 넘길 값-->
+                    </label> 
+                    <label for="member">   <!-- name 속성이 똑같아야 함!! 그래야 선택박스가 왔다갔다 한다. -->
+                        <input type="radio" name="gubun" value="member" id="member">일반회원  <!--value는 서버측으로 넘길 값-->
+                    </label>
+                </div>
+                <div class="input_area">
+                    <input type="text" id="id" placeholder="아이디">
+                    <div id="id_msg"></div>  
+                    <!-- 비어있는 div 박스. 줄바꿈을 위해 + 아이디 올바르게 입력하세요 같은 텍스트 넣어주기 가능 -->
+                    <input type="password" id="pw" placeholder="●●●●">
+                    <div id="pw_msg"></div>
+                    <button id="btn_signin" class="btn_signin">Sign In</button>
+                </div>
+            </form>
+        </section>
+        <footer>
+            <div class="join">
+                <p class="title">아직 회원이 아닌가요?</p>
+                <p class="desc">가입하면 다양한 서비스 이용이 가능합니다.</p>
+                <a class="btn_footer" href="https://gdu.co.kr/member/join_01.html">Sign Up</a>  <!--링크 넣는거 문제-->
+            </div>
+            <div class="find">
+                <p class="title">아이디/비밀번호를 잊으셨나요?</p>
+                <p class="desc">간단하게 아이디/비밀번호를 찾을 수 있습니다.</p>
+                <a class="btn_footer" href="https://gdu.co.kr/member/find_id.html">Sign Up</a>
+            </div>
+        </footer>
+    </div>
+    <script src="login.js"></script> <!--css파일처럼 js파일도 분리해서 포함하는거 가능-->
+</body>
+</html>
