@@ -51,7 +51,7 @@
 	<script>
 		$('#btn1').on('click', function(evnt) {
 			// 10/12 시험문제
-			// location.href = '/01_Servlet/LocationServlet'; 
+			// location.href = '/01_Servlet/LocationServlet';   -> 더 많이 쓰게 될 것!
 			open('/01_Servlet/LocationServlet');   // open(url, name, features)  => name, features은 생략 가능
 			// open은 새 창으로 열어서 보여줌. location이랑 open의 차이점
 		});
@@ -64,10 +64,137 @@
 			 // this(버튼)에 해당하는 데이터의 name값을 꺼내서 보내준 거!
 			 // 그냥 this하면 또 작동이 안 됨. data-라는 속성이 jquery거라서 $() 필요
 		});
+		
+	// 한 프로젝트 안에서 서버 요청, 응답 다 하는 것임! 01 프로젝트에선 anchor랑 location이 서버, client.html이 사용자
+	</script>
+	
+	<hr>
+	
+	<!-- 3. GET 방식 요청 : <form> 태그를 이용한 서브밋 -->
+	<div>
+		<form id="frm" method="get"  action="/01_Servlet/FormServlet">  <!-- 디폴트는 GET, GET일 경우 생략 가능! -->
+			<div>
+				<input type="text" id="id" name="id" placeholder="아이디">
+			<!-- id속성은 js나 jquery가 쓰려고 만든 것(서버에선 전혀 안 씀), name속성은 서버로 보내려고 만드는 것! 둘의 차이 -->
+			</div>
+			<div>
+				<input type="password" id="pwd" name="pwd" placeholder="비밀번호">
+			</div>
+			<div>
+				<label for="none">
+				<input type="radio" id="none" name="gender" value="">선택안함</label>  <!-- "" : 빈 문자열 보냄 -->
+				<label for="female">
+				<input type="radio" id="female" name="gender" value="여자">여자</label>
+				<label for="male">
+				<input type="radio" id="gender" name="gender" value="남자">남자</label>
+			</div>
+			<div>
+				<select id="city" name="city">
+					<option value="">도시를 선택하세요!</option>
+					<option value="incheon">인천</option> <!-- incheon이 서버측으로 보내주려는 데이터 -->
+					<option value="seoul">서울</option> <!-- seoul이 서버측으로 보내주려는 데이터 -->
+					<option value="busan">부산</option> <!-- busan이 서버측으로 보내주려는 데이터 -->
+				</select>
+			</div>
+			<!-- 배열 보내기 : phone이라는 name속성 배열 3개를 보낸다. -->
+			<!-- 동일한 name이 여러개 있으면 배열!! 예외) radio : 원래 선택이 하나밖에 안되니깐 -->
+			<div>
+				<input type="text" name="phone" size="3" maxlength="3">-
+				<input type="text" name="phone" size="3" maxlength="4">-
+				<input type="text" name="phone" size="3" maxlength="4">
+			</div>
+			<div>
+				<label for="terms"><input type="checkbox" id="terms" name="agreement" value="terms">이용약관 동의</label> 
+				<label for="service"><input type="checkbox" id="service" name="agreement" value="service">서비스 동의</label> 
+				<label for="marketing"><input type="checkbox" id="marketiing" name="agreement" value="marketing">마케팅 수신 동의</label> 
+			</div> <!-- 같은 이름을 가진 구성요소 3개 -> 배열! --> <!-- 체크를 해야만 서버로 보내짐. -->
+			<!-- 연습. 이메일 -->
+			<div>
+				<input id="email_id" type="text" name="email_id" placeholder="아이디">@
+				<input id="domain" type="text" name="domain" list="domain_list" placeholder="입력 또는 선택">
+				<datalist id="domain_list">   <!-- list의 값과 연결 --> 
+					<option value="gmail.com"/>  <!-- 마지막에 닫아주는 / 붙이면 뒤에 태그 붙여도 가넝 -->
+					<option value="naver.com"/>
+					<option value="daum.net"/>
+				</datalist>
+			</div>
+
+			
+			<button id="btn">전송</button> <!-- 서브밋하는 버튼 --> 
+			<!-- 서브밋을 하면 form안에 든 모든 입력요소를 찾고 그 모든 입력요소의 name속성을 찾는 것이 서브밋의 기본 개념 -->
+			<!-- ★★★ 네임속성에 들어가 있는 값을 파라미터로 전송시켜줌 즉, 파라미터 이름 "id"로 뜸. -->		
+		</form> 
+	</div>
+	<script>
+	
+		/*  
+		
+		// 1. <form> 서브밋 이벤트
+		$('#frm').on('submit', function(event){
+			
+		})
+	
+		// 2. <button> 클릭 이벤트
+		// 버튼을 클릭하면 서브밋되므로 폼의 서브밋 이벤트와 동일함
+		$(#'btn').on('click', function(event){
+			
+		})
+		
+		-> 둘 중 하나 사용!
+		
+		*/
+		
+		$('#frm').on('submit', function(event){
+			
+			// 아이디, 비밀번호 입력 없으면 서브밋 방지
+			if($('#id').val() == '') {    // id의 value(=val()) : 입력된 값이 '' 비어있으면,
+				alert('아이디는 필수입니다.');
+				event.preventDefault();	// 이벤트(서브밋) 방지
+				return;  // 더 이상 코드 진행하지 말 것
+			}    
+		
+
+			if($('#pwd').val() == '') {    // pwd의 value(=val()) : 입력된 값이 '' 비어있으면,
+				alert('비밀번호는 필수입니다.');
+				event.preventDefault();	// 이벤트(서브밋) 방지
+				return;  // 더 이상 코드 진행하지 말 것
+			}    // 
+		
+			// 성별 선택 없으면 서브밋 방지
+			if($(':radio').is(':checked') == false) {   // false => radio가 체크되어있지 않으면!
+				alert('성별은 필수입니다.');
+				event.preventDefault();
+				return;
+			}
+			
+			// 도시 선택 없으면 서브밋 방지
+			if($('#city').val() == '') {
+				alert('도시 선택은 필수입니다.');
+				event.preventDefault();
+				return;
+			}
+			
+			// 이용약관 동의, 서비스 동의 없으면 서브밋 방지
+			if($('#terms').is(':checked') == false || $('#service').is(':checked') == false) {  // 둘 중 하나라도 체크 안되어 있으면 안 됨 -> ||
+				alert('이용약관 및 서비스 동의는 필수입니다.');
+				event.preventDefault();
+				return;   
+			} 
+			
+			// 이메일 입력 없으면 서브밋 방지
+			if($('#email_id').val() == '' || $('#domain').val() == '') {
+				alert('이메일 입력은 필수입니다.');
+				event.preventDefault();
+				return;
+			}
+		});
+	
 	</script>
 	
 	
 	
 	
+	<!-- context path 주소가 오타가 났거나 틀렸었으면 고치고 재실행해도 주소창에 url은 그대로라 404오류도 그대로.
+	     해결: Servers 창에서 프로젝트(ex, 01_Servlet)를 지우고 clean과 clean Tomcat work~ 해주고 다시 실행해보면 컨텍스트 패스가 제대로 나오면서 오류 해결! -->
 </body>
 </html>

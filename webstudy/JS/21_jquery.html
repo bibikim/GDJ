@@ -50,11 +50,11 @@
                $().text('안녕')                 DOM.textContent = '안녕'
             2. $().html()                       DOM.innerHTML
                $().html('<a href="#"></a>')     DOM.innerHTML = "<a href="#"></a>"
-            3. $().attr('src')                  DOM.getAttribute('src')
-               $().attr('src', '#')             DOM.setAttribute('src', '#')
-            4. $().prop('src')                  DOM.src (=> 해당문서객체의 src)
-               $().prop('src', '#')             DOM.src = '#'
-            5. $().css('width')                 DOM.style.width 또는 DOM.style[width]
+            3. $().attr('class')                DOM.getAttribute('class')
+               $().attr('class', 'box')         DOM.setAttribute('class', 'box')
+            4. $().prop('className')            DOM.className      (=> 해당문서객체의 src)
+               $().prop('className', 'box')     DOM.className = 'box'
+            5. $().css('width')                 DOM.style.width 또는 DOM.style['width']
                $().css('width', '10px')         DOM.style.width = '10px' 또는 DOM.style['width'] = '10px'
             6. $().append(a)                    DOM += a
         */
@@ -317,7 +317,7 @@
                     (2) 형식
                         ① $(이벤트대상).one(이벤트타입, 이벤트리스너)   
                 3) off()
-                    (1) 이벤트 제거 ㄱ능
+                    (1) 이벤트 제거 가능
                     (2) 형식
                         ① $(이벤트대상).off(이벤트타입)
         */

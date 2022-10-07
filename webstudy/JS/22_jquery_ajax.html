@@ -203,6 +203,7 @@
                 'success': function(data) {
                     $.each($(data).find('local'), function(i, local){
                         /*
+                        jquery 방식
                         var tr = $('<tr>');
                         tr.append($('<td>').text($(local).text()));
                         tr.append($('<td>').text($(local).attr('desc')));
@@ -210,13 +211,16 @@
                         tr.appendTo('#weather_list');
                         */
                         //-----------------
+                        /* js 방식 */
                         var tr = '<tr>';
                             tr +='<td>' + $(local).text()+ '</td>';
                             tr +='<td>' + $(local).attr('desc')+ '</td>';
                             tr +='<td>' + $(local).attr('ta')+ '</td>';
                             tr +='</tr>'
-                        $('#box5 #weather_list').append(tr);
-                        // tr.appendTo('#box5 #weather_list');  >> 이거 안 됨. 왜 ????????
+                        //$('#box5 #weather_list').append(tr);    부모-자식
+                        $(tr).appendTo('#weather_list'); 
+                        // appendTo() 는 jquery 메소드임. 그냥 tr.appendTo('#weather_list')로 해버리면 tr은 일반변수라 appendTo()가 먹히지 않음
+                        // 그래서 버튼 눌러도 안 뜨는거..! 따라서 tr도 $()로 감싸줘야! jquery의 메소드 사용이 가능하게 된다.
                     })
                 }
             })
@@ -225,15 +229,6 @@
 
 <br>
 
-
-
-var tr = '<tr>';
-tr += '<td>' + $(book).find('title').text() + '</td>';
-// <book>이 가진 <title> 태그 -> 부모-자식 find() 이용 (book.find('title')까지는 <title>@@</title> 태그 자체)
-tr += '<td>' + $(book).find('author').text() + '</td>';
-tr += '<td>' + $(book).find('price').text() + '</td>';
-tr += '</tr>'
-$('#box2 .book_list').append(tr);  // .append() or .prepend()   == innerHTML과 같은 기능이라 보면 됨  // html()은 book 하나를 덮어씀.. 못 쓴다요
 
 <br>
 

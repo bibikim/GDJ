@@ -6,12 +6,25 @@
 // 비밀번호 입력 없이 sign in 버튼 누르면 경고창 띄우기 (비밀번호를 입력하세요)
 
 document.getElementById('btn_signin').onclick = function(event) {
+    var id = document.getElementById('id');
     var pw = document.getElementById('pw');
     if(pw.value == '') { // pw에 입력한 값 value가 비어있으면
         alert('비밀번호를 입력하세요.');
         event.preventDefault();  // 버튼의 기본 동작(submit)을 막는다
         return;    // 더이상 아무 코드도 진행하지 않도록 return까지 넣어야 함.
         // or  return;
+    }
+    // 비밀번호 글자수 설정
+    if(pw.value.length < 8) {
+        alert('비밀번호는 8자 이상 입력해야 합니다.');
+        event.preventDefault();
+        return;
+    }
+    // 아이디 글자수&비밀번호 글자수 맞춰 경고창 설정
+    if(id.value.length < 4 && pw.value.length >= 8) {
+        alert('아이디를 올바르게 입력해주세요.')
+        event.preventDefault();
+        return;
     }
 }
 // 서브밋 이벤트 1) button의 click 이벤트 2) form의 submit 이벤트를 만드는 방법
@@ -27,15 +40,9 @@ document.getElementById('id').onkeyup = function(event) {
         id_msg.textContent = '정상적인 아이디입니다.';
     } 
 }
+
+
 // 아이디 글자랑 비번 3글자 입력후에 sign in 하면 로그인 됨. 안되게 서브밋 막아보기..!!!!!!!!!! 4점짤
-document.getElementById('btn_signin').onclick = function(event) {
-    var pw =document.getElementById('pw');
-    if(id.value.length >= 4 && pw.value.length < 4) {
-        alert('로그인을 할 수 없습니다');
-        event.preventDefault();
-        return;
-    }
-}
 
 
 

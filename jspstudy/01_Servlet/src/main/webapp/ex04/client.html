@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<a href="/01_Servlet/RedirectServlet1?a=1">링크1</a>
+	<!-- 1번 요청 : a라는 파라미터 보내주기 -->
+	<!-- 2번 요청 :  -->
+	<!-- http://localhost:9090/01_Servlet/RedirectServlet2 : 최종 도착지는 RedirectServlet2 -->
+	<!-- 파라미터 전달 없음. 따라서 null -->
+
+	<hr>
+	
+	<a href="/01_Servlet/ForwardServlet1?a=1">링크2</a>
+	<!-- forward는 요청이 1번.그 다음엔 서버 안에서 알아서 해결한 전달.(요청이 아님) 파라미터도 전달 됨. -->
+	<!-- http://localhost:9090/01_Servlet/ForwardServlet1?a=1 : 최종 도착지는 여전히 ForwardServlet1 -->
+	<!-- ForwardServlet2로 이동한건 사용자에게는 보이지 않음 -->
+	<!-- forward는 기존의 요청을 전달해주기 때문에 요청에 데이처를 실어서 가지고 이동할 수 있음. 주로 select에서 많이 씀 -->
+
+
+</body>
+</html>
