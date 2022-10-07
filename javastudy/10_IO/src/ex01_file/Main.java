@@ -23,7 +23,7 @@ public class Main {
 					
 		// 존재하지 않으면 만들겠다.
 		if(dir.exists() == false) {		// if(!dir.exists())   = 존재하지 않으면(false)
-			dir.mkdirs();				// mk.dirs 하위폴더가 존재하는 경우에 사용 가능, 없어도 가넝
+			dir.mkdirs();				
 		}
 		// 존재하면 삭제하겠다.
 		else {
