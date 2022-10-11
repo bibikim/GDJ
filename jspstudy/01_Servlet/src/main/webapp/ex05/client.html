@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+	
+	
+	<div><button id="btn1">클릭</button></div>
+	<!-- 클릭 시 만들어지는 text 데이터는 여기서 만들어진 것 -->
+	<div id="box1"></div>
+	<script>
+		$('#btn1').on('click', function(evetn){
+			$('#box1').empty();   // 기존의 데이터를 다 지우고 ajax 요청에 따라 새로 만들어주는 작업
+			$.ajax({    // 자바스크립트에서 {}는 객체를 의미. '프로퍼티' : '값'의 구조 ( 프로퍼티의 ''은 생략 가능)
+				/* 요청 */
+				type : 'GET',					 // 요청 메소드
+				url: '/01_Servlet/TextServlet',  // 요청 URL.          /01_Servlet = Context path
+				data: 'name=김연아&age=101',  	 // 요청 파라미터.     data는 요청 파라미터를 의미하는 것. 파라미터가 필요할때 data라는 ajax 속성 사용
+				// url: '/01_Servlet/TextServlet?name=김연아&age=33'   data 속성을 쓰지 않고 url 뒤에 ?name=김연아&age=33 를 붙여주는 것도 같은 것
+				/* 응답 */
+				dataType: 'text',    		     // 응답 데이터 타입(text/xml/json)
+				success: function(resData){		 // 응답 데이터는 resData에 전달됨. resData = 받아오는 데이터
+					$('#box1').text(resData);	 // box1에 받아오는 데이터 넣어주기
+					},
+				error: function(jqXHR){  		 // 예외 발생 시 예외 정보가 jqXHR 객체에 전달됨.  자바스크립트의 jquery 처리 객체
+					$('#box1').append('status : ' + jqXHR.status + '<br>');
+					$('#box1').append(jqXHR.responseText);
+				}
+			});
+		});
+	</script>
+	
+	<hr>
+	
+	<div><button id="btn2">클릭</button></div>
+	<div id="box2"></div>
+	<script>
+		$('#btn2').on('click', function(event){
+			var box2 = $('#box2');
+			box2.empty();
+			$.ajax({
+				/* 요청 */
+				type: 'GET',
+				url: '/01_Servlet/JSONServlet',
+				data: 'name=김연아&age=33',
+				/* 응답 */
+				dataType: 'json',
+				success: function(resData){
+				//	console.log(resData);  // resData는 JSON 데이터가 응답되므로 자바스크립트 객체로 처리하면 됨 -> 프로퍼티를 꺼내면 됨("name", "age")
+					box2.html('<h2>이름 : ' + resData.name + ', 나이 : ' + resData.age + '세<h2>')
+				},
+				error: function(jqXHR){
+					box2.append('status : ' + jqXHR.status + '<br>');
+					box2.append(responseText);
+				}
+			});
+		});
+	</script>
+	
+	<hr>
+	
+	<div><button id="btn3">끌릭</button></div>
+	<div id="box3"></div>
+	<script>
+		$('#btn3').on('click', function(evnet){
+			var box3 = $('#box3');
+			box3.empty();
+			$.ajax({
+				/* 요청 */
+				type: 'GET',
+				url: '/01_Servlet/XMLServlet',
+				data: 'name=김연아&age=33',
+				/* 응답 */
+				dataType: 'xml',
+				success: function(resData){		// xml은 이 부분이 중요!  getElementByTagName(자바스크립트) ==> find(제이쿼리))
+					var ul = $('<ul>');
+					ul.append($('<li>').text($(resData).find('name').text()));    // find is not a function -> resData는 일반변수이므로 $() 감싸준다.
+					ul.append($('<li>').text($(resData).find('age').text()));
+					ul.appendTo(box3); 			// box3 안에다 넣겠다
+					
+				},
+				error: function(jqXHR){
+					box3.append('status : ' + jqXHR.status + '<br>');
+					box3.append(responseText);
+				}
+			})
+		});
+	</script>
+</body>
+</html>
