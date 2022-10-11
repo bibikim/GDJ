@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-@WebServlet("/MovieServlet")
-public class MovieServlet extends HttpServlet {
+@WebServlet("/MovieXMLServlet") // URLMapping 값은 직접 바꿔줘야 함!    동일한 mapping값이 2개 이상이면 tomcat이 정상 실행 안됨
+public class MovieXMLServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
        

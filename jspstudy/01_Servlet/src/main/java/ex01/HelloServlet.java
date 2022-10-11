@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 		                                                    -- 서블릿이 다르면 서블릿마다 뒤에 주소가 다름! 동일한 URLMapping 값을 가질 수 없음
 		http://localhost:9090/01_Servlet/HelloServlet
  */
-@WebServlet("/HelloServlet")  // URL Mapping 값
+@WebServlet("/HelloServlet")  // URL Mapping 값     // 똑같은 URLMapping 값이 2개 이상이면 Tomcat이 돌지 않음..
 public class HelloServlet extends HttpServlet {  // Servlet은 HttpServlet을 상속 받으면 된다.
 
 	/*

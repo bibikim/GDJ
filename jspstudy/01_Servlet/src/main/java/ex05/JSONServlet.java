@@ -32,7 +32,7 @@ public class JSONServlet extends HttpServlet {
 		obj.put("name", name);
 		obj.put("age", age);
 		
-		// 응답 (이 부분이 중요행! ★application/json★ text 반환했을 때와 다르지 않다!) 
+		// 응답 (이 부분이 중요행! ★ㅁapplication/json★ text 반환했을 때와 다르지 않다!) 
 		response.setContentType("application/json; charset=UTF-8");  // JSON 데이터의 MIME-TYPE
 		
 		PrintWriter out = response.getWriter();
