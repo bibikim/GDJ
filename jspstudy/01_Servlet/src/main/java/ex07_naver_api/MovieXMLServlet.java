@@ -1,4 +1,4 @@
-package ex06;
+package ex07_naver_api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,7 +80,7 @@ public class MovieXMLServlet extends HttpServlet {
 			out.close();
 		}
 		
-		// API 응답 스트림 생성(정상 스트림, 에러 스트림) -> 네이버로부터 xml을 읽어드리는 스트림
+		// API 응답 스트림 생성(정상 스트림, 에러 스트림) -> 네이버로부터 xml을 읽어들이는 스트림
 		BufferedReader reader = null;
 		try {
 			int responseCode = con.getResponseCode();	 // 응답코드(status)를 의미함
@@ -100,7 +100,7 @@ public class MovieXMLServlet extends HttpServlet {
 	
 		// API 응답 데이터 저장하기
 		StringBuilder sb = new StringBuilder();
-		String line = null;  // 한줄씩 읽어드리기 위함
+		String line = null;  // 한줄씩 읽어들이기 위함
 		try {
 			while((line = reader.readLine()) != null) {
 				sb.append(line);    // 응답 데이터 sb에 저장

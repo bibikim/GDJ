@@ -3,6 +3,7 @@ package ex07_naver_api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -16,37 +17,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet("/MovieJSONServlet")
-public class MovieJSONServlet extends HttpServlet {
+@WebServlet("/PapagoServlet")
+public class PapagoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		// 클라이언트 아이디, 시크릿
 		String clientId = "DJxqiwv2wqFur2KBtCxx";
 		String clientSecret = "nq6dLkY86Z";
 		
-		// 요청
-		request.setCharacterEncoding("UTF-8");
+		// 요청 파라미터(원본언어, 목적언어, 번역할텍스트)
+		String source =  request.getParameter("source");
+		String target =  request.getParameter("target");
+		String text =  request.getParameter("text");
 		
-		String query = request.getParameter("query");
-		String display = request.getParameter("display");
-		
-
-		
-		// 검색어 인코딩
+		// 번역할텍스트 UTF-8 인코딩
 		try {
-			query = URLEncoder.encode(query, "UTF-8");
+			text = URLEncoder.encode(text, "UTF-8");
 		} catch(UnsupportedEncodingException e) {
 			response.setContentType("text/plain; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("검색어 인코딩 실패");
+			out.println("번역할 텍스트 인코딩 실패");
 			out.close();
-		} 
+		}
 		
 		// API 접속
-		String apiURL = "https://openapi.naver.com/v1/search/movie.json?query=" + query + "&display=" + display;
+		String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
 		URL url = null;
 		HttpURLConnection con = null;
 		try {
@@ -60,66 +58,76 @@ public class MovieJSONServlet extends HttpServlet {
 		} catch(IOException e) {
 			response.setContentType("text/plain; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("API 연결이 실패했습니다.");
+			out.println("API 접속에 실패했습니다.");
 			out.close();
 		}
 		
 		// API 요청
 		try {
-			con.setRequestMethod("GET");
-			
+			// 요청 헤더
 			con.setRequestProperty("X-Naver-Client-Id", clientId);
 			con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-		} catch(IOException e) {
+			
+			// 요청 메소드
+			con.setRequestMethod("POST");
+			con.setDoOutput(true);  // post방식에서 보낼(전송할) 데이터(파라미터)가 있을 때 같이 써줘야 하는 코드. 데이터가 있냐? true 응 있어
+			// 파라미터를 ? 붙여서 뒤에 붙여주면 get방식
+			// post방식은 파라미터(보내려는 데이터)가 붙지 않음 -> 본분(body)에 붙여서 가야됨(내 입장에서는 출력스트림. 출력스트림을 통해서 보내주는 코드를 짜줘야 함)
+			
+			// 요청 파라미터 보내기
+			String params = "source=" + source + "&target=" + target + "&text=" + text;
+			OutputStream outputStream = con.getOutputStream(); // byte배열(outputStream은 byte기반 스트림)로 전송할 데이터. string으로는 못 보내기 때문에 byte로 바꿔주는 작업
+			outputStream.write(params.getBytes()); // string을 byte[]로 바꿔주는 메소드 getBytes();
+			outputStream.close(); // stream을 이용해 직접적으로 보내줄 데이터 붙여주기
+			
+		} catch (IOException e) {
 			response.setContentType("text/plain; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("API 요청이 실패했습니다.");
 			out.close();
 		}
-		
-		// API 응답 스트림
-		BufferedReader br = null;
+		// 받을때는 문자 기반(Reader)으로 받는다 (json은 char타입이니까!)
+		//
+		BufferedReader reader = null;
 		try {
 			int responseCode = con.getResponseCode();
 			if(responseCode == HttpURLConnection.HTTP_OK) {
-				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				reader = new BufferedReader(new InputStreamReader(con.getInputStream())); // 바이트스트림을 가져온담에->리더로 문자로 
 			} else {
-				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+				reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 			}
-		} catch(IOException e) {
+		} catch (IOException e) {
 			response.setContentType("text/plain; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("스트림 생성에 실패했습니다.");
+			out.println("응답 스트림 생성이 실패했습니다.");
 			out.close();
 		}
 		
-		// 응답 데이터 저장하기
+		// API 응답
 		StringBuilder sb = new StringBuilder();
 		String line = null;
 		try {
-			while((line = br.readLine()) != null) {
-				sb.append(line);
+			while((line = reader.readLine()) != null) {
+					sb.append(line);
 			}
-		} catch(IOException e) {
+		} catch (IOException e) {
 			response.setContentType("text/plain; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("응답에 실패했습니다.");
+			out.println("API 응답이 실패했습니다.");
 			out.close();
 		}
 		
-		
-		// client.html로 응답 결과 보내기
+		// client.html로 API 응답 결과(StringBuilder) 보내기
 		response.setContentType("application/json; charset=UTF-8");
 		
 		PrintWriter out = response.getWriter();
 		out.println(sb.toString());
 		out.close();
-		
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <button id="btn" onclick="func1()">전송</button>
+    <script>
+        // 3) 인라인 이벤트 모델
+        // 선언적 함수
+        function func1() {
+            alert('전송합니다.')
+        }
+
+
+
+        // 익명 함수
+
+
+
+
+        // 2) 표준 이벤트 모델
+        // 선언적 함수
+        // function func1() {
+        //     alert('전송합니다.')
+        // }
+        // document.getElementById('btn').addEventListener('click', func1);
+        
+        // // 익명 함수
+        // document.getElementById('btn').addEventListener('click', function() {
+        //     alert('전송합니다.')
+        // })
+        
+        
+        // 2) 표준 이벤트 모델
+        
+        
+        
+        // 고전
+        // document.getElementById('btn').onclick = func1;
+            // document.getElementById('btn').onclick = function() {
+            //     alert('전송합니다.');
+            // }
+
+
+        // // 2) 표준 이벤트 모델
+        
+
+
+    </script>
+
+    <hr>
+
+    <!-- 2) 표준 이벤트 모델 -->
+    <button id="btn2">전송2</button>
+    <script>
+        
+        function func2() {
+            alert('전송합니다.')
+        }
+
+        
+        document.getElementById('btn2').addEventListener('click', func2);
+        
+
+        document.getElementById('btn2').addEventListener('click', function() {
+            func2();
+        })
+    </script>
+
+    <!-- // 3) 인라인 이벤트 모델 -->
+    <button id="btn3" onclick="func3()">클릭3</button>
+    <script>
+        function func3() {
+            alert('전송합니다.')
+        }
+
+    </script>
+
+    <hr>
+
+    <button id="to_site">이동</button>
+    <script>
+        document.getElementById('to_site').onclick = function(event){
+            location.href = 'https://www.google.com';
+        }
+    </script>
+
+    <hr>
+
+    <form id="frm" action="https://search.naver.com/search.naver">
+        <input type="text" name="query" id="query">
+        <input type="submit" value="네이버검색" id="btn">
+    </form>
+    <script>
+        document.getElementById('btn').onclick = function(event){
+            alert('검색어는 ' + document.getElementById('query').value + '입니다.');
+        }
+    </script>
+
+
+</body>
+</html>
