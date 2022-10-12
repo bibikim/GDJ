@@ -1,0 +1,42 @@
+* 서블릿
+클라이언트의 요청(request)에 따라 서비스를 제공하는 자바클래스(.java)
+
+ - 톰캣
+   jsp 서블릿 컨테이너
+   자바를 웹상에서 실행시키려면 톰캣이라는 WAS가 필요!
+
+ - HttpServlet (HttpServlet 클래스)
+   자바가 제공하는 클래스가 아닌 jsp /servlet container(즉, 톰캣)가 제공
+    > 따라서 톰캣 추가를 한 후에 사용 가능한 클래스. 
+       - HttpServletRequest 사용자 요청
+       - HttpServletResponse 서버 응답
+
+ - Servlet Life Cycle
+   마치 메인처럼 protected doGet / protected doPost 필수적으로 사용함
+
+ - 자바에서 패키지 존재 이유 : 동일한 이름의 클래스들을 구분하기 위해..  (일반적으로 회사 도메인을 거꾸로 써서 만듦)
+   서블릿에서 패키지는 클래스들을 구분해주지 못함. 하나의 container 안에 다 들어있는 거라고 보면 됨.
+   즉, 동일한 톰캣을 사용하는 경우는 같은 이름의 서블릿을 추가해서 사용할 수 없다!!
+
+ - 컨텍스트가 바뀌었는지는 @webServlet 보면 된다. 
+
+ - 컨텍스트 필요없는건 servers > tomcat localhost에서 제거!
+ - 혹은 실행이 안되면 거기에서 우클릭 restart /or/ clean + cleanTomcat Work D~ 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+<서블릿 파일 만들기>
+src/main/java 우클릭 - new - package - ex01
+ex01 우클릭 - new - servlet - 클래스네임적어주고 next - next -
+init / service / doGet / doPost 체크 - Finish
+
+<servlet 기본 설명>
+urlMapping 값 = 서블릿 이름  ( 같음 )
+@WebServlet("/urlMapping")   <- 괄호안에가 urlMapping
+
+--> 이클립스 소스코드창 우클릭 - run as - 1 run on server 하면
+프로토콜://호스트:포트번호/ContextPath/URLMapping 확인 가능 
+(was는 새로고침이 안 돼서 다시 실행(run on)시켜야 됨)
+
+/** */ -> java.doc 자바문서 만드는 주석
