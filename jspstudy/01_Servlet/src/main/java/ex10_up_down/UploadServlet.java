@@ -43,7 +43,7 @@ public class UploadServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		// 2. 업로드 할 경로
-		//		1) 실제 서버 경로 사용(물론 일반 드라이브 경로로 바꿀 수 있음)
+		//		1) 실제 서버 경로 사용(물론 일반 드라이브 경로로 바꿀 수 있음)   - 꼭 realPath를 사용할 필요는 없다
 		// 		2) ServletContext의 realPath() 메소드를 이용
 		//      3) 실무에서는 한 곳에 모이지 않도록 첨부 파일의 경로를 매번 바꿔줄 필요가 있음
 		String realPath = getServletContext().getRealPath("upload");   // src/main/webapp(web root) 아래 upload.  모든 업로드는 storage에 저장
@@ -64,6 +64,7 @@ public class UploadServlet extends HttpServlet {
 				/* 파일명 중복 처리 */    new DefaultFileRenamePolicy()
 										// a와 b가 같은 이름의 파일을 업로드할 경우, 파일명을 바꿔주는 정책(파일명 뒤에 번호붙이기)을 쓰겠다
 										// 나중에는 스프링에서 파일명을 랜덤으로 바꿔서 올리는 처리를 하기도 함
+										// 업로드+다운로드 처리는 DB에서
 				);
 		
 		// 5. 업로드 결과
@@ -87,10 +88,14 @@ public class UploadServlet extends HttpServlet {
 		out.println("<h3>저장 파일명 : " + filesystemname + "</h3>");
 		out.println("<h3>파일 크기 : " + strSize + "KB</h3>");
 		out.println("<h3>최종 수정일 : " + strLastModified + "</h3>");
+		out.println("<a href=\"/01_Servlet/FileListServlet\">파일목록</a>");
 		out.close();
 		
 	}
 
+	
+	// COS library의 도움은 Upload할 때만 받음. 다운로드할 땐 쓰지 않는다.
+	
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
