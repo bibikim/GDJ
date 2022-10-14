@@ -1,0 +1,37 @@
+* JSTL 
+ - Jsp Standard Tag Library (JSTL)
+ 태그라이브러리
+  - 코어 라이브러리
+    변수 처리, URL 처리, 제어문(분기문, 반복문) 처리를 해주는 태그가 있음
+
+
+ - jar 파일 (톰캣에서 제공)
+   https://tomcat.apache.org/download-taglibs.cgi
+
+~ReadMe 눌러보면 읽어볼 수 있는 자료~
+To use this distribution with your own web applications, add the following JAR
+files to the '/WEB-INF/lib' directory of your application:
+   - taglibs-standard-spec-1.2.5.jar
+   - taglibs-standard-impl-1.2.5.jar
+   - taglibs-standard-jstlel-1.2.5.jar
+└▶ jar 파일 다운받고 넣어둘 위치 
+
+If you do not use JSTL 1.0 tags then the "taglibs-standard-jstlel" JAR may be
+omitted. If you do not use the XML library, then the Apache Xalan dependencies
+may also be omitted.
+└▶ 1.0 버전 이상 쓸거면 jstlel 다운은 생략해도 괜찮다 (4가지 다 써도 상관없음)
+
+<%@ %>   = >> 디렉티브라고 부름
+The JSTL tag library can be imported into your pages with the following directives:
+
+  CORE LIBRARY
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+└▶ 라이브러리 쓰려면 페이지에 디렉티브를 써줘라
+
+-----------------------------------------------------------------
+프로젝트 하나를 war file로 내보낼 때! (Import)
+war export                          (-> src/main/webapp 를 의미)
+export source files 반드시 체크 (-> src/main/java 를 의미. 두개 같이 꺼내져야 하므로 체크 필수)
+-------
+프로젝트 war file 집어넣을 때! (Export)
+export - war file - browse를 눌러서 파일 선택 - 다른거 체크없이 바로 finish

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+/*
 	Servlet
 	
 	1. 웹 화면(html)을 만드는 자바 클래스
