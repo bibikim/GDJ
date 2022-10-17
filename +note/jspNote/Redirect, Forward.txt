@@ -26,3 +26,7 @@
 
   ◈  요청을 보내주지 않는건 redirect (기존의 요청을 전달X)
        요청을 보내주는 건 forward (기존의 요청 전달O)
+
+---------------------------------------------- 
+insert update delete -> Redirect
+select -> Forward

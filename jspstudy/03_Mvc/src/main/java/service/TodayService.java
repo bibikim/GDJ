@@ -25,7 +25,7 @@ public class TodayService implements MyService {
 		// 어떻게 갈 것인가?(리다이렉트 또든 포워드)
 		ActionForward actionForward = new ActionForward();
 		actionForward.setView("views/result.jsp");  // 뷰라는 필드값으로
-		actionForward.setRedirect(false); 	// 포워드 하겠다.
+		actionForward.setRedirect(false);  // redirect=false --> 포워드하겠다
 		
 		// ActionForward로 반환
 		return actionForward;

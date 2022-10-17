@@ -1,0 +1,60 @@
+
+[MVC]
+
+* Model1
+jsp로 화면 및 비즈니스 로직 처리
+jsp 태그가 살아있음 화면
+태그 다 죽이면 비즈니스 로직
+ex) jsp가 jsp를 부르는 스타일
+
+* Model2
+자바와 jsp를 분리.
+처음에 패턴 배우기는 어려운 대신 개발 및 유지보수가 쉽고 코드 재사용 가능
+model2의 가장 대표적인 패턴이 MVC 패턴
+(Model View Controller)
+비즈니스로직 처리 - Model (java 클래스 사용)
+화면 처리 - View (jsp 사용)
+요청 처리 - Controller (servlet 사용)
+
+
+======== >> 
+jsp가 요청하면 모든 요청은 controller가 받아줌(요청 인식, 요청 확인 -> 요청 처리할 model 실행. 즉, 어떤 모델이 이 요청을 처리할 수 있는지 파악하고 그 모델을 실행시킴 
+->  model(java)에서 처리 결과 받아서 
+-> 응답할 뷰로 이동 
+::  요청과 모델을 연결해주는 게 Controller의 역할. 다른 일은 하지 않음. 그걸 서블릿으로 구현하는 것
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+* TodayService, NowService 같은 메소드 excute -> 인터페이스화 해서 추상메소드로 만들어 사용하기
+
+MyService.java     // interface(작업지시서)
+ public void execute(HttpServletRequest request, HttpServletResponse response);    
+ // 본문이 없는 메소드 -> 추상메소드
+
+class TodayService implements MyService {
+  @Override
+   public void execute(HttpServletRequest request, HttpServletResponse response) { }
+
+class NowService implements MyService {
+  @Override
+   public void execute(HttpServletRequest request, HttpServletResponse response) { }
+
+
+// 마이서비스가 알려주는대로 해랴. 마이서비스가 가지고 있는 메소드 모양을 그대로 가져다 쓰란 얘기
+즉 작업지시서를 보고 그대로 만들어라!
+마이서비스라는 작업시시서를 보고 만들어라 ==> implements MyService
+
+// List Interface
+     ArrayList Class
+     LinkedList Class
+     List<> lis = new ArrayList<>();
+
+MyService interface
+   TodayService class
+   NowService class
+----------▼ 가능
+   MyService myService = new TodayService();
+   MyService myService = new NowService();
+
