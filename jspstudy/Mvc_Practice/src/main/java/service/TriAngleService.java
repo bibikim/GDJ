@@ -15,7 +15,7 @@ public class TriAngleService implements AreaService {
 		int width = Integer.parseInt(request.getParameter("width"));
 		int height = Integer.parseInt(request.getParameter("height"));
 		
-		int triangle = width * height / 2;
+		int triangle = (width * height) / 2;
 		
 		request.setAttribute("area", triangle);
 		
