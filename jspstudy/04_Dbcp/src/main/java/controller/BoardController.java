@@ -44,10 +44,10 @@ public class BoardController extends HttpServlet {
 		switch(urlMapping) {
 		// 비즈니스 로직이 있는 경우 -> 해당 비즈니스 로직을 사용하기 위한 service가 필요
 		case "board/list.do" :
-			service = new BoardListService();    // list.do 요청을 처리하는건 boradListService다!
+			service = new BoardListService();    // list.do 요청을 처리하는건 BoradListService다!
 			break;
-		case "board/detail.do" : 					// 요청은 디테일 두로 하고
-			service = new BoardDetailService();     // 보드디테일서비스를 줄게!
+		case "board/detail.do" : 					// 요청은 detail.do로 하고
+			service = new BoardDetailService();     // BoardDetailService를 줄게!
 			break;
 		case "board/add.do" :
 			service = new BoardAddService();

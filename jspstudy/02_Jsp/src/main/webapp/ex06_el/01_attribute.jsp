@@ -34,7 +34,7 @@
 	<div>${a * b}</div>
 	<div>${a / b}, ${a div b}</div>
 	<div>${a % b}, ${a mod b}</div>
-	
+
 	<div>${a <  b}, ${a lt b}</div>
 	<div>${a <= b}, ${a le b}</div>
 	<div>${a >  b}, ${a gt b}</div>

@@ -11,16 +11,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="../assets/js/jquery-3.6.1.min.js"></script>
 <script>
-	// ready 이벤트
+	// ready() 이벤트
 	// 문서를 모두 확인한 뒤 처리하는 window.onload 이벤트를 대신하는 jQuery 이벤트
 	
 	$(document).ready(function(){      // 이벤트를 메소드로 사용~ ready()  
 									   // 스크립트를 위에 두려면   ^^$(document).ready(function (){})^^ 는 필수!!!
 		$('#btn_write').click(function(event) {
 			location.href = '${contextPath}/board/write.do';   // 자바 스크립트에서 자바영역의 속성 사용 가능 ${contextPath}  // write하러 가기(write.do)
-		})
+		});
 		
-	})
+	});
 </script>
 </head>
 <body>

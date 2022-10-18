@@ -18,9 +18,11 @@ public class TriAngleService implements AreaService {
 		int triangle = (width * height) / 2;
 		
 		request.setAttribute("area", triangle);
+		request.setAttribute("height", height);
+		request.setAttribute("width", width);
 		
 		ActionForward actionForward = new ActionForward();
-		actionForward.setView("view/output.jsp");
+		actionForward.setView("views/output.jsp");
 		actionForward.setRedirect(false);
 		
 	

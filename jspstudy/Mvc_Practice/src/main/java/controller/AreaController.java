@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
 import service.AreaService;
+import service.CircleService;
 import service.RectangleService;
 import service.TriAngleService;
 
@@ -34,7 +35,6 @@ public class AreaController extends HttpServlet {
 		case "input.do" :
 			actionForward = new ActionForward();
 			actionForward.setView("views/input.jsp");
-			
 			break;
 		case "triangle.do" :
 			areaService = new TriAngleService();
@@ -42,6 +42,9 @@ public class AreaController extends HttpServlet {
 		case "rectangle.do" :
 			areaService = new RectangleService();
 			break;
+	    case "circle.do" :
+	        areaService = new CircleService();
+	        break;
 		}
 		
 		// 선택한 모델의 실행. 무슨 모델이든 여기서 실행됨
