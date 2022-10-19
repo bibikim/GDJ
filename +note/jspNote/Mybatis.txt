@@ -1,0 +1,59 @@
+* Mybatis 환경 설정
+
+ 1. jar파일 lib에 넣어주기
+ 2. mybatis.config 패키지에 mybatis-config.xml 만들기
+    1)  https://mybatis.org/mybatis-3/ko/getting-started.html
+    ----> SqlSessionFactory 빌드하기 encoding태그 밑에 다 mybaits-config 파일에 복붙
+         properties resource=""에   > db.properties가 있는 경로 적어주기
+    2) javastudy/14_JDBC/db.properties 파일을 갖다가  mybatis.config 패키지에 복붙,
+        mybaits-config 파일에 EL변수와 이름 맞춰주기
+        + OracleDriver 경로 제일 위에 적어주기(driver=oracle.jdbc.OracleDriver)
+   -----> https://mybatis.org/mybatis-3/ko/getting-started.html 
+    3) <properties resource="">  : ""에 db.properties가 있는 경로.
+    4) <settings> <setting name="mapUnderscoreToCamelCase" value="true"> </setting> </settings>
+       : DB에서 사용하던 snake_case를 Java의 camelCase로 변경해주는 세팅! (변수이름)
+    5) <typeAliases> <typeAlias> 태그 -> 클래스 이름 새로 세팅
+
+ 3. mybatis.mapper 패키지에 board.xml 파일 생성     : 쿼리문 작성하는 파일
+    1) https://mybatis.org/mybatis-3/ko/getting-started.html 에서 매핑된 SQL 구문살펴보기 아래 코드 복붙
+       <mapper></mapper> 매퍼 태그 안에 <select>, <insert>, <update>, <delete> 태그로 쿼리문 작성
+    2) mapper 이름은 table의 이름으로 짓는 것이 무난.
+       매퍼가 갖고 있는 모든 쿼리문들은 id를 가져야 한다. 매퍼의 이름(namespace)과 쿼리문의 id값을 이어붙이는게
+       DAO한테 쿼리문 실행한다고 알려주는 것이라 보면 됨.
+       <mapper namespace="">  : ""에 mapper가 있는 경로. 
+
+
+* Mybatis
+
+  - Mybatis의 SqlSession으로 JDBC에서의 connection/prepaerStatement/ResultSet작업 수행이 수월하게 가능
+    (mybatis-3.5.1.jar 파일)
+  - 필드에 private으로 SqlSessionFactory를 선언하고,   SqlSessionFactory로부터 SqlSession을 얻어 사용
+    DAO에서 SqlSessionFactory 빌드하면 다오를 호출할 때마다 factory가 만들어지므로 factory로 메소드를 동작하게끔 할 수 있다
+    select, insert 등의 메소드를 만들 때 factory에서 openSession() 메소드를 빼내서 사용
+
+ex)
+     SqlSession ss;           -> jdbc에서의 sql, ps, rs 작업이 다 들어가 있음
+             ss.selectList();  
+             ss.selectOne();
+             ss.insert();
+             ss.update();
+             ss.delete();
+	 ss.commit();
+  - 설정은 xml ->자바에서 xml로 한 설정을 읽어줌
+  - 자바코드(DAO)하고 쿼리문(mybatis.mapper.board == mapper) 분리함
+  - mapper에서 쿼리문 태그(<select>, <insert>, <update>, <delete>)의 id 속성, resultType 속성, parameterType 속성 각각 필요에 따라 줘야 함. 
+
+    - id는 메소드의 이름과 맞춰주는 것이 좋음! 
+ ex)
+     public int insertBoard(Board board) { }    <- Dao
+     <insert id="insertBoard" parameterType="Board">
+
+    - 변수이자 파라미터는 JDBC에서 ? 처리하던걸 Mybatis에서는 #{ } 안에 변수를 넣어 처리. 
+
+* crud 코드 흐름
+  .jsp  ->  Controller -> Service -> DAO -> .xml(mapper 쿼리작성)
+
+  코드를 짤 때는 반대로.
+  .xml(mapper 쿼리작성) -> DAO -> Service -> Controller -> .jsp
+
+  

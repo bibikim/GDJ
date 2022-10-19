@@ -12,6 +12,14 @@
 	// 태그가 밑에 있고 스크립트가 위에 있으려면 ready() 필수!
 	$(document).ready(function(){
 		
+		$('#btn_remove').click(function(event){
+			if(confirm('삭제하면 복구가 불가능합니다. 게시글을 삭제할까요?')) {
+				location.href = '${contextPath}/board/remove.do?boardNo=${board.boardNo}';
+			} else {
+				alert('취소되었습니다.');
+			}
+		});
+		
 		$('#btn_list').click(function(event){
 			location.href='${contextPath}/board/list.do';
 		});

@@ -33,7 +33,7 @@
 	
 	<h1>게시글 작성 화면</h1>
 	<div>
-		<form id="frm_write" action="${contextPaht}/board/add.do" method="POST">
+		<form id="frm_write" action="${contextPath}/board/add.do" method="POST">
 			<div>
 				<label for="title">제목</label>
 				<input type="text" id="title" name="title">
@@ -47,7 +47,6 @@
 				<input type="reset" value="다시작성">
 				<input type="button" value="목록" id="btn_list">
 			</div>
-			
 		</form>
 	</div>
 	

@@ -18,6 +18,18 @@
 	h1 {
 		text-align: center;
 	}
+	.btn_write {
+		text-align: center;
+		width: 80px;
+		height: 40px;
+		background-color: skyblue;
+		margin: 20px auto;
+		line-height: 2.5;
+		cursor : pointer;
+	}
+	.btn_write:hover {
+		background-color: #cc99ff;
+	}
 	ul {
 		list-style: none;
 		display: flex;
@@ -64,7 +76,7 @@
 <body>
 
 	<h1>게시글 목록 보기</h1>
-	<div id="btn_write">추가</div>
+	<div class="btn_write" id="btn_write">추가</div>
 	<ul>
 			<c:forEach items="${boards}" var="b">  <!-- 하나씩 뺄거 = b -->
 				<li>

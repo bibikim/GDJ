@@ -15,9 +15,9 @@
     	maxIdle="8"
     	maxWait="-1" />
         <!-- 
-        auth="Container"    커넥션풀 관리 누가 할거냐(container ==> tomcat)  container 아니면 application
-        name=				jdbc/ 다음에 아무이름 주면 된다
-        maxWait="-1"    	-1이 기본값. 누군가 반납할 때까지 기다린다
+	        auth="Container"    커넥션풀 관리 누가 할거냐(container ==> tomcat)  container 아니면 application
+	        name=				jdbc/ 다음에 아무이름 주면 된다
+	        maxWait="-1"    	-1이 기본값. 누군가 반납할 때까지 기다린다
         -->
     
     

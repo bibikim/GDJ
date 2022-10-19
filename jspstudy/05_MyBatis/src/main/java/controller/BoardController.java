@@ -11,6 +11,7 @@ import common.ActionForward;
 import service.BoardAddService;
 import service.BoardDetailService;
 import service.BoardListService;
+import service.BoardRemoveService;
 import service.BoardService;
 
 
@@ -48,7 +49,10 @@ public class BoardController extends HttpServlet {
 		case "/board/add.do" :
 			service = new BoardAddService();
 			break;
-		// 단순이동(포워딩
+		case "/board/remove.do" :
+			service = new BoardRemoveService();
+			break;
+		// 단순이동(포워딩)
 		case "/board/write.do" :
 			af = new ActionForward();
 			af.setView("/board/write.jsp");  // service를 실행시키는게 아니라 af 통해서 write.jsp로 이동시키기

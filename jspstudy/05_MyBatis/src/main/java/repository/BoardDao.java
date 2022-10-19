@@ -62,7 +62,7 @@ public class BoardDao {
 	// 3. 게시글 삽입
 	public int insertBoard(Board board) { 	// mapper에서는 적어주진 않았지만 어쨌든 반환타입은 int가 맞으므로 여기선 적는다
 		SqlSession ss = factory.openSession(false);  // INSERT(커밋이 필요한 경우) // insert를 돌린다는건 커밋이 필요하다는 것. 커밋을 직접 실행시키기 위해 false
-		int result = ss.insert("mybatis.mapper.board.insertBoard", board );  // (실행할 쿼리문(mapper경로+메소드 이름), board(parameterType)를 파라미터로 전달)
+		int result = ss.insert("mybatis.mapper.board.insertBoard", board);  // (실행할 쿼리문(mapper경로+메소드 이름), board(parameterType)를 파라미터로 전달)
 		// Board 타입에 title과 content가 없으면 오류가 나는 상태
 		
 		if(result > 0) {  // insert 성공 시
@@ -71,4 +71,16 @@ public class BoardDao {
 		ss.close();
 		return result;
 	}
+	
+	// 4. 게시글 삭제
+	public int deleteBoard(int boardNo) {  // 삭제할때 boardNo 필요!
+		SqlSession ss = factory.openSession(false);  // DELETE(커밋이 필요한 경우)
+		int result = ss.delete("mybatis.mapper.board.deleteBoard", boardNo);  // 전달 해줄거는 boardNo
+		if(result > 0) {
+			ss.commit();
+		}
+		ss.close();
+		return result;
+	}
+	
 }

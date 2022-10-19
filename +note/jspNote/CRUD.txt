@@ -1,0 +1,34 @@
+* 목록보기  (CRUD 간략한 과정)   이거 중요햐!!!! 밥먹듯이 공부
+
+list.do(요청) 
+->  BoardController:(컨트롤러) 목록 보여줘? ㅇㅋ 그럼 넌 서비스로 이걸 목록서비를 사용해. 목록 보는 서비스를 불러줄게!
+case "list.do"
+  service = new BoardListService();
+-> 
+(다오)
+BoardListService
+BoardDAO dao; 
+List list = dao.selectAllBoard();
+request.setAttrilbute("boards", list); 
+   └>(list 데이터를 request에 저장)해서 전달하는 방식으로 포워드 대비
+
+: BoardDAO 역할
+context.xml을 읽어서 DataSource 객체를 만들고 그 객체로부터 select 쿼리문을 돌리는 것 (Connection, PrepardeStatement, ResultSet)
+
+--------
+코드 흐름 : 요청 → 컨트롤러 → 다오 → 서비스
+코드 짤 땐 : 다오 → (다오호출 할)서비스 → (서비스호출 할)컨트롤러 순으로 만드는게 좋다!
+--------
+
+* 상세보기
+list.jsp에서 요청 -> controller에서 받음 -> BoardDetailService 
+다오가 디테일서비스로 넘겨줄거고 디테일서비스에서 응답뷰로 넘어간다
+    
+
+* 삽입하기
+* 수정
+상세보기 -> 편집 화면(edit.do)      -> 수정(modify.do)
+                     selectBoardByNo()           updateBoard()
+                     BoardEditService              BoardModifyService
+
+* 삭제

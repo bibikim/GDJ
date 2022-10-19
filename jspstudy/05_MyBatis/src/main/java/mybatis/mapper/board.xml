@@ -6,10 +6,11 @@
   
 <!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
 <!-- 쿼리문 적어줄거야 -->
-<!-- 이전에 다오가 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
+<!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
 
 <mapper namespace="mybatis.mapper.board">   
-<!-- 매퍼가 가지고 있는 모든 쿼리문들은 id를 가져야 함. 매퍼의 이름(namespace)과 쿼리문의 id를 이어붙이는 것이 Dao에서 쿼리문실행하겠다는걸 알려주는 것 -->
+<!-- 매퍼가 가지고 있는 모든 쿼리문들은 id를 가져야 함. 매퍼의 이름(namespace)과 쿼리문의 id를 이어붙이는 것이 Dao에 쿼리문실행하겠다는걸 알려주는 것 -->
+<!-- 자바의 클래스 이름 적는 방법 : package.class  -> import package.class;  class~~ 패키지는 (.)로 구분 -->
 
 	<!--  
 		mapper
@@ -35,14 +36,15 @@
 			1) parameterType    :  int boardNo
 			2) resultType(반환) :  목록보기, 상세보기 모두 domain 패키지의 Board를 반환
 	 -->
-	<select id="selectBoardByNo" parameterType="int" resultType="Board">  
-	<!-- int, integer, Integer 다 가능. type만 적어주면 된다 -->
-	<!-- 자바의 클래스 이름 적는 방법 : package.class  -> import package.class;  class~~ 패키지는 (.)로 구분 -->
-	<!-- domain.Board : domain 패키지의 Board 클래스를 가져온다.  select의 결과가 이 보드에 저장되어 나간다! 셀렉트의 결과는 항상 어떤 domain. 도메인 패키지의 어느 클래스가 resultType -->
-		SELECT BOARD_NO, TITLE, CONTENT, CREATE_DATE
+		<!-- 
+		 	domain.Board : domain 패키지의 Board 클래스를 가져온다.  select의 결과가 이 보드에 저장되어 나간다! 
+		 	셀렉트의 결과는 항상 어떤 domain. 도메인 패키지의 어느 클래스가 resultType이 됨 
+		 -->
+	<select id="selectBoardByNo" parameterType="int" resultType="Board">   <!-- int, integer, Integer 다 가능. type만 적어주면 된다 -->
+		SELECT BOARD_NO, TITLE, CONTENT, CREATE_DATE					   <!-- resultType="Board" == resultType="domain.Board"  config.xml에서 세팅해줌 -->
 		  FROM BOARD
 		 WHERE BOARD_NO = #{boardNo}   <!--  #{boardNo} == ?(prepareStatemnet에서 변수처리)  ===> parameter를 #{} 안에 -->
-		 <!-- int boardNo가 parameterType="int"랑 #{boardNo}로 이렇게 찢어진거라 생각하면 됨.  -->
+		 <!-- int boardNo가 parameterType="int"랑 #{boardNo}로 찢어진거라 생각하면 됨.  -->
 	</select>
 
 	<!--  
@@ -52,10 +54,23 @@
 			
 			 #{title}이 getTitle()을 찾아서 알아서 getter를 부름
 	-->
-	<insert id="insertBoard" parameterType="Board"></insert>
-		INSERT INTO
-			(BOARDBOARD_NO, TITLE, CONTENT, CREATE_DATE)
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO BOARD
+				(BOARD_NO, TITLE, CONTENT, CREATE_DATE)
 		VALUES
-			(BOARD_SEQ.NEXTVAL, #{title}, #{content}, SYSDATE)
+				(BOARD_SEQ.NEXTVAL, #{title}, #{content}, SYSDATE)
+	</insert>
+
+	<!--  
+		4. 게시글 삭제
+			1) parameterType : Board board
+			2) resultType    : 작성하면 안 됩니다. 자동으로 int로 처리된다.
+	-->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE
+		  FROM BOARD
+		 WHERE BOARD_NO = #{boardNo}
+	</delete>
+
 
 </mapper>
