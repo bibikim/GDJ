@@ -157,6 +157,25 @@ public class BoardDao {
 			close(con, ps, null);
 		}
 		return result;
-	
 	}
+	
+	// 6. 게시글 삭제
+	public int deleteBoard(int board_no) {       // 글을 pk인 보드넘버를 넘겨받아서 삭제
+		int result = 0;
+		try {
+			con = dataSource.getConnection();
+			sql = "DELETE FROM BOARD WHERE BOARD_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, board_no);   		// 첫번째 ?에 board_no 넘기겠다~
+			result = ps.executeUpdate();	// DELETE문은 executeUpdate() 메소드 사용    - DML(Insert, Update, Delete 는 executeUpdate()
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(con, ps, null);
+		}
+		return result;
+	}
+	
+	
+	
 }

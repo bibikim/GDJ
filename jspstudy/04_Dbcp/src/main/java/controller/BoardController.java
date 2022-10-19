@@ -13,6 +13,7 @@ import service.BoardDetailService;
 import service.BoardEditService;
 import service.BoardListService;
 import service.BoardModifyService;
+import service.BoardRemoveService;
 import service.BoardService;
 
 /**
@@ -58,6 +59,8 @@ public class BoardController extends HttpServlet {
 		case "board/modify.do" :
 			service = new BoardModifyService();
 			break;
+		case "board/remove.do" :
+			service = new BoardRemoveService();
 		// 비즈니스 로직이 없는 경우(단순이동)  -> ActionForward 이용해서 어디로 어떻게 가겠다라는 것만 알려주면 된다.
 		case "board/write.do" :
 			// 작성할 수 있는 페이지로 넘어가기 => 단순 이동. 따라서 af만 여기서 만들어서 넘기면 됨

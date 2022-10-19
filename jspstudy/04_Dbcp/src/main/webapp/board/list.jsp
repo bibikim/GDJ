@@ -20,6 +20,14 @@
 			location.href = '${contextPath}/board/write.do';   // 자바 스크립트에서 자바영역의 속성 사용 가능 ${contextPath}  // write하러 가기(write.do)
 		});
 		
+		$('#remove_link').click(function(event){
+			if(!confirm('삭제할까요?')){	// if(confirm('삭제할까요?') == false)
+				alert('취소되었습니다.');
+				event.preventDefault();     // <a> 태그의 기본 이벤트는 링크 이동이므로 preventDefault()를 통해서 링크 이동이 막힘..  (submit에서만 사용가능한게아녀)
+				return;
+			}
+		})
+	
 	});
 </script>
 </head>
@@ -51,7 +59,7 @@
 						<!-- ★ 게시글을 누를 때마다 보드넘버를 파라미터로 보내주게끔 변수 설정을 해줘야한다 ★ -->
 						<td>${board.create_date}</td>
 						<td>
-							<a href=""><i class="fa-solid fa-x"></i></a>
+							<a id="remove_link" href="${contextPath}/board/remove.do?board_no=${board.board_no}"><i class="fa-solid fa-x"></i></a>
 						</td>
 					</tr>
 				</c:forEach>

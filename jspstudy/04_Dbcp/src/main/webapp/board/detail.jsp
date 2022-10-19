@@ -18,6 +18,14 @@
 		  location.href = '${contextPath}/board/edit.do?board_no=${board.board_no}';   // 파라미터로 board_no를 보내주기로 했으니까 ?board_no=${board.board_no}
 	  });
 	   
+	  $('#btn_remove').click(function(event) {
+		  if(confirm('게시글을 삭제할까요?')) {   /* 컨펌은 확인하는 것 */
+		  	location.href = '${contextPath}/board/remove.do?board_no=${board.board_no}';
+	  } else {
+		  alert('취소되었습니다.');
+	      }
+	  });
+	  
 	   
       $('#btn_list').click(function(event) {
          location.href = '${contextPath}/board/list.do';

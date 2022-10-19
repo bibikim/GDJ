@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- db.properties 파일 경로 설정. db.properties가 있는 경로를 적어주면 된다! xml에서 리소스 경로는 /로 구분함! -->
+	<properties resource="mybatis/config/db.properties"></properties>
+	
+	<!-- snake_case(DB) to camelCase(Java)    ex) board_no  ->  boardNo -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
+	</settings>
+	
+	<!-- domain.Board to Board -->
+	<typeAliases>
+		<typeAlias type="domain.Board" alias="Board"/>
+		<!-- domain.Board라는 클래스는 Board라고만 쓰겠다고 세팅! -->
+	</typeAliases>
+
+  	<environments default="development">
+    	<environment id="development">
+      		<transactionManager type="JDBC"/>
+      		<dataSource type="POOLED">     <!-- Connection pool  관리하는 애. myBatis를 쓰면 커넥션 풀은 기본적으로 가져간다. -->
+        		<property name="driver" value="${driver}"/>
+        		<property name="url" value="${url}"/>
+        		<property name="username" value="${username}"/>
+        		<property name="password" value="${password}"/>     <!-- EL로 만들어진 부분 == 변수 -->
+        		<!-- EL 변수이름하고 db.properties의 이름하고 맞춰야함! 그래야 db랑 연결이 된다 -->
+      		</dataSource>
+   	 	</environment>
+  	</environments>
+  
+  <mappers>
+	 <mapper resource="mybatis/mapper/board.xml"/>
+  </mappers>
+
+</configuration>

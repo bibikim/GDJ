@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
+<!-- 쿼리문 적어줄거야 -->
+<!-- 이전에 다오가 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
+
+<mapper namespace="mybatis.mapper.board">   
+<!-- 매퍼가 가지고 있는 모든 쿼리문들은 id를 가져야 함. 매퍼의 이름(namespace)과 쿼리문의 id를 이어붙이는 것이 Dao에서 쿼리문실행하겠다는걸 알려주는 것 -->
+
+	<!--  
+		mapper
+		1. 쿼리문 작성하는 곳
+		2. 모든 쿼리문에 세미콜론(;) 금지
+		3. <select>, <insert>, <update>, <delete> 태그 사용
+	-->
+
+	<!-- 
+		1. 게시글 목록 
+			1) parameterType : 없음
+			2) resultType    : 목록보기, 상세보기 모두 domain 패키지의 Board를 반환하는 것(으로 작업) 
+			                                                          => 리턴 값.. 여러개든 하나를 반환하든 갯수에 상관 없이 Board반환. JDBC에서는 ArrayList로 했음
+	-->
+	<select id="selectAllBoards" resultType="Board">
+		SELECT BOARD_NO, TITLE, CONTENT, CREATE_DATE
+		  FROM BOARD
+		 ORDER BY BOARD_NO DESC
+	</select>
+	
+	<!-- 
+		2. 게시글 상세 보기
+			1) parameterType    :  int boardNo
+			2) resultType(반환) :  목록보기, 상세보기 모두 domain 패키지의 Board를 반환
+	 -->
+	<select id="selectBoardByNo" parameterType="int" resultType="Board">  
+	<!-- int, integer, Integer 다 가능. type만 적어주면 된다 -->
+	<!-- 자바의 클래스 이름 적는 방법 : package.class  -> import package.class;  class~~ 패키지는 (.)로 구분 -->
+	<!-- domain.Board : domain 패키지의 Board 클래스를 가져온다.  select의 결과가 이 보드에 저장되어 나간다! 셀렉트의 결과는 항상 어떤 domain. 도메인 패키지의 어느 클래스가 resultType -->
+		SELECT BOARD_NO, TITLE, CONTENT, CREATE_DATE
+		  FROM BOARD
+		 WHERE BOARD_NO = #{boardNo}   <!--  #{boardNo} == ?(prepareStatemnet에서 변수처리)  ===> parameter를 #{} 안에 -->
+		 <!-- int boardNo가 parameterType="int"랑 #{boardNo}로 이렇게 찢어진거라 생각하면 됨.  -->
+	</select>
+
+	<!--  
+		3. 게시글 삽입(INSERT)
+			1) parameterType : Board board
+			2) resultType    : 작성하면 안 됩니다. 자동으로 int로 처리된다. (1이 반환되면 성공, 0이 반환되면 실패)
+			
+			 #{title}이 getTitle()을 찾아서 알아서 getter를 부름
+	-->
+	<insert id="insertBoard" parameterType="Board"></insert>
+		INSERT INTO
+			(BOARDBOARD_NO, TITLE, CONTENT, CREATE_DATE)
+		VALUES
+			(BOARD_SEQ.NEXTVAL, #{title}, #{content}, SYSDATE)
+
+</mapper>
