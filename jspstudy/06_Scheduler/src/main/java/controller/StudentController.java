@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,17 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.ActionForward;
-import service.BoardAddService;
-import service.BoardDetailService;
-import service.BoardEditService;
-import service.BoardListService;
-import service.BoardModifyService;
-import service.BoardRemoveService;
-import service.BoardService;
+import service.StudentAddService;
+import service.StudentFindService;
+import service.StudentListService;
+import service.StudentRemoveService;
+import service.StudentService;
 
 
 @WebServlet("*.do")
-public class BoardController extends HttpServlet {
+public class StudentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
         
@@ -33,39 +32,29 @@ public class BoardController extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String urlMapping = requestURI.substring(contextPath.length());
 		
-		// BoardService 객체
-		BoardService service = null;
+		// StudentService 객체
+		StudentService service = null;
 		
 		// ActionForward
 		ActionForward af = null;
 		
 		// 요청에 따른 Service 선택
 		switch(urlMapping) {
-		// 비즈니스 로직
-		case "/board/list.do" :     // contextPath의 length에 +1이 없기 때문에 매핑이 /부터 시작!
-			service = new BoardListService();
+		case "/student/list.do" :
+			service = new StudentListService();
 			break;
-		case "/board/detail.do" :
-			service = new BoardDetailService();
+		case "/student/add.do" :
+			service = new StudentAddService();
 			break;
-		case "/board/add.do" :
-			service = new BoardAddService();
+		case "/student/find.do" :
+			service = new StudentFindService();
 			break;
-		case "/board/remove.do" :
-			service = new BoardRemoveService();
+		case "/student/remove.do" :
+			service = new StudentRemoveService();
 			break;
-		case "/board/edit.do" :                 // 편집화면으로 넘어가는 작업
-			service = new BoardEditService(); 
-			break;
-		case "/board/modify.do" :
-			service = new BoardModifyService();
-			break;
-		// 단순이동(포워딩)
-		case "/board/write.do" :
-			af = new ActionForward();
-			af.setView("/board/write.jsp");  // service를 실행시키는게 아니라 af 통해서 write.jsp로 이동시키기
-			af.setRedirect(false);  // boolean 데이터는 기본값이 false. 따라서 이 코드는 생략 가능하다. 생략하면 false로 알아서 작성함.
-			break;
+		case "/student/write.do" :
+			af = new ActionForward("/student/write.jsp", false);
+			break;                 // 서비스를 만드는게 아니라 af를 만들어주는 것
 		}
 		
 		// 선택된 Service 실행
@@ -85,13 +74,9 @@ public class BoardController extends HttpServlet {
 				request.getRequestDispatcher(af.getView()).forward(request, response);
 			}
 		}
-		
-		
+
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

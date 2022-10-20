@@ -42,7 +42,7 @@ public class BoardAddService implements BoardService {
 		out.close();
 		
 		return null;   // java 문법때문에 남겨둔 코드(실행은 되지 않음)
-					   // location.href or history.back()으로 요청이 날아가기 때문에 굳이 해야할 return할게 없음
+					   // location.href or history.back()으로 요청이 날아가기 때문에 굳이 해야할 return할게 없음    ->선생님깃 확인
 	}
 
 }

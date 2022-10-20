@@ -35,8 +35,8 @@ public class BoardDao {
 		return dao;
 	}
 	
-	// 모든 method는 SqlSessionFactory로부터 SqlSession을 얻어서 사용   <- Mybatis 기본적인 동작 원리. 따라서 가장 먼저 factory를 만듦
 	// method
+	// 모든 method는 SqlSessionFactory로부터 SqlSession을 얻어서 사용   <- Mybatis 기본적인 동작 원리. 따라서 가장 먼저 factory를 만듦
 	
 	// Tip. 메소드이름을 실행할 쿼리문의 id와 맞추자! (selectAllBoards)
 	
@@ -82,5 +82,17 @@ public class BoardDao {
 		ss.close();
 		return result;
 	}
+	
+	// 5. 게시글 수정
+	public int updateBoard(Board board) {
+		SqlSession ss = factory.openSession(false);   // UPDATE(커밋이 필요한 경우)
+		int result = ss.update("mybatis.mapper.board.updateBoard", board);    // board 매퍼의 updateBoard를 실행하라
+		if(result > 0) {
+			ss.commit();
+		}
+		ss.close();
+		return result;
+	}
+	
 	
 }

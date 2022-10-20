@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
+<!-- 쿼리문 적어줄거야 -->
+<!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
+
+<mapper namespace="mybatis.mapper.student">   
+
+	<!-- 1. 학생 목록 -->
+	<select id="selectAllStudents" resultType="Student">
+		SELECT STU_NO, NAME, KOR, ENG, MATH, AVE, GRADE
+		  FROM STUDENT
+		 ORDER BY STU_NO
+	</select>
+
+	
+	<!-- 2. 전체 학생 수  : 학생이 없으면 0 반환-->
+	<select id="selectAllStudentsCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM STUDENT
+	</select>
+	
+	<!-- 3. 전체 평균  : 학생이 없으면 NULL 반환(집계함수). -->
+	<!-- NULL이 반환될 것 같으면 NVL를 사용해서 NULL 대신 0이 반환하게끔 NVL로 집계함수 감싸주기. -->
+	<select id="selectAllStudentsAverage" resultType="double">
+		SELECT NVL(AVG(AVE), 0)
+		  FROM STUDENT
+	</select>
+	
+	<!-- 4. 학생 등록 -->
+	<insert id="insertStudent" parameterType="Student">
+		INSERT INTO STUDENT
+			(STU_NO, NAME, KOR, ENG, MATH, AVE, GRADE)
+		VALUES
+			(STUDENT_SEQ.NEXTVAL, #{name}, #{kor}, #{eng}, #{math}, #{ave}, #{grade})
+	</insert>
+	
+	<!-- 5. 평균 범위 조회 -->
+	<!-- 
+		파라미터인 #{begin}과 #{end}를 하나로 모아서 날려줘야 함 
+		1. domain을 새로 만든다
+		혹은
+		2. 객체 대신 사용할 수 있는 Map(or map)
+	-->
+	<select id="selectStudentsByAve" parameterType="Map" resultType="Student">      <!-- select의 답이니까 Student -->
+		<![CDATA[
+		SELECT STU_NO, NAME, KOR, ENG, MATH, AVE, GRADE
+		  FROM STUDENT
+		 WHERE AVE >= #{begin} AND AVE <= #{end}
+		]]>
+	<!-- <![CDATA[]]>로 묶어주면 CDATA 안에는 모두 문자로 인식하겠다는 용도로 사용 가능. <가 태그 여는걸로 인식이 돼서 오류 생긴거 고침 -->
+	</select>
+	
+	<!-- 6. 평균 범위 조회 : 개수 -->
+	<select id="selectStudentsByAveCount" parameterType="Map" resultType="int">
+		SELECT COUNT(*)
+		  FROM STUDENT
+		 WHERE AVE >= #{begin} AND AVE <![CDATA[<]]>= #{end}
+	</select>
+	
+	<!-- 7. 평균 범위 조회 : 평균 -->
+	<select id="selectStudentsByAveAverage" parameterType="Map" resultType="double">
+		SELECT NVL(AVG(AVE), 0)
+		  FROM STUDENT
+		 WHERE AVE >= #{begin} AND AVE <![CDATA[<]]>= #{end}
+	</select>
+	
+	<!-- 8. 학생 삭제 -->
+	<delete id="deleteStudent" parameterType="int">
+		DELETE
+		  FROM STUDENT
+		 WHERE STU_NO = ${stuNo}
+	</delete>
+	
+</mapper>
