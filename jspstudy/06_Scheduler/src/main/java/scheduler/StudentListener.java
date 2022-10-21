@@ -14,7 +14,7 @@ import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
 /*
-	ServletContextListenr 인터페이스
+	ServletContextListener 인터페이스
 	
 	1. 웹 애플리케이션(프로젝트)의 LifeCycle을 가진다. (웹 애플리케이션과 함께 동작한다. 웹애 시작하면 리스너도 시작, 종료하면 리스너도 종료. 같은 범위를 가짐)
  	2. contextInitialized() : 웹 애플리케이션 시작할 때 동작
@@ -25,10 +25,9 @@ import org.quartz.impl.StdSchedulerFactory;
 public class StudentListener implements ServletContextListener {
 	
 	// field
-	private Scheduler scheduler;   // 인터페이스 이름이 Scheduler. impor하깅
+	private Scheduler scheduler;   // 인터페이스 이름이 Scheduler. import하깅
 
-	// constructor
-	// 생성자에서는 스케줄러 필드를 만드는 작업을 할 거임
+	// constructor 	// 생성자에서는 스케줄러 필드를 만드는 작업을 할 거임
 	// Scheduler scheduler 생성
     public StudentListener() {
         SchedulerFactory factory = null;
@@ -93,8 +92,8 @@ public class StudentListener implements ServletContextListener {
     		// Job 생성
     		JobDetail job = JobBuilder.newJob(StudentTop3Job.class)   // quatz의 interface, JobBuilder는 클래스   // class 자체를 등록 
     										// StudentTop3Job라는 Job의 클래스 타입 전달
-    			.withIdentity("job1", "group1")
-    			.build();    		
+    				.withIdentity("job1", "group1")
+    				.build();    		
     		
     		// Trigger 생성
     		Trigger trigger = TriggerBuilder.newTrigger()
@@ -108,7 +107,7 @@ public class StudentListener implements ServletContextListener {
     		scheduler.scheduleJob(job, trigger);
     		
     		// scheduler 실행
-    		scheduler.start();    // start() - thread 동작. 스케줄러가 별도 스레드로 동작해야되기 때문에 start() 메소드 사용
+    		scheduler.start();    // start() - thread 동작. 스케줄러가 별도의 스레드로 동작해야 되기 때문에 start() 메소드 사용
     	
     	} catch (Exception e) {
     		e.printStackTrace();
