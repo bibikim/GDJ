@@ -110,6 +110,34 @@ public class StudentDao {
 		return result;
 	}
 	
+	// 9. 학생 상세보기
+	public Student selectStudentByNo(int stuNo) {   // 반환타입은 Student, 파라미터 stuNo
+		SqlSession ss = factory.openSession();
+		Student student = ss.selectOne(mapper + "selectStudentByNo", stuNo);  // 전달해줄 파라미터 stuNo 
+		ss.close();
+		return student;
+	}
 	
+	// 10. 학생 수정
+	public int updateStudent(Student student) {  // 반환타입은 성공(1)/실패(0) 여부인 int
+		SqlSession ss = factory.openSession(false);
+		int result = ss.update(mapper + "updateStudent", student);
+		if(result > 0) {
+			ss.commit();
+		}
+		ss.close();
+		return result;
+	}
+	
+	// 11. 평균 기준 상위 3명의 학생 조회
+	public List<Student> selectStudentsTop3() {  // 반환하는 학생이 3명이니까 List
+		SqlSession ss = factory.openSession();
+		List<Student> top3 = ss.selectList(mapper + "selectStudentsTop3");
+		ss.close();
+		return top3;
+		
+		
+		
+	}
 	
 }
