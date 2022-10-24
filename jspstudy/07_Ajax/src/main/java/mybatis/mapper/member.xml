@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
+<!-- 쿼리문 적어줄거야 -->
+<!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
+
+<mapper namespace="mybatis.mapper.member">      
+				<!-- └> 패키지이름+매퍼이름 -->
+
+	<!-- 1. 회원목록 -->
+	<select id="selectAllMembers" resultType="Member">
+		SELECT MEMBER_NO, ID, NAME, GENDER, GRADE, ADDRESS
+		  FROM MEMBER
+		 ORDER BY MEMBER_NO DESC
+	</select>
+	
+	<!-- 2. 회원수 -->
+	<select id="selectAllMembersCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+	</select>
+	
+	<!-- 3. 회원상세 -->
+	<select id="selectMemberByNo" parameterType="int" resultType="Member">
+	  SELECT MEMBER_NO, ID, NAME, GENDER, GRADE, ADDRESS
+        FROM MEMBER
+       WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 4. 회원등록 -->
+	<insert id="insertMember" parameterType="Member">
+		INSERT INTO MEMBER
+			(MEMBER_NO, ID, NAME, GENDER, GRADE, ADDRESS)
+		VALUES
+			(MEMBER_SEQ.NEXTVAL, #{id}, #{name}, #{gender}, #{grade}, #{address})
+			<!-- crtl + shift + X : 소문자->대문자 단축키     crtl + shift + Y : 대문자->소문자 -->
+	</insert>
+	
+	
+</mapper>
