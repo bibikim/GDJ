@@ -16,12 +16,29 @@
 <script src="../assets/js/jquery-3.6.1.min.js"></script>
 <script>
 	/*  onload = function(){}     		-> 자바스크립트에서는 이걸로 사용*/
+	
+	
+	// 관리자 페이지 구현은 이런식으로 짜주면 된다는데,,,,,,,,,,,, 모르겟서여 어려워여
+	
 
 	$(document).ready(function(){    /*  -> jquery에서는 .ready로 사용해야 함*/
-		fn_getAllMembers();      // 호출
+		fn_init();				// 초기화함수
+		fn_getAllMembers();     // 호출
 		fn_getMember();
 		fn_registration();
+		fn_modify();
+		fn_remove();
 	});
+	
+	function fn_init(){			// 초기화 함수. 
+		$('#id').val('').prop('readonly', false);    // readonly 속성 날리기~
+		$('#name').val('');
+		$(':radio[name=gender]').prop('checked', false);
+		$('#grade').val('');
+		$('#address').val('');
+		// 조회할 땐 아이디는 수정가능한 대상이 아니라서 못 고치게 해놨지만(readonly) 초기화하면 입력 가넝하게 해둠
+	}
+	
 	function fn_getAllMembers(){
 		$.ajax({
 			/* 요청 */    // 파마리터가 없음
@@ -38,7 +55,7 @@
 				// 2. member_list 영역의 초기화.    기존에 있던 list를 지우고 새로 가져와서 화면에 뿌리게끔 초기화 작업
 				$('#member_list').empty();
 				// 3. resData.members : [{}, {}, {}]
-				// 		$.each(배열, function(인덱스, 배열요소){})    {}하나하나가 각배열의 요소
+				// 		$.each(배열, function(인덱스, 배열요소){})    -> {}하나하나가 각배열의 요소
 				$.each(resData.members, function(i, member){
 					var tr='<tr>';
 					tr += '<td>' + member.memberNo + '</td>';
@@ -48,10 +65,13 @@
 					tr += '<td>' + member.grade + '</td>';
 					tr += '<td>' + member.address + '</td>';
 					tr += '<td><input type="button" value="조회" class="btn_detail"><input type="hidden" value="' + member.memberNo + '"></td>';  // value안에는 변수로 들어와야함
-					// <input type="button" value="조회" class="btn_detail">   == this
-					// <input type="hidden" value="' + member.memberNo + '">   == this.next (형제관계니까 next. next()는 jquery문법. $()로 this 감싸줘야함) -> $(this).next()
-					// 만약 └> 코드가 조회버튼 앞에 있으면 this.prev -> $(this).prev()
-					// 눈에 안 보이게 hidden을 주기!
+					tr += '<td><input type="hidden" value="' + member.memberNo + '"><input type="button" value="삭제" class="btn_remove"></td>';  // fn_remove()에서 prev()로 했으니 똑같이 prev()로 해준당. btn_remove의 prev값으로~
+					/* 
+						<input type="button" value="조회" class="btn_detail">   == this
+					    <input type="hidden" value="' + member.memberNo + '">   == this.next (형제관계니까 next. next()는 jquery문법. $()로 this 감싸줘야함) -> $(this).next()
+					    만약 └> 이 코드가 조회버튼 앞에 있으면 this.prev -> $(this).prev()
+						---> 눈에 안 보이게 hidden을 주기!
+					 */
 					
 					// 반복문이라 동일한 id 3개 나옴. 그러면 안되는데! id를 굳이 사용할거면 btn_detail[i]. 근데 비추.. 
 					// 동일한 class는 생겨도 상관 없음. 따라서 class를 주는 것이 깔끔!
@@ -87,7 +107,8 @@
 						$(':radio[name=gender][value=' + resData.member.gender + ']').prop('checked', true);  // or $(':radio')  /
 						//$(':radio[name=gender]').val(M)  -> name이 gender인 value를 모두 M으로 바꾸겠다는 완전 딴판의 이야기가 되므로 절대 안 됨
 						$('#grade').val(resData.member.grade);  // select는 input태그와 똑같이 작업해주면 된다.
-						$('#address').val(resData.member.address);
+						$('#address').val(resData.member.address);  // resData 응답으로 받아온 데이터를 id=address인 입력창에 member.adderss를 넣어준다
+						$('#memberNo').val(resData.member.memberNo);
 					} else {
 						alert('조회된 회원 정보가 없습니다.');
 					} 
@@ -114,6 +135,7 @@
 						alert('신규 회원이 등록되었습니다.'); 
 						fn_getAllMembers();     // 목록 갱신. 목록 새로 가져와서 화면에 뿌려주는 함수. 이거 때문에 각각 다 function을 준겅미
 					// 함수 호출 없이 한다면, ajax는 순서가 없는 통신 방식. 내부에선 삽입하고 삽인한거 보고 목록 가져와 -> ajax안애 ajax -> promise 사용해야함
+						fn_init();   // 작업이 완료된 후(신규등록) 입력된 데이터가 초기화 되도록 작업
 					} else {
 						alert('신규 회원 등록이 실패했습니다.'); 
 					}
@@ -128,7 +150,67 @@
 	
 	} // function 
 	
+	function fn_modify(){
 		
+		$('#btn_modify').click(function(){
+	
+			$.ajax({
+				/* 요청 */
+				type: 'post',     // insert와 update는 post로.
+				url: '${contextPath}/member/modify.do',
+				data: $('#frm_member').serialize(),   // form의 모든 입력 요소(파라미터)들을 줄세워 다 보내겠다~ 
+				/* 응답 */
+				dataType: 'json',
+				success: function(resData) {   // resData에는 {"isSuccess": true} 가 넘어온다
+					if(resData.isSuccess){
+						alert('회원 정보가 수정되었습니다.');
+						fn_getAllMembers();		// 수정된 내용이 반영되도록 회원목록을 새로 고침. 다시 가져와서 다시 화면에 뿌려라
+					} else {
+						alert('회원 정보 수정이 실패했습니다.');
+					}
+				},
+				error: function(jqXHR) {
+					alert(jqXHR.responseText);
+					}
+			}) // ajax
+		
+		}); // click
+	
+	} // function
+	
+	function fn_remove() {
+		// memberNo값으로 삭제할 예정. but 폼에 memberNo가 없어서 전달 불가. 따라서 폼에 memberNo값을 만들어줘야함
+		// fn_getAllMembers() 에서 썼던 방법 그대로 활용해보자. 삭제버튼 주변에 만들기.. 난 삭제버튼 위에 만듦!
+		$('body').on('click', '.btn_remove', function(){   // class=btn_remove가 됨. 위에서 class를 줬음!! 아래 form에서도 작업을 해주면, 대상이 똑같아짐!. (id는 안 쓰니까 없애도 됨)
+											// 만든 버튼은 동적요소가 되니까 일반 이벤트는 동작X -> fn_getMember 에서 사용했던 방법과 동일
+			if(confirm('삭제할까요?') == false) {
+			return;  // 코드 진행 막기
+			}
+			
+			$.ajax({
+				/* 요청 */	
+				type: 'get',   // delete는 get방식으로.
+				url: '${contextPath}/member/remove.do',
+				data: 'memberNo=' + $(this).prev().val(), // 현재 클릭한 버튼(this)의 이전 형제(.prev)가 갖고 있던 값(val)을 삭제할 회원번호로 넘겨준다
+				/* 응답 */
+				dataType: 'json',
+				success: function(resData) {  // resData : {"isSuccess": true}
+					if(resData.isSuccess) {
+						alert('회원 정보가 삭제되었습니다.');
+						fn_getAllMembers();
+						fn_init();
+					} else {
+						alert('회원 정보 삭제가 실패했습니다.');   // 없는 번호 전달
+					}
+				},
+				error: function(jqXHR){
+					// 잘못된 회원번호(숫자가 아닌 값)를 전달
+					alert(jqXHR.responseText);
+				}
+			});  // ajax
+
+		});  // click
+	}  // function
 		
 </script>
 </head>
@@ -138,7 +220,7 @@
 		<form id="frm_member">
 			<div>
 				<label for="id">아이디</label>
-				<input type="text" id="id" name="id"> 
+				<input type="text" id="id" name="id">   <!-- value 제거할 때 val()에 빈 문자열'' 주면 됨. 읽기 전용(readonly) 속성 준 상태 .prop('readonly', false) 초기화-->
 			</div>
 			<div>
 				<label for="name">이름</label>
@@ -146,7 +228,7 @@
 			</div>
 			<div>
 				<label for="male">남자</label>
-				<input type="radio" id="male" name="gender" value="M">   
+				<input type="radio" id="male" name="gender" value="M">  <!--  .prop('checked', false)  -> checked 속성 초기화 -->
 				<label for="female">여자</label>
 				<input type="radio" id="female" name="gender" value="F">   
 									<!-- value는 db에서 gender에 준 타입 따라 주기 -->
@@ -154,7 +236,8 @@
 			<div>
 				<label for="grade">회원등급</label>
 				<select id="grade" name="grade">
-					<option value="">등급선택</option>
+					<option value="">등급선택</option>  
+					<!--  셀렉트작업할 때 선택 안 했을 때의 선택지도 줘라. 빈문자열로 value값 주ㅓ~  이렇게 해놨기 때문에 초기화 함수에서 빈문자열 초기화 설정 가능한거임 -->
 					<option value="gold">골드</option>
 					<option value="silver">실버</option>
 					<option value="bronze">브론즈</option>
@@ -165,10 +248,12 @@
 				<input type="text" id="address" name="address">
 			</div>
 			<div>
-				<input type="button" value="초기화" id="btn_init">
+				<input type="button" value="초기화" onclick="fn_init()">   <!-- 클릭하면 fn_init() 함수 호출~ -->
 				<input type="button" value="신규등록" id="btn_add">
 				<input type="button" value="변경내용저장" id="btn_modify">
-				<input type="button" value="회원삭제" id="btn_remove">
+				<input type="hidden" id="memberNo" >	
+				<!-- value는 조회버튼 눌렀을 때 value=memberNo가 들어가 있게끔 조회함수에 memberNo값을 전달하는 코드 추가(line.104) -->
+				<input type="button" value="회원삭제" id="btn_remove" class="btn_remove">
 			<!-- form에 action 속성 안 달아줌. ajax 처리는 제이쿼리로 만들어서 화면처리할 것이기 때문에 submit이 아닌 button으로 -->
 				<!-- 네이밍규칙 : db에서 쓰는 이름을 보통 사용하지 않음..  -->
 				<!--

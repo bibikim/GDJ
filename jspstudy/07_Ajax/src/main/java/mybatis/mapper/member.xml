@@ -40,5 +40,25 @@
 			<!-- crtl + shift + X : 소문자->대문자 단축키     crtl + shift + Y : 대문자->소문자 -->
 	</insert>
 	
+	<!-- 5. 회원수정 -->
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER
+		   SET NAME = #{name}
+		     , GENDER = #{gender}
+		     , GRADE = #{grade}
+		     , ADDRESS = #{address}
+		 WHERE ID = #{id}
+		 <!-- id(unique제약조건o)가 일치하는 . DB에서 인덱스가 동작하는(인덱스를 타는) 조건이면 속도가 빠름. 인덱스를 자동으로 타는 칼럼 2개 : PK와 UNIQUE -->
+		 <!-- WHERE절에서 사용하는 조건으로 pk와 유니크가 가능하면 최우선을 사용하는게 좋다. 인덱스를 타서 검색(조회) 속도가 빨라지기 때문! -->
+		 <!-- 마이바티스는 동적 쿼리가 가능해서 항목별로 앞뒤로 <if></if> 추가가 가능함. ??????? -->
+	</update>
+	
+	<!-- 6. 회원삭제 -->
+	<delete id="deleteMember" parameterType="int">
+		DELETE
+		  FROM MEMBER
+		 WHERE MEMBER_NO = #{memberNo}     <!-- 앞에는 DB에서의 칼럼의 이름, #{}는 int값으로 전달해주는 변수이름 -->
+	</delete>
+	
 	
 </mapper>
