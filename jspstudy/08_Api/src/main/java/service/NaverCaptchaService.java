@@ -1,5 +1,7 @@
 package service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,14 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 */
 
 public interface NaverCaptchaService {
-	public String getChaptchaKey(HttpServletRequest request, HttpServletResponse response);
-	public void getChaptchaImage(HttpServletRequest request, String key);
+	public String getCaptchaKey();
+	public Map<String, String> getCaptchaImage(HttpServletRequest request, String key);
+	public void refreshCaptcha(HttpServletRequest request, HttpServletResponse response);
 	public boolean validateUserInput(HttpServletRequest request);
 	
 	// 실제 인터페이스와 유사한 인터페이스.
 	// 어떤 인터페이스 안에 메소드가 여러개 들어가 있는 경우
 	// 이 인터페이스는 구현(implment)하는 클래스는 1개만 있으면 된다. 1개 안에 메소드가 3개 들어감. 서비스 1개에 메소드 3개!
 	// 3개의 기능을 구현하기 위해서 1개의 서비스만 만듬. 대신 그 안에 메소드가 3개!
-	// 메소드 단위로 기능이 동작하니까 기능 3개
 	
 }
