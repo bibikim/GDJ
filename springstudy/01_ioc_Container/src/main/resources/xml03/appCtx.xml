@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!--  
+		xml문서 파일 하단에 Namespaces 탭에서 "p" 옵션을 체크하면
+		<property> 태그를 <bean> 태그의 p:(p라는 프로퍼티 속성으로) 속성으로 바꿔서 사용할 수 있다.
+	-->
+	
+	<bean id="myaddress" class="com.gdu.app01.xml03.Address" p:jibun="서초구" p:road="반포동" p:zipCode="반포자이"/>
+		
+	<!-- <property name="jibun" value="서초구"/>
+		 <property name="road" value="반포동"/>
+		 <property name="zipCode" value="반포자이"/>
+		
+	  </bean> -->
+
+	<bean id="personnn" class="com.gdu.app01.xml03.Person" p:name="김한비" p:age="31" p:addr-ref="myaddress"/>
+	<!-- ref는 참조하는 bean의 id와 값을 똑같게 준다. 그래야 main에서 꺼내쓰기 가능 -->
+	
+	<!-- <property name="name" value="김한비"/>
+		 <property name="age" value="31"/>
+		 <property name="addr" ref="myaddress"/>
+		 
+	  </bean> -->
+	
+
+
+</beans>

@@ -28,7 +28,7 @@ public class NaverCaptchaServiceImpl implements NaverCaptchaService {
 	private final String CLIENT_SECRET = "nq6dLkY86Z";
 	
 	
-	@Override
+	@Override     // 캡차키 발급 요청
 	public String getCaptchaKey() {
 		
 		// code=0 : "키 발급", code=1 : "사용자 입력값 검증" 
@@ -80,8 +80,9 @@ public class NaverCaptchaServiceImpl implements NaverCaptchaService {
 		return key;
 	}
 
-	@Override
-	public Map<String, String> getCaptchaImage(HttpServletRequest request, String key) {
+	
+	@Override    // 캡차 이미지 요청
+	public Map<String, String> getCaptchaImage(HttpServletRequest request, String key) {   // 첫 화면에 뿌려지는 이미지 정보
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
@@ -126,14 +127,15 @@ public class NaverCaptchaServiceImpl implements NaverCaptchaService {
 				while((readByte = in.read(b)) != -1) {   // read 다~ 하면 -1 반환 
 					out.write(b, 0, readByte);   // 읽어들인 만큼 보내는 메소드
 				}
-				// login.jsp로 전달할 데이터(캡차이미지 경로 + 파일명)
+				// login.jsp로 전달할 데이터(캡차이미지 경로 + 파일명 + 캡차키)
 				map.put("dirname", dirname);
 				map.put("filename", filename);
-				
+				map.put("key", key);    // key도 같이 전달. 이거 받아서 포워딩시키는 게 컨트롤러에 있음!
 				
 				// 자원 반납
 				out.close();
 				in.close();
+				
 			} else {
 				// 응답이 실패하면 text형식으로 응답이 옴. 따라서 Reader 사용
 				BufferedReader reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));  // 실패할 때는 이미지가 아니라 실패 메시지가 뜨게끔.
@@ -159,8 +161,9 @@ public class NaverCaptchaServiceImpl implements NaverCaptchaService {
 
 	}
 	
-	@Override
-	public void refreshCaptcha(HttpServletRequest request, HttpServletResponse response) {
+	
+	@Override    // 새로고침
+	public void refreshCaptcha(HttpServletRequest request, HttpServletResponse response) {    // 새로고침할 때 리프레쉬 되는 이미지 정보
 		// 응답 데이터 형식: JSON
 		response.setContentType("application/json");
 		
@@ -170,13 +173,14 @@ public class NaverCaptchaServiceImpl implements NaverCaptchaService {
 		 	{
 		 		"dirname": "ncaptcha",
 		 		"filename": "1111111.jpg"
+		 		"key" : "dkaeiletieldf"
 		 	}
 		*/
 		String key = getCaptchaKey();
 		Map<String, String> map = getCaptchaImage(request, key);    // 캡차이미지를 request를 통해 불러야함 ==> 즉, 캡차 키/캡차 이미지 새로 요청
 		JSONObject obj = new JSONObject(map);    // json 받아올 때 map을 전달히기 가능
 		
-		// 응답
+		// 응답              -> 응답하면서 키 값은 없어짐. 
 		try {
 			PrintWriter out = response.getWriter();
 			out.println(obj.toString());
@@ -186,10 +190,63 @@ public class NaverCaptchaServiceImpl implements NaverCaptchaService {
 		}
 	}
 
-	@Override
+	
+	@Override   // 사용자 검증 요청
 	public boolean validateUserInput(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		// 요청 파라미터 (캡차키 + 사용자 입력값)
+		String key = request.getParameter("key");
+		String value = request.getParameter("value");
+		
+		// 반환할 값(반환 변수)
+		boolean result = false;    // 반환할 값은 최초 실패~
+		
+		// apiURL
+		String apiURL = "https://openapi.naver.com/v1/captcha/nkey?code=1&key=" + key + "&value=" + value;
+				// get방식으로 파라미터 보낸다 -> 주소 ? 뒤에 파라미터 줄줄이 사탕으로 전달한닥오~
+		
+		// 사용자 입력값은 텍스트니까 버퍼드리더 사용해서 저장해서 제이슨으로 바꿔서 쓰기!
+		try {
+			
+			// apiURL 접속
+			URL url = new URL(apiURL);
+			HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			
+			// 요청 메소드(HTTP 메소드)
+			con.setRequestMethod("GET");  // 대문자로 작성할 것
+			
+			// 요청 헤더 : 클라이언트 ID, 클라이언트 SECRET 추가
+			con.setRequestProperty("X-Naver-Client-Id", CLIENT_ID);
+			con.setRequestProperty("X-Naver-Client-Secret", CLIENT_SECRET);
+			
+			// 입력 스트림 선택 및 생성(네이버 API서버의 정보를 읽기 위함)
+			BufferedReader reader = null;
+			if(con.getResponseCode() == 200) {    // 응답 코드 값이 200 : HttpURLConnection.HTTP_OK 이면
+				reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			} else {
+				reader = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+			}
+			
+			// 네이버 API서버가 보낸 데이터 저장
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while((line = reader.readLine()) != null) {
+				sb.append(line); 							 // sb 안에 있는거 : {"key":"@@@@"}
+			}
+			
+			// 네이버 API서버가 보낸 데이터 확인 및 반환 (sb에 들어있는 key값 꺼내오기)
+			JSONObject obj = new JSONObject(sb.toString()); 
+			result = obj.getBoolean("result");		// 성공/실패 여부를 result에 저장!
+			
+			// 자원 반납
+			reader.close();
+			con.disconnect();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 }

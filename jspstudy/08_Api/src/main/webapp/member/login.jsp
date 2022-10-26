@@ -19,8 +19,9 @@
 				url: '${contextPath}/member/refreshCaptcha.do',
 				/* 응답 */
 				dataType: 'json',
-				success: function(resData){  // resData : {"dirname" : "", "filename" : ""}
+				success: function(resData){   // resData : {"dirname" : "", "filename" : ""}
 					$('#ncaptcha').attr('src', '../' + resData.dirname + '/' + resData.filename)    // 이미지의 속성을 바꾸겠다==이미지의 경로를 바꾸겠다 (src같은 경우는 attr(), prop() 노상관)
+					$('#key').val(resData.key);   // 클릭할 때마다(이미지가 달라질 때마다) id=key의 val속성을 바꿔줌
 				}
 			})
 		})
@@ -34,7 +35,8 @@
 	<div class="wrap">
 	
 		<h1>로그인</h1>
-		<form>
+		<form action="${contextPath}/member/validateCaptcha.do" method="post">
+		<!-- aciton이 있어야 요청이 된다 -->
 			<div>
 				<input type="text" name="id" id="id" placeholder="아이디">
 			</div>
@@ -55,10 +57,14 @@
 				</div>
 			</div>
 			<div>
-				<input type="text" name="user_input" placeholder="자동입력 방지문자">
+				<input type="text" name="value" placeholder="자동입력 방지문자">   <!-- // 사용자 입력은 value -->
+				<input type="hidden" name="key" id="key" value="${key}">  
+				
+				<!-- 이미지가 나오면 이미지에 맞는 키를 가지고 있어야 함. 이미지별로 키가 다르기 때문에. 새로고침 할때마다 키가 계속 달라진다. 매번 다르기 때문에 그때그때 저장해줘야 함. 그래서 map에 담은거얄 -->
 			</div>
 			<div>
-				<button>로그인</button>
+				<button>로그인</button>  
+				<!-- └> 서브밋(로그인)할때 위에 name속성 날아감 -> request로 파라미터형식으로 날아갈거임. -->
 			</div>
 		</form>
 	</div>

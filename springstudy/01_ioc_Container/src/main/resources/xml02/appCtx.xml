@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="crdi" class="com.gdu.app01.xml02.Engine">   <!-- 엔진을 하나 만듦! -->
+		<property name="fuel" value="가솔린"/>
+		<!-- value라는 속성으로 값 주기 가능. 밸류 태그는 밸류 속성으로 바꿔서 사용 가능 -->
+		<property name="efficiency" value="12.5"/>
+		<property name="cc" value="1998"/>
+	</bean>
+
+	<bean id="dreamCar" class="com.gdu.app01.xml02.Car">   <!-- class는 Car 타입 -->
+		<property name="model" value="소나타"/>
+		<property name="maker" value="현대"/>
+		<property name="engine" ref="crdi"/>    <!-- engine은 참조타입이니까 ref속성(태그) -->
+		<!-- ref="" 값은 bean id="engine"의 engine을 적어주는 거임 -->
+	
+	</bean>
+
+</beans>
