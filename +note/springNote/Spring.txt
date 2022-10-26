@@ -1,0 +1,70 @@
+*** Spring 초기 작업 ***
+
+
+* Spring *
+ioc
+
+bean = 자바에선 객체
+자바벗어나면 그저 'bean'이라고 부름
+그 bean을 담아두는 장소가 컨테이너
+
+jsp할때 만들었던 서비스 -> 서비스들을 만들면 bean이 되는 것임
+
+개발자가 직접 만들던 bean을 이제 스프링이 만들어줄테니 가져다 써라~   => 개발자가 객체 생성할 때 사용하던 new를 하지 않는다!
+
+
+프로젝트 패키지(만드는목적: 클래스 구분) 이름 주는 방법 - 최소 3수준
+   ex> kr.co.gdu       패키지를 회사 도메인을 거꾸로 쓰는 것이 기본
+          도메인 뒤에 .@@@ 애플리케이션의 이름을 넣어주면 됨
+          com.gdu.application       이런식으로. 
+   -> 세번째가 contextpath가 됨. 프로젝트의 대표 주소가 되는게 application 부분!
+        http://localhost:9090/app01               : app01.war 파일을 만들면 이렇게 되는겅
+        http://localhost:9090                          : ROOT.war 라고 파일 이름을 만들면 뒤에 비어있음. 
+                                                                     만드는 war파일 이름따라 배포할 때 주소가 달라짐
+          따라서 모든 프로젝트의 회사 도메인 다음은 이름이 달라야 한다!
+
+maven 프로젝트
+    mvnrepository  :  중앙저장소(central)에  모든 개발에 필요한 jar 보관
+    pom.xml 파일에 필요한 디펜던시를 추가해주면 필요한 jar 다운로드 진행!
+
+---  프로젝트 생성!  사용할 패키지는 ---
+src/main/java -> 자바파일
+src/main/resources -> 각종 xml 둘 폴더
+src/test/java -> JUnit
+src/main/webapp/resources  -> assets 둘 곳.  js/css/이미지/비디오/오디오 같은 정적 자원들이 이곳에!
+src/main/webapp/web-inf/spring -> 각종 container(bean, 객체 저장소 역할 수행하는 애들이 spring 폴더 안에 있음)
+views폴더 -> jsp 보관 장소
+pom.xml 파일에 필요한 디펜던시를 추가해주면 필요한 jar 다운로드 진행!
+Maven Dependencies -> pom.xml에 저장한 jar파일들을 다운로드하고 저장해두는 곳!
+
+--
+* pom.xml
+<packaging>war  - 최종 배포할 때 war파일 만드는 프로젝트라는 뜻.
+                               war 다음에 java버전이 붙음. war파일 만들어질 때 버전 숫자가 붙음
+<properties>
+       <java-version>    -> 자바 버전 맞춰주기. 우리가 사용중인건 11버전!
+ 
+* mvn레파지토리 사이트 접속할때는 vpn 켜놓고 들어가기 -> 학원에서만. 내 컴으론 괜춘! ip
+https://mvnrepository.com/  에서 키워드들 검색해서 참고! pom.xml에서 버전 맞추기
+ <properties> 태그 아래 작성
+  - 자바버전 11이면 <java-version>11</java-version>  태그 안에 버전 바꿔주기(8버전이면 1.8)
+  -Spring Context     21/01 배포된 5.3.3 버전  ---> 이 밑으로는 다 얘보다 이전에 나온 버전들 쓰는게 좋음
+        └> 스프링5가 기준!    스프링,,, 버전 다르면,, 코드도,, 달라,,,!
+  -aspectj weaver      22/07 배포된 1.9.6 버전
+  -SLF4J API Module 19/12 배포된 1.7.30 버전  (alpha 붙은건 테스트 버전-> 가능하면 안 쓰는 것이 좋음)
+  
+ <dependency>  태그
+    <!--Servlet-->
+    -Java Servlet API   18/04 배포된 4.0.1 버전 클릭! 
+       -> Maven에 태그 띄워진거 보고 pom.xml의 서블릿 디펜던시에서 수정해주자
+    <!--Test-->
+    -JUnit   21/02 배포된 4.13.2 버전  -- 첫번째,두번째 숫자 같으면 같은 버전이기 때문에 배포시기 신경 덜 써도 됨. 따라서 2월거 사용 가넝       (주피터 붙은건 junit5, 아닌건 4)
+
+---------> dependency 추가 작업은 <dependencies></dependencies> 안에 
+               <dependency></dependency> 째로 https://mvnrepository.com/ 검색해서 사용할 버전 찾아보고 거기서 복붙해오면 됨.
+---------> <plugin> 태그에서 자바1.6 되어 있는거(소스,타겟 태그) ${java-version}으로 바꿔주기
+
+*******>> 이거 다 했는데 java 버전 안 바뀌어 있으면 프로젝트 우클릭 - Maven - Update Project - OK
+
+   -- 스프링사용할 때 필요한 jar파일들은 이미 들어있기 때문에 추가 작업 안 해줘도 된다
+

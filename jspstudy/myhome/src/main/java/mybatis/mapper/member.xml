@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
+<!-- 쿼리문 적어줄거야 -->
+<!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
+
+<mapper namespace="mybatis.mapper.member">   
+<!-- 매퍼가 가지고 있는 모든 쿼리문들은 id를 가져야 함. 매퍼의 이름(namespace)과 쿼리문의 id를 이어붙이는 것이 Dao에 쿼리문실행하겠다는걸 알려주는 것 -->
+<!-- 자바의 클래스 이름 적는 방법 : package.class  -> import package.class;  class~~ 패키지는 (.)로 구분 -->
+
+	<!--  
+		mapper
+		1. 쿼리문 작성하는 곳
+		2. 모든 쿼리문에 세미콜론(;) 금지
+		3. <select>, <insert>, <update>, <delete> 태그 사용
+	-->
+
+	<select id="login" parameterType="Member" resultType="Member">
+		SELECT MEMBER_NO, ID, PW, NAME, EMAIL, REGISTED_DATE
+		  FROM MEMBER
+		 WHERE ID = #{id} AND PW = #{pw}
+	</select>
+<!-- 조건 : 아이디와 비밀번호가 모두 일치하는가? 일치하면 Member 반환, 일치하는 사람이 없으면 null값. -->
+
+</mapper>
