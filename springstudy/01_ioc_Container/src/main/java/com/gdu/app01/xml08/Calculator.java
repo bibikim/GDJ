@@ -3,19 +3,20 @@ package com.gdu.app01.xml08;
 public class Calculator {
 	
 	// method
-	public void add(int a, int b) {
-		System.out.println(a + "+" + b + "=" + (a + b));
+	public double add(double a, double b) {
+		return a + b;
 	}
-	public void sub(int a, int b) {
-		System.out.println(a + "-" + b + "=" + (a - b));
+	public double sub(double a, double b) {
+		return a - b;
 	}
-	public void mul(int a, int b) {
-		System.out.println(a + "*" + b + "=" + (a * b));
+	public double mul(double a, double b) {
+		return a * b;
 	}
-	public void div(int a, int b) {
-		System.out.println(a + "/" + b + "=" + (a / b));
+	public double div(double a, double b) {
+		return a / b;
 	}
 
-	
+	// 반환타입 void로 하면 에러 뜸. double로 반환해야되는건 알겠음
+	// 근데 void는 멀까?
 	
 }

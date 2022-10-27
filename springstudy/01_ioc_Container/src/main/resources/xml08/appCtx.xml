@@ -4,4 +4,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<bean id="Calc" class="com.gdu.app01.xml08.Calculator"></bean>
+	
+	<!-- 생성자 만들어줬으므로 constructor-arg 태그 사용 -->
+	<bean id="BMICalculator" class="com.gdu.app01.xml08.BMICalculator">
+		<constructor-arg ref="Calc"/>    <!-- 만든 calc 여기서 등록! -->
+		<constructor-arg value="187.8"/>
+		<constructor-arg value="73.2"/>
+
+	</bean>
+	<bean id="Member" class="com.gdu.app01.xml08.Member">
+		<constructor-arg value="이종석"/>
+		<constructor-arg>
+			<list>
+				<value>러닝</value>
+				<value>탁구</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg value="187.8"/>
+		<constructor-arg value="73.2"/>
+		<constructor-arg ref="BMICalculator"/>
+	</bean>
+
 </beans>
