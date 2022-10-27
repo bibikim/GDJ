@@ -33,7 +33,8 @@ public class MemberServiceImpl implements MemberService {          // MemberServ
 		if(login != null) {    // login를 session에 저장. 브라우저 닫기 전까지는 정보가 유지되는 session에 저장!! session은 request로 알아낼 수 있다.
 			HttpSession session = request.getSession();
 			session.setAttribute("login", login);   // 해당 session에 login이라는 이름으로 DB에서 넘어온 정보인 member 저장
-			return new ActionForward(request.getContextPath(), true);  // 리다이렉트   서버 전체경로를 알려줌(컨텍패부터) <->  포워드-서버안에서의 이동이기 때문에 컨패 밑에부터의 경로를 알려준다!
+			return new ActionForward(request.getContextPath(), true);  // 리다이렉트 : 서버 전체경로를 알려줌(컨텍스트패스부터) <-> 포워드 : 서버안에서의 이동이기 때문에 컨패 밑에부터의 경로를 알려준다!
+			
 			//return new ActionForward("/index.jsp", false);   // 포워드  // 로그인 성공하면ContextPath로 이동하겠다
 			// index는 경로가 webapp이기 때문에 앞에 경로 없음!! (context 밑에 index.jsp로 보내기) 포워드 하기로 했으니까 jsp로 보낸다.
 		} else {

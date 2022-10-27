@@ -2,7 +2,7 @@
 
 
 * Spring *
-ioc
+ioc - 프레임워크가 전반적으로 프로그램을 제어한다는 것을 의미
 
 bean = 자바에선 객체
 자바벗어나면 그저 'bean'이라고 부름
@@ -67,4 +67,3 @@ https://mvnrepository.com/  에서 키워드들 검색해서 참고! pom.xml에�
 *******>> 이거 다 했는데 java 버전 안 바뀌어 있으면 프로젝트 우클릭 - Maven - Update Project - OK
 
    -- 스프링사용할 때 필요한 jar파일들은 이미 들어있기 때문에 추가 작업 안 해줘도 된다
-

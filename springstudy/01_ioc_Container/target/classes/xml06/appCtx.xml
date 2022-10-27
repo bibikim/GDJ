@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 세터를 이용한  -->
+
+	<!-- id가 bean의 이름 -->
+	<bean id="human" class="com.gdu.app01.xml06.Person">
+		<!-- List는 <list>태그를 사용 -->
+		<property name="hobbies">
+			<list>
+				<value>여행</value>
+				<value>운동</value>
+			</list>
+		</property>
+		
+		<!-- Set는 <set>태그를 사용.  -> List와 Set는 같은 뿌리(Collection)에서 나오기 때문에 사용법이 거의 같다. -->
+		<!-- 인덱스(순서)가 없으나 중복된 데이터는 한번만 저장 가능함 -->
+		<property name="contacts">
+			<set>
+				<value>010-1111-1111</value>
+				<value>010-1111-1111</value>
+				<value>010-1111-1111</value>
+				<value>02-333-1111</value>
+			</set>	
+		</property>
+		
+		<!-- Map은 <map>태그를 사용.  -> List/Set와는 다른 뿌리이기 때문에 다른 사용법(Map) -->
+		<property name="friends">
+			<map>
+				<entry key="동네친구" value="영심이"></entry>
+				<entry key="학교친구" value="최자두"></entry>
+				<entry key="대학친구" value="최애기"></entry>
+			</map>
+		</property>
+		
+		<!-- 프로퍼티 ㅌㅐ그는 setter 메소드를 이용해서 데이터를 넣어줌(주입해줌)!!!  ==> 세터 주입(setter injection) -->
+	</bean>
+
+</beans>
