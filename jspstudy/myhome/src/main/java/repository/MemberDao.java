@@ -43,4 +43,27 @@ public class MemberDao {
 	}
 	
 	
+	public int insertMember(Member member) {
+		SqlSession ss = factory.openSession(false);
+		int result = ss.insert(mapper + "insertMember", member);
+		if(result > 0) {
+			ss.commit();
+		}
+		ss.close();
+		return result;
+	}
+	
+	public int deleteMember(int memberNo) {
+		SqlSession ss = factory.openSession(false);
+		int result = ss.delete(mapper + "deleteMember", memberNo);   // Mapped Statements collection does not contain value for mybatis.mapper.member. => mybatis.mapper.member의 id와 일치하는게 없다! 
+		if(result > 0) {
+			ss.commit();
+		}
+		ss.close();
+		return result;
+	}
+	
+	// PersistenceException: DB에서 문제가 있을 때 나는 오류.
+	// mamper 뒤에 delete id=""인  deleteMember를 붙여주지 않아서 뜬 오류,,,
+	
 }

@@ -18,7 +18,7 @@ public class BoardListService implements BoardService {
 		List<Board> boards = BoardDao.getInstance().selectAllBoards(); // 싱글턴패턴이기 때문에 호출 이렇게!
 		// boards를 jsp로 보내는 게 목적
 		
-		// 게시글 목록을 Jsp로 보내기 위해서 request에 저장
+		// 게시글 목록을 Jsp로 보내기 위해서 request에 저장하기이이
 		request.setAttribute("boards", boards);
 		
 		// 어디로 어떻게?

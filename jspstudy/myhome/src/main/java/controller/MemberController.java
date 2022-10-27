@@ -18,6 +18,7 @@ import service.MemberServiceImpl;
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	// 서비스 하는 애들은 다 첫단계가 정보(파라미터) 받음 이런 애들은 다 공통모듈로 뭐가 들어가면 좋느냐 -> 파라미터를 확인하는 코드!
         
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -42,11 +43,25 @@ public class MemberController extends HttpServlet {
 			af = service.login(request, response);   // 서비스 실행. login 메소드
 			break;
 		case "/member/logout.me" :
-			af = service.logout(request, response);
+			af = service.logout(request, response);  // af받아서 af로 이동
 			break;
+		case "/member/join.me" :
+			af = new ActionForward("/member/join.jsp", false);
+			break;
+			// └> 서비스를 부르는게 아니니까 페이지만 바꾸는 단순 이동
+		case "/member/register.me" :
+			service.register(request, response);	// af없이 register() 메소드 내부에서 직접 이동 -> 따라서 register.me는 밑에 if절 동작할 일 없음
+							// request -> parameter 4개!
+			break;
+		case "/member/cancel.me" :
+			service.cancel(request, response);     // af없이 cancel() 메소드 내부에서 직접 이동
+		// 매핑 잘못 작성한 경우
+		default :
+			System.out.println("매핑(case 뒤)을 확인하세요");
+			
 		}
 		
-
+		
 		// 서비스 실행 없앤 이유 - 위에서 같이 하려고!
 		
 		// 어디로 어떻게?

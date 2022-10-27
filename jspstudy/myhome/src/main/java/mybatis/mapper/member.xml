@@ -26,4 +26,25 @@
 	</select>
 <!-- 조건 : 아이디와 비밀번호가 모두 일치하는가? 일치하면 Member 반환, 일치하는 사람이 없으면 null값. -->
 
+
+	<insert id="insertMember" parameterType="Member">
+		INSERT INTO MEMBER
+			(MEMBER_NO, ID, PW, NAME, EMAIL, REGISTED_DATE)
+		VALUES
+			(MEMBER_SEQ.NEXTVAL, #{id}, #{pw}, #{name}, #{email}, TO_CHAR(SYSDATE, 'yyyy-mm-dd'))
+			<!-- DATE는 varchar2타입으로 만들었음 -> String 따라서 TO_CHAR -->
+	</insert>
+
+	
+	<delete id="deleteMember" parameterType="int">
+		DELETE
+		  FROM MEMBER
+		 WHERE MEMBER_NO = #{memberNo}  
+		 <!-- 여기서는 ${memberNo}도 가능. 
+		 		#은 mybatis 내부에서 변수 앞뒤로 ''를 붙이고, $는 붙이지 않고 값만 그대로 들어감.  # => 'user1', '10239'
+		 		$는 수치데이터(숫자)에서 사용 가능. 
+		 		
+		 		칼럼이름을 던질 때 ${column} = #{memberNO} ??? -->
+	</delete>
+
 </mapper>
