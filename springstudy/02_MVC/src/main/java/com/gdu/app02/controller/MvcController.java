@@ -113,7 +113,7 @@ public class MvcController {
 	@RequestMapping("response")
 	public void 응답만들기(HttpServletRequest request, HttpServletResponse response) {
 		
-		// 응답을 만들 때는 return을 하지 않는다. return 없이, 반환타입 없을 땐 void
+		// 응답을 만들 때는 return을 하지 않는다. return 없이! 반환타입 없을 땐 void
 		
 		try {
 			response.setContentType("text/html; charset=UTF-8");
