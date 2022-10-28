@@ -1,0 +1,43 @@
+스프링 MVC 동작 원리
+
+1. 클라이언트가 요청을 한다.
+      <a href="${contextPath}/list.do">
+      
+2. DispatcherServlet(servlet-context.xml)이 요청을 받는다.
+
+3. DispatcherServlet이 요청을 처리할 Controller를 판단하는 HandlerMapping을 호출한다.
+
+4. HandlerMapping은 요청을 처리할 Controller를 호출한다.  ( 중간에 끼어있는 애들이 있다 )
+
+5. Controller가 요청을 처리할 Service를 호출한다. (비즈니스 로직 처리) => ex) 목록보기를 하겠다 
+
+6. Controller가 응답을 처리할 ModelAndView를 호출한다.   (ModelAndView : 어느 뷰로 어떤 데이터를 실어 나를게요~)
+	1) JSP    : 값을 전달(forward)할 때 request를 사용
+	2) Spring : 값을 전달(forward)할 때 Model을 사용
+	
+	* Model : 내부적으로 request를 사용하는 보안이 향상된 객체. 
+			  request로 정보를 넘기는걸 스프링도 사용가능하지만 Model이란걸로 랩핑을 해서 보안을 향상시켰다고 보면 됨.
+			  내부적으로는 저장장소를 request를 쓰지만 request를 직접적으로 쓰지 않고 모델로 바꿔서 쓰면 정보 탈취 걱정 없이 안정적으로 사용 가능!
+			  -> forward로 데이터를 실어나를 때도 request.getDispatcher.getView(request, response));
+			  요청은 리퀘, 응답은 모델! 즉, 응답할 데이터는 리퀘에 싣고 반환할 데이터는 모델에 싣는다!
+	* View  : 응답할 JSP 이름 
+
+7. ModelAndView는 전달할 값은 Model에 저장하고, 응답할 뷰는 View에 저장해서 
+    DispatcherServlet에게 전달한다.
+    
+8. DispatcherServlet은 응답할 뷰 정보를 ViewResolver에게 전달한다.
+ 
+9. ViewResolver가 실제로 응답할 뷰의 전체 정보(경로를 포함한 JSP의 이름)를 DispatcherServlet에게 알려 준다.
+	
+10. DispatcherServlet이 응답할 뷰로 이동한다.
+	
+
+
+[구조]
+요청 => DispatcherServlet이 받음 => DS가 정보 확인해서 Controller로 넘김   (jspstudy때는 controller가 바로 받았음)
+Controller가 응답을 받음 => DispatcherServlet이 받아서 응답
+DispatcherServlet == servlet-context.xml -> 이 파일에 응답에 관한 정보가 들어있음. 거기에 있는 정보랑 컨트롤러가 합쳐져 응답을 만들어 냄.
+
+
+// DispatcherServlet == /appServlet/servlet-context.xml 이라고 보면 됨
+// servlet-context.xml에 굉장힌 중요한,, 정보들이 있다.
