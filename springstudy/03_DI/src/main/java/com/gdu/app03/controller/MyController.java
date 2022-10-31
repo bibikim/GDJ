@@ -23,7 +23,7 @@ public class MyController {
 	 	
 	 	Spring4부터 새로운 애너테이션으로 바꿀 수 있다.
 	 	@GetMapping("/")    GET방식인 경우 사용
-		@PostMapping("/)	Post방식인 경우 사용
+		@PostMapping("/")	POST방식인 경우 사용
 	*/
 	
 	
@@ -45,7 +45,7 @@ public class MyController {
 	 		2) 동일 타입이 여러 개 있는 경우 @Qualifier를 이용해서 Bean을 식별
 	 	2. @Resource
 	 		1) 이름(bean의 id)이 일치하는 Bean을 가져오는 애너테이션
-		3. @Autowired
+		3. @Autowired ★
 			1) 타입(class)이 일치하는 Bean을 가져오는 애너테이션
 			2) 동일 타입이 여러 개 있는 경우 자동으로 @Qualifier를 등록해서 Bean을 식별
 			3) 실무에서 주로 사용

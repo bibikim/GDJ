@@ -76,7 +76,7 @@ public class MyController1 {
 	
 	// <form action="${contextPath}/member/detail4" method="get">   |   
 	@GetMapping("detail4")
-	public String getDetail4(Member member  	// 파라미터 id pw를 setId(), setPw() 메소드를 이용해서
+	public String getDetail4(Member member  	// 파라미터 id, pw를 setId(), setPw() 메소드를 이용해서 member 객체에 저장해 준다.
 							, Model model) {	// 일일히 String id, pw 만들어줄 필요가 없이 바로 선언해주면 되는거임!
 		model.addAttribute("member", member);
 		
