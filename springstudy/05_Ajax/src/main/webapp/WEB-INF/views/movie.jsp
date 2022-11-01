@@ -22,7 +22,7 @@
 		$('#btn').click(function(){
 			$.ajax({
 				type: 'get',
-				url: '${contextPath}/movie/boxOfficeList',
+				url: '${contextPath}/movie/boxOfficeList', // 요청주소
 				data: 'targetDt=' + $('#targetDt').val(),  // 보내줘야하는 data 값 -> 날짜(targetDt)를 파라미터로 받아오기
 				dataType: 'json', // String 데이터가 json 덩어리기 때문에 json으로 받아오는 거라 생각하면 됨!
 				success: function(resData) {

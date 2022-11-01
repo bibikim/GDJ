@@ -28,7 +28,7 @@
 		$('#btn3').click(function(){ fn_ajax3(); })
 		$('#btn4').click(function(){ fn_ajax4(); })
 
-	})
+	});
 	
 	function fn_ajax1(){
 		$('#result').empty();   // 초기화
@@ -106,7 +106,7 @@
 			type: 'post',
 			// data에 파라미터가 없을 주의! 문자열 json이라 쳐도 보내는 파라미터 이름이 있어야 하는데 없는 상태.
 			// 파라미터가 없다? -> 파라미터로 전달되지 않기 때문에 주소창을 이용한 get방식이 불가능
-			data: JSON.stringify({   // JSON.stringify : 자바스크립트 객체를 JSON객체로 변환해서 데이터를 만들어줌
+			data: JSON.stringify({   // JSON.stringify : 자바스크립트 객체를 JSON문자열로 변환해서 데이터를 만들어줌
 				'id': $('#id').val(),
 				'pw': $('#pw').val(),
 			}),
