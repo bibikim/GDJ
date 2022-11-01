@@ -64,6 +64,10 @@
 	<%-- Redirect --%>
 	<div>
 		<a href="${contextPath}/board/detail1?title=공지사항&hit=10">전송</a>
+		<%-- detail1->detail2 로 가는 매핑값 마이컨트롤러에서 detail2 사용함 --%>
+	</div>
+	<div>
+		<a href="${contextPath}/board/detail3?title=공지사항&hit=10">전송</a>
 	</div>
 
 

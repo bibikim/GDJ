@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+	<bean id="service" class="com.gdu.app05.service.MemberServiceImpl"/>
+	<!-- id는 달라도 됨. 어차피 타입(class)이 일치한걸 찾으러 오니까!!(같게 한다면 memberService). 
+		 class= MemberServiceImpl과 MemberService는 부모-자식간이기 때문에 호환 가능하다. -->
+		
+</beans>

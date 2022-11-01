@@ -15,6 +15,7 @@ import com.gdu.app04.domain.Member;
 /* MyController1 : Forward로 request 받아오기 */
 
 
+
 // 중간 매핑을 member로 하는 경우 컨트롤러에 중간 mapping값을 아래와 같이 컨트롤러단으로 빼줄 수 있다.
 @RequestMapping("member")   // URL Mapping이 member로 시작하는 모든 요청을 처리하는 컨트롤러
 @Controller
