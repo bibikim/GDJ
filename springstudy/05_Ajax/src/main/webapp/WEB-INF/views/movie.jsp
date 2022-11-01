@@ -24,12 +24,12 @@
 				type: 'get',
 				url: '${contextPath}/movie/boxOfficeList',
 				data: 'targetDt=' + $('#targetDt').val(),  // 보내줘야하는 data 값 -> 날짜(targetDt)를 파라미터로 받아오기
-				dataType: 'josn', // String 데이터가 json 덩어리기 때문에 json으로 받아오는 거라 생각하면 됨!
+				dataType: 'json', // String 데이터가 json 덩어리기 때문에 json으로 받아오는 거라 생각하면 됨!
 				success: function(resData) {
 					// 기존 목록 초기화
 					$('#boxOfficeList').empty();
 					// 가져온 목록 나타내기
-					$.each(/*배열*/resData.boxOfficeResult.dailyBoxOfficeList, function(i, movie){   // resData로 넝머온 데이터에서 boxOfficeResult 안에 dailyBoxOfficeList가 필요한 정보 => 배열로 되어 있음
+					$.each(resData.boxOfficeResult.dailyBoxOfficeList, function(i, movie){   // resData로 넘어온 데이터에서 boxOfficeResult 안에 dailyBoxOfficeList가 필요한 정보 => 배열로 되어 있음
 						$('<tr>')
 						.append($('<td>').text(movie.rank))
 						.append($('<td>').text(movie.movieNm))
