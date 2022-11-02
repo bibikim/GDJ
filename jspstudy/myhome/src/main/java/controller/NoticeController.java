@@ -15,7 +15,7 @@ import service.NoticeService;
 import service.NoticeServiceImpl;
 
 
-@WebServlet("*.me")   // member니까 me로 이름지어준당. 정해진게 아님@!!
+@WebServlet("*.no")   // member니까 me로 이름지어준당. 정해진게 아님@!!
 // 컨트롤러는 만들면 쌓여서 여러개가 만들어지는데, 그럼 구분하는 방법이 필요함. 근데 둘다 *.do라고 해버리면 어디로 가는지 컨트롤러가 못 찾음
 public class NoticeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

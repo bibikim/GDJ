@@ -15,7 +15,8 @@
 	<!-- domain.Member to Member -->
 	<typeAliases>
 		<typeAlias type="domain.Member" alias="Member"/>
-		<!-- domain.Board라는 클래스는 Board라고만 쓰겠다고 세팅! -->
+		<typeAlias type="domain.Notice" alias="Notice"/>
+		<!-- domain.Notice라는 클래스는 Notice라고만 쓰겠다고 세팅! -->
 	</typeAliases>
 
   	<environments default="development">

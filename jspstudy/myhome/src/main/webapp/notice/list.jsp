@@ -20,7 +20,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="notices" var="notice">
+			<c:forEach items="${notices}" var="notice">
 				<tr>
 					<td>${notice.noticeNo}</td>   <!-- getNoticeNO() 을 알아서 해준다. -->
 					<td>${notice.title}</td>	  <!-- getTitle() -->
