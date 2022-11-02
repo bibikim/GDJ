@@ -10,6 +10,11 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 <body>
+
+	<div>
+		<a href="${contextPath}/notice/list.no">공지사항</a>
+	</div>
+
 <!-- 로그인 응답 성공했다면 세션에다가 login 이란걸 저장해두고 여기까지 온다. -->
 <!-- 세션에 들어가 있는 로그인을 el로 사용 가능 -->
 	<c:if test="${login == null}">

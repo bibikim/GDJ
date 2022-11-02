@@ -13,9 +13,9 @@ public class BoardController {
 
 	// ★ Controller는 Service를 사용합니다.
 	
-	// 서비스임플에 컴포넌트는 만들어져 있음(@Service)에 의해서. 따라서 @Autowrired로 불러오기 가넝한.
+	// serviceImpl에 컴포넌트는 만들어져 있음 (@Service)에 의해서. 따라서 @Autowrired로 불러오기 가넝한.
 	@Autowired	// 컨테이너에 생성된 bean 중에서 BoardService 타입의 bean을 가져오시오.   
-				// 보드서비스 타입이면 보드서비스임플도 포함되는거! 상속 관계니까요~
+				// BoardService 타입이면 보드서비스임플도 포함되는거! 상속 관계니까요~
 	private BoardService boardService;   // null 아님! @Service에 의해 만들어져 있음! null일 수가 없어!
 	
 	

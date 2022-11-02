@@ -28,9 +28,9 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired  // 컨테이너에 생성된 bean 중에서 BoardDAO 타입의 bean을 가져오시오.
 	private BoardDAO dao;   // 현재 보드다오는 컴포넌트.
 	// 싱글턴 패턴 코드가 없어..! 여기엔! -> 스프링이 싱글턴으로 알아서 만들어 준다. 스프링이 컨테이너에 만들어놓는 기본적인 방법은 모두 싱글턴으로 만들어둔다.
-	// 컨테이너에 있는 보드다오를 가져오기 위해서 @Autowired 애너테이션. -> 보드다오객체 타입을 가지고 똑가튼거 컨테이너에서 찾아 와라!
-	// 스프링이 컨테이너에 보드다오를 만들어 두었으니 null이 아님.. 필드에 오토와이어드라는 필드에 주입. 스프링이 dao에다가 객체 만들어서 집어 넣었을거임
-	// BordDAO의 bean은 @Repository가 만들어둠
+	// 컨테이너에 있는 BoardDAO를 가져오기 위해서 @Autowired 애너테이션. -> BoardDAO객체 타입을 가지고 똑가튼거 컨테이너에서 찾아 와라!
+	// 스프링이 컨테이너에 BoardDAO를 만들어 두었으니 null이 아님.. @Autowired로 필드에 주입. 스프링이 dao에다가 객체 만들어서 집어 넣었을거임
+	// BoardDAO의 bean은 @Repository가 만들어둠
 	
 	
 	

@@ -48,7 +48,7 @@ public class MyController1 {
 						, Model model) {
 		/*
 			@RequestParam
-			1. value 		: 파라미처 이름
+			1. value 		: 파라미터 이름
 			2. required 	: 파라미터의 필수 여부(디폴트는 true)
 			3. defaultValue : 파라미터가 없을 때 사용할 값
 		*/

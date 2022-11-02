@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- notice.xml도 생겼으니 mybatis-config.xml로 가서 이 파일도 읽어주라고 <mapper> 태그 추가!  -->
+
+<mapper namespace="mybatis.mapper.notice">   
+
+	<select id="selectAllNoticesCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM NOTICE
+	</select>
+
+	<!-- 파라미터가 Map이어도 parameterType! -->
+	<select id="selectAllNotices" parameterType="map" resultType="Notice">
+		
+	</select>
+</mapper>

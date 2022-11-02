@@ -33,6 +33,7 @@
   
   <mappers>
 	 <mapper resource="mybatis/mapper/member.xml"/>
+	 <mapper resource="mybatis/mapper/notice.xml"/>
   </mappers>
 
 </configuration>
