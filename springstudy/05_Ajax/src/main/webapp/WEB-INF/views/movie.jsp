@@ -21,8 +21,8 @@
 		
 		$('#btn').click(function(){
 			$.ajax({
-				type: 'get',
-				url: '${contextPath}/movie/boxOfficeList', // 요청주소
+				type: 'get',   // 주소창에 파라밑어 붙여보내기
+				url: '${contextPath}/movie/boxOfficeList', // 요청 주소. 요청하는 경로!
 				data: 'targetDt=' + $('#targetDt').val(),  // 보내줘야하는 data 값 -> 날짜(targetDt)를 파라미터로 받아오기
 				dataType: 'json', // String 데이터가 json 덩어리기 때문에 json으로 받아오는 거라 생각하면 됨!
 				success: function(resData) {
@@ -31,7 +31,7 @@
 					// 가져온 목록 나타내기
 					$.each(resData.boxOfficeResult.dailyBoxOfficeList, function(i, movie){   // resData로 넘어온 데이터에서 boxOfficeResult 안에 dailyBoxOfficeList가 필요한 정보 => 배열로 되어 있음
 						$('<tr>')
-						.append($('<td>').text(movie.rank))
+						.append($('<td>').text(movie.rank))    // json 데이터 하나씩 읽어주면 된다. 모든 정보는 movie에 들어있음!
 						.append($('<td>').text(movie.movieNm))
 						.append($('<td>').text(movie.openDt))
 						.append($('<td>').text(movie.audiCnt))
