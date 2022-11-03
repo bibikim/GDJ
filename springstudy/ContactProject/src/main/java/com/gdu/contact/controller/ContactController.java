@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.gdu.contact.domain.ContactVO;
 import com.gdu.contact.service.ContactService;
@@ -21,8 +22,14 @@ public class ContactController {
 		return "contact/list";
 	}
 
-	// 등록 화면
+	// 연락처 쓰는 화면
 	@GetMapping("cntc/register")
+	public String register() {
+		return "contact/register";
+	}
+	
+	// 등록 화면
+	@PostMapping("cntc/register")
 	public String regi(ContactVO contact) {
 		contactService.regiContact(contact);
 		return "redirect:cntc/list";

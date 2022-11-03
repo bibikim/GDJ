@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="contextPath" value="{pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,15 +23,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${contacts}" var="contact">
-				<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+				<c:if test="${empty contacts}">
+					<tr>
+						<td colspan="5">없음</td>
 					</tr>
-				</c:forEach>
+				</c:if>
+				<c:if test="${not empty contats}">
+					<c:forEach items="${contacts}" var="contact">
+					<tr>
+							<td>${contact.no}</td>
+							<td>${contact.name}</td>
+							<td>${contact.tel}</td>
+							<td>${contact.addr}</td>
+							<td>${contact.email}</td>
+						</tr>
+					</c:forEach>
+				</c:if>
 			</tbody>
 			<tfoot>
 				<tr>
