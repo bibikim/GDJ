@@ -45,7 +45,7 @@ public class NoticeController extends HttpServlet {
 			af = service.findAllNotices(request);
 		// 매핑 잘못 작성한 경우
 		default :
-			System.out.println("매핑(case 뒤)을 확인하세요");
+			//System.out.println("매핑(case 뒤)을 확인하세요");
 			
 		}
 		

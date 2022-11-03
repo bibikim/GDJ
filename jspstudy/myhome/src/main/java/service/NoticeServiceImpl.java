@@ -53,6 +53,45 @@ public class NoticeServiceImpl implements NoticeService {
 		// 목록을 forward 하기 위해서 request에 저장
 		request.setAttribute("notices", notices);
 		
+		// block 개념 이해하기   < 1 2 3 4 5 >  < 2 3 4 5 6 >   <- 5개 이거야 블럭 개념이..
+	    // 1block 당 3page가 표시되는 상황   -> 변수 선언해서 정하고
+	    // 전체 7페이지가 있는 상황  -> 계산
+	    //           beginPage endPage   page-> 파라미터로 받아서 알고 있다
+	    // 1 block :    1         3      1   2   3      
+	    // 2 block :    4         6      4   5   6
+		// 3 block :    7         7      7
+		// 비긴페이지를 구한다 - 비긴페이지를 이용해서 엔드페이지를 구한다 - 전체페이지보다
+		// 마지막 블럭 : 작은걸 엔드페이지로 한다.
+		
+		// 각 block의 beginPage와 endPage를 알아내기 위한 과정
+		// 1) 전체 page의 개수를 구한다. (totalPageCnt)
+		// 2) 한 block 당 표시할 page의 개수를 임의로 정한다.
+		// 3) 현재 page와 전체 page 개수와 1 block 당 표시할 page 개수로 beginPage를 구한다.  (pagePerBlock)
+		// 4) beginPage를 이용해서 endPage를 구한다.
+		// 5) endPage와 전체 page 개수를 비교해서 작은 값을 endPage로 확정한다.
+		
+		int totalPageCnt = totalRecordCnt / recordPerPage; 
+		if(totalRecordCnt % recordPerPage > 0) {  
+			totalPageCnt++;    // 나눠봐서 나머지가 1~9 사이(0보다 큰) 애들은 전체페이지개수 +1을 해준다.
+		}
+		
+		int pagePerBlock = 3;  // 2)
+		
+		int beginPage = ((page - 1) / pagePerBlock) * pagePerBlock + 1;  // 3)  n번째 블락의 시작페이지는 m이다
+		int endPage = beginPage + pagePerBlock - 1;  // 4)
+		if(endPage > totalPageCnt) {
+			endPage = totalPageCnt;  // 5)
+		}
+		
+		// 페이징 처리에 필요한 정보를 list.jsp로 전달
+		request.setAttribute("page", page);
+		request.setAttribute("beginPage", beginPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("totalPageCnt", totalPageCnt);
+		request.setAttribute("pagePerBlock", pagePerBlock);
+	
+		
+		
 		// board 폴더의 list.jsp로 forward 하자~~~~~~~
 		return new ActionForward("/notice/list.jsp", false);
 	}
