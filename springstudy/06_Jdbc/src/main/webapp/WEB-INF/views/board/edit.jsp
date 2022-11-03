@@ -38,13 +38,12 @@
 		
 		// 서브밋
 		$('#frm_board').submit(function(event){
-			if($('#title').val() == '' || $('#writer').val()== '') {  // 제목과 작성자의 입력값이 없을 때('' 비었을 때)
-				alert('제목과 작성자는 필수입니다.');
+			if($('#title').val() == '') {  // 제목의 입력값이 없을 때('' 비었을 때)
+				alert('제목은 필수입니다.');
 				event.preventDefault();  // 서브밋 취소
 				return;  // 더 이상 코드 실행할 필요 없음
 			}
 		});
-		
 	})
 	
 
@@ -54,22 +53,24 @@
 
 
 	<div>
-		<h1>작성 화면</h1>
-		<form id="frm_board" action="${contextPath}/brd/add" method="post">
+		<h1>수정 화면</h1>
+		<form id="frm_board" action="${contextPath}/brd/modify" method="post">
+			<input type="hidden" name="board_no" value="${board.board_no}">  <!-- 이게 있어야 수정할 게시글의 번호가 서브밋 될 수 있따 -->
 			<div>
 				<label for="title">제목</label>
-				<input type="text" id="title" name="title">
+				<input type="text" id="title" name="title" value="${board.title}">
 			</div>
 			<div>
 				<label for="writer">작성자</label>
-				<input type="text" id="writer" name="writer">
+				<input type="text" id="writer" name="writer" value="${board.writer}" readonly> <!-- 작성자는 수정불가 -->
 			</div>
 			<div>
 				<label for="content">내용</label>
-				<textarea id="content" name="content"></textarea>
+				<textarea id="content" name="content">${board.content}</textarea>
+				<!-- textarea는 value를 써주는게 아니라 태그 사이에!!! 적어준다. -->
 			</div>
 			<div>
-				<button>작성완료</button>
+				<button>수정완료</button>
 				<input type="reset" value="입력초기화">
 				<input type="button" value="목록" id="btn_list">
 			</div>

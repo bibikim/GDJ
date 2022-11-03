@@ -103,24 +103,77 @@ public class BoardDAO {
 		return boards;
 	}
 	
-	public BoardDTO selectBoardByNo() {
+	public BoardDTO selectBoardByNo(int board_no) {
 		BoardDTO board = null;
+		try {
+			con = getConnection();
+			sql = "SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE FROM BOARD WHERE BOARD_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, board_no);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				// 검색이 되었으면 board에 가리켜진(커서가 가 있는) n열들(rs.get@@(n)) 가져와서 board에 넣기
+				board = new BoardDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));   // 열 번호는 select문이 결정하는 것.
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
 		
 		return board;
 	}
 	
-	public int insertBoard(BoardDTO board) {
+	public int insertBoard(BoardDTO board) {  // 변수에 들어갈 값은 여기에 들어있어야함! 들어있고!
 		int result = 0;
+		try {
+			con = getConnection();  // 시작은 무조건 접~속!
+			sql = "INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE) VALUES(BOARD_SEQ.NEXTVAL, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";  // 매개변수 board 안에 물음표 3개값이 반드시 존재해야되는것
+			ps = con.prepareStatement(sql);
+			ps.setString(1, board.getTitle());  // board 객체에 들어있는 title값.
+			ps.setString(2, board.getContent());
+			ps.setString(3, board.getWriter());
+			result = ps.executeUpdate(); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
 		
 		return result;
 	}
 	public int updateBoard(BoardDTO board) {
 		int result = 0;
-		
+		try {
+			con = getConnection();
+			sql = "UPDATE BOARD SET TITLE = ?, CONTENT = ?, MODIFY_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD') WHERE BOARD_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, board.getTitle());  // board에 들어있는 getTitle
+			ps.setString(2, board.getContent());
+			ps.setInt(3, board.getBoard_no());
+			result = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
 		return result;
 	}
 	public int deleteBoard(int board_no) {
 		int result = 0;
+		try {
+			con = getConnection();
+			sql = "DELETE FROM BOARD WHERE BOARD_NO = ?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, board_no);
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
 		
 		return result;
 	}

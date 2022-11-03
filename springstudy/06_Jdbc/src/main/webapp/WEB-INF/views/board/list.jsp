@@ -25,6 +25,9 @@
 </head>
 <body>
 
+	<div>
+		<a href="${contextPath}/brd/write">새 글 작성</a>
+	</div>
 	
 	<div>
 		<table border="1">
@@ -39,10 +42,11 @@
 			<tbody>
 				<c:forEach items="${boards}" var="board">   <!-- ${boards} : forward한 데이터 그대로 쓴다. -->
 					<tr>
-						<td>${boards.board_no}</td>
-						<td>${boards.title}</td>
-						<td>${boards.writer}</td>
-						<td>${boards.create_date}</td>
+						<td>${board.board_no}</td>
+						<td><a href="${contextPath}/brd/detail?board_no=${board.board_no}">${board.title}</a></td>  
+															 		<!-- ${board.board_no} 를 파라미터값으로 받기 -->
+						<td>${board.writer}</td>
+						<td>${board.create_date}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
