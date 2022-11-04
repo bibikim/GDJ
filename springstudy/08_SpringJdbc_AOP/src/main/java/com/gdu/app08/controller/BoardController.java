@@ -86,6 +86,12 @@ public class BoardController {
 	}
 
 	
+	// 트랜잭션 확인을 위해서 testTransaction() 메소드를 호출하는 매핑 작성
+	@GetMapping("brd/transaction")   // 주소창에 입력해서 확인해봐야 하므로 get
+	public String transaction() {
+		boardService.testTransaction();
+		return "redirect:/brd/list";
+	}
 	
 	
 }

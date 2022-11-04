@@ -13,4 +13,5 @@ public interface BoardService {
 	public int modifyBoard(BoardDTO board);
 	public int removeBoard(int board_no); // 삭제할 보드의 넘버
 	
+	public void testTransaction();
 }

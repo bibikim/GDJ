@@ -1,10 +1,13 @@
 package com.gdu.app08.repository;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
 
 import com.gdu.app08.domain.BoardDTO;
@@ -56,17 +59,48 @@ public class BoardDAO {
 	
 	
 	
-	public int insertBoard(BoardDTO board) {  // 변수에 들어갈 값은 여기에 들어있어야함! 들어있고!
-
-		return 0;
+	public int insertBoard(final BoardDTO board) {  // 변수에 들어갈 값은 여기에 들어있어야함! 들어있고!
+		
+		String sql = "INSERT INTO BOARD(BOARD_NO,  TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE) VALUES(BOARD_SEQ.NEXTVAL, ?, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
+		int result = jdbcTemplate.update(sql, new PreparedStatementSetter() {  // 인터페이스는 new 못한다.. 인터페이스 본문을 여기서 만드는 방식(이너타입)으로 해야 함
+							// in, del, upd 는 모두 .update()로 실행한다
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				// 이름이 setter -> ps로 변수 세개에 set 해라
+				ps.setString(1, board.getTitle());
+				ps.setString(2, board.getContent());
+				ps.setString(3, board.getWriter());
+				
+			}
+		});
+		
+		return result;
 	}
-	public int updateBoard(BoardDTO board) {
-
-		return 0;
+	
+	public int updateBoard(final BoardDTO board) {
+		String sql = "UPDATE BOARD SET TITLE = ?, CONTENT = ?, MODIFY_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD') WHERE BOARD_NO = ?";
+		int result = jdbcTemplate.update(sql, new PreparedStatementSetter() {  // 두번째거.
+			
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, board.getTitle());
+				ps.setString(2, board.getContent());
+				ps.setInt(3, board.getBoard_no());   // setValues에 전달된 ps 작업
+			}
+		});
+		return result;
 	}
-	public int deleteBoard(int board_no) {
-
-		return 0;
+	
+	public int deleteBoard(final int board_no) {
+		String sql = "DELETE FROM BOARD WHERE BOARD_NO = ?";
+		int result = jdbcTemplate.update(sql, new PreparedStatementSetter() {
+			
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, board_no);
+			}
+		});
+		return result;
 	}
 	
 }
