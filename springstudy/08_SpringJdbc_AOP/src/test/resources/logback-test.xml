@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Appenders -->
+	<!-- log4j가 아닌 logback으로 할거라 수정 작업함 -->
+	
+	<!--  
+		%date{패턴} : 로그기록시간(SimpleDateFormat과 동일한 패턴)
+		%thread		: 동작하는 스레드
+		%level		: 로그레벨(FATAL, ERROR, WARN, INFO, DEBUG, TRACE), %-5level은 5자리로 글자폭을 맞추기 위함 ex) INFO_, WARN_ 
+		%logger		: 로거이름(로그 찍는 클래스), %logger{36}는 최대 글자 수가 36자라는 의미
+		%msg		: 로그메시지
+		%n			: new line
+	-->
+	<!-- 로그 찍는 장소 알려주는 태그.  ▼ 콘솔에 로그를 찍겠다 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date{HH:mm:ss.SSS, Asia/Seoul} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</layout>
+	</appender>
+	
+	<!--  
+		로그레벨 (로그가 찍히는 상황)                      로그 찍느라 성능이 떨어지니까 중요한 에러는 어떤 로그를 찍는것처럼 세팅..
+		1. FATAL : 프로그램이 종료될 수 있는 심각한 에러
+		2. ERROR : FATAL보다는 덜 심각한 에러
+		3. WARN  : 잠재적 문제 (언젠가는 문제가 될 수 있음)
+		4. INFO  : 프로그램이 진행되는 상황 (문제 없이 정상적으로 진행되고 있을 때)
+		5. DEBUG : 디버깅 (오류 수정)
+		6. TRACE : DEBUG보다 세밀한 정보
+	-->
+	
+
+	<!-- Root Logger -->
+	<root level="INFO">
+		<appender-ref ref="console" />   <!-- appender name과 맞춰준다 -->
+	</root>
+	
+</configuration>

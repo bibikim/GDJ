@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.mapper.free">
+  
+	<select id="selectAllFrees" resultType="Free">
+		SELECT FREENO, WRITER, TITLE, CONTENT, IP, HIT
+		  FROM FREE
+		 ORDER BY FREENO
+	</select>
+	
+	<insert id="insertFree" parameterType="Free">
+		INSERT INTO FREE
+			(FREENO, WRITER, TITLE, CONTENT)
+		  VALUES
+		  	(FREE_SEQ.NEXTVAL, #{writer}, #{title}, #{content})
+	</insert>
+	
+	<delete id="deleteFree" parameterType="int">
+		DELETE
+		  FROM FREE
+		 WHERE FREENO = ${freeNo}
+	</delete>
+	
+	<select id="selectByNoFree" parameterType="int" resultType="Free">
+		SELECT FREENO, WRITER, TITLE, CONTENT, IP, HIT
+		  FROM FREE
+		 WHERE FREENO = #{freeNo}
+	</select>
+	
+	<update id="updateFree" parameterType="Free">
+		UPDATE FREE
+		   SET TITLE = #{title}, CONTENT = #{content}
+		 WHERE FREENO = #{freeNo}
+	</update>
+	
+	<select id="selectFreeTop1" resultType="Free">
+		SELECT F.RANK, F.FREENO, F.WRITER, F.TITLE, F.CONTENT, F.IP, F.HIT
+		  FROM (SELECT RANK() OVER(ORDER BY HIT DESC) AS RANK FREENO, WRITER, TITLE, CONTENT, IP, HIT
+		  		  FROM FREE) F
+		 WHERE RANK = 1
+	</select>
+	
+</mapper>

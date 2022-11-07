@@ -80,8 +80,17 @@ public class DBConfig {
 	}
 	
 	// 트랜잭션 인터셉터를 Advice로 등록하는 Advisor를 Bean으로 등록한다.
+	// 만들어둔 인터셉터를 동작할 수 있도록 하는 메소드 advisor()
 	@Bean
 	public Advisor advisor() {
+		
+		/*
+		  	AOP 기본 용어
+		  	1. 조인포인트 : AOP를 동작시킬 수 있는 메소드 전체 		(목록, 상세, 삽입, 수정, 삭제 메소드)
+		  	2. 포인트컷   : 조인포인트 중에서 AOP를 동작시킬 메소드 (삽입, 수정, 삭제 메소드)
+		  	3. 어드바이스 : 포인트컷에 동작시킬 AOP 동작 자체       (로그, 트랜잭션 등)
+		*/
+		
 		
 		// 언제 Advisor를 동작시킬 것인가?
 		// 포인트컷을 결정하란 의미. PointCut(전체메소드에서 선택한 메소드)을 결정해야 한다.
@@ -107,5 +116,7 @@ public class DBConfig {
 		return new DefaultPointcutAdvisor(pointCut, transactionInterceptor());  // advice == 트랜잭션 인텁세터로 등록
 		
 	}
+	
+	// 컨트롤러의 모든 메소드가 동작할 때마다 로그를 찍어보는 수업을 해볼것임미다 22/11/07
 	
 }
