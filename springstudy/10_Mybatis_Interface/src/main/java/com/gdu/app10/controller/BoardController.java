@@ -50,9 +50,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("brd/detail")
-	public String detail(@RequestParam(value="board_no", required=false, defaultValue="0") int boardNo      // board_no가 null일 수도(안 올 수도) 있다(false), 
+	public String detail(@RequestParam(value="boardNo", required=false, defaultValue="0") int boardNo      // boardNo가 null일 수도(안 올 수도) 있다(false), 
 									 , Model model) {     // 포워드할 데이터는 model에 저장
-		model.addAttribute("board", boardService.findBoardByNo(boardNo));   // 호출 결과(boardService.findBoardByNo(board_no))를 board에 담아두기
+		model.addAttribute("board", boardService.findBoardByNo(boardNo));   // 호출 결과(boardService.findBoardByNo(boardNo))를 board에 담아두기
 		return "board/detail";
 		
 	}
@@ -67,8 +67,8 @@ public class BoardController {
 	public String modify(BoardDTO board) {   // modifyBoard 서비스는 BoardDTO로 받고 있으니까 이것도 BoardDTO로 받는게 편하다.
 	
 		boardService.modifyBoard(board); // modifyBoard()로부터 0 or 1이 반환되지만 처리하지 않았다.
-		return "redirect:/brd/list?board_no=" + board.getBoardNo();	// 수정 후에 redirect 하겠다
-										// 상세보기 요청은 board_no를 붙여서 보내줘야 함!!!(list.jsp 46행 참고) 만약 붙여서 보내지 않으면 0을 쓴다(defaultValue="0").
+		return "redirect:/brd/list?boardNo=" + board.getBoardNo();	// 수정 후에 redirect 하겠다
+										// 상세보기 요청은 boardNo를 붙여서 보내줘야 함!!!(list.jsp 46행 참고) 만약 붙여서 보내지 않으면 0을 쓴다(defaultValue="0").
 	}
 	
 	@PostMapping("brd/remove")

@@ -1,4 +1,4 @@
-package com.gdu.app10.config;
+package com.gdu.app11.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -23,7 +23,7 @@ import com.zaxxer.hikari.HikariDataSource;
  	@Mapper의 위치를 알려주는 애너테이션이야.
 */
 
-@MapperScan(basePackages = {"com.gdu.app10.mapper"}) // 이 패키지를 찾으면 mapper가 들어있따!
+@MapperScan(basePackages = {"com.gdu.app11.mapper"}) // 이 패키지를 찾으면 mapper가 들어있따!
 
 /*
  	@PropertySource

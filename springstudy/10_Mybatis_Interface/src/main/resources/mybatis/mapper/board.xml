@@ -9,6 +9,7 @@
 <!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
 
 <mapper namespace="com.gdu.app10.mapper.BoardMapper">   
+<!-- board.xml 입장에서 나는 너(인터페이스보드매퍼)와 같아!!라고 알려주는거 -->
 
 	<select id="selectAllBoards" resultType="Board">
 		SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE
@@ -32,7 +33,7 @@
 	
 	<update id="updateBoard" parameterType="Board">
 		UPDATE BOARD
-		   SET TITLE = #{title}, CONTENT = #{content}, MODIFY_DATE = TO_CAHR(SYSDATE, 'YYYY-MM-DD')
+		   SET TITLE = #{title}, CONTENT = #{content}, MODIFY_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 		 WHERE BOARD_NO = #{boardNo}
 	</update>
 	
