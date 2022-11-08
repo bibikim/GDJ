@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
+<!-- 쿼리문 적어줄거야 -->
+<!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
+
+<mapper namespace="com.gdu.app10.mapper.BoardMapper">   
+
+	<select id="selectAllBoards" resultType="Board">
+		SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE
+		  FROM BOARD
+		 ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectBoardByNo" parameterType="int" resultType="Board">
+		SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE
+		  FROM BOARD
+		 WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<insert id="insertBoard" parameterType="Board">  
+	<!-- 받아오는 파라미터가 Board -->
+		INSERT INTO BOARD
+			(BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE)
+		VALUES
+			(BOARD_SEQ.NEXTVAL, #{title}, #{content}, #{writer}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE, 'YYYY-MM-DD'))
+	</insert>
+	
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD
+		   SET TITLE = #{title}, CONTENT = #{content}, MODIFY_DATE = TO_CAHR(SYSDATE, 'YYYY-MM-DD')
+		 WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Int">
+	<!-- parameterType은 DAO에서 각각의 메소드의 타입과 같은 것! -->
+		DELETE
+		  FROM BOARD
+		 WHERE BOARD_NO = #{boardNo}
+	</delete>
+	
+</mapper>

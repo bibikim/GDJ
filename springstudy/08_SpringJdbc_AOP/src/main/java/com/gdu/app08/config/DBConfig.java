@@ -27,7 +27,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 /*
   	@EnableAspectJAutoProxy
-  	안녕. 난 Aspect를 자동으로 동작시키는 에너테이션이야.
+  	안녕. 난 Aspect를 자동으로 동작시키는 에너테이션이야.       <- aop 기능
 */
 @EnableAspectJAutoProxy
 
@@ -36,7 +36,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class DBConfig {
 
 	// SpringJdbc 처리를 위한 DriverManagerDataSource와 JdbcTemplate을 Bean으로 등록한다.
-	
+												// JdbcTemplate : con, ps, rs 갖고 있는 애
 	@Bean
 	public DriverManagerDataSource dataSource() {   // jdbc 커넥션 만드는애, 커넥션풀 관리하는 객체  -> jdbc 기반의 DataSource라고 생각하면 된다.
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
