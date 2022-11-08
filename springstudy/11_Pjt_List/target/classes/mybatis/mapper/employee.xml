@@ -4,11 +4,51 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<!-- namespace="mapper의 패키지 경로"   (mapper 이름은 테이블의 이름으로 짓는게 무난) -->
-<!-- 쿼리문 적어줄거야 -->
-<!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
 
 <mapper namespace="com.gdu.app11.mapper.EmpMapper">   
 
+	<!-- employees와 departments의 조인을 위한 resultMap -->
+	<!-- column은 db 칼럼명 적는거라 대문자, 연결할 property -->
+	<resultMap type="DeptDTO" id="DeptMap">
+		<result column="DEPARTMENT_ID" property="departmentId"/>
+		<result column="DEPARTMENT_NAME" property="departmentName"/>
+		<result column="MANAGER_ID" property="managerId"/>
+		<result column="LOCATION_ID" property="locationId"/>
+	</resultMap>
+	<resultMap type="EmpDTO" id="EmpMap">
+		<result column="EMPLOYEE_ID" property="employeeId"/>
+		<result column="FIRST_NAME" property="firstName"/>
+		<result column="LAST_NAME" property="lastName"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PHONE_NUMBER" property="phoneNumber"/>
+		<result column="HIRE_DATE" property="hireDate"/>
+		<result column="JOB_ID" property="jobId"/>
+		<result column="COMMISSION_PCT" property="salary"/>
+		<result column="SALARY" property="commissionPct"/>
+		<result column="MANAGER_ID" property="managerId"/>
+		<collection resultMap="DeptMap" property="deptDTO"></collection>
+	</resultMap>
+
+	<select id="selectAllEmployeesCount" resultType="int">
+	<!-- 실제로는 EmpMapper를 부르는 것. id이름이 추상메소드의 이름과 같아야 한다. -->
+		SELECT COUNT(*)
+		  FROM EMPLOYEES
+	</select>
+	
+	<!-- dto로 매핑을 해버리면 같은 이름이 아니기 때문에 private DeptDTO deptDTO랑 연결이 안된다. -->
+	<!-- resultType=EmpDTO가 아닌, 위에서 만들어준 ** resultMap=EmpMap ** -->
+	<!-- JOIN 결과를 제대로 보기 위해서 resultMpa = "EmpMap"을 해주는 것 -->
+	<select id="selectEmployeesByPage" resultMap="EmpMap">  
+	<!-- 파라미터를 지금까진 하나로 묶어서 보내줬지만, 묶지 않은 경우 파라미터타입이 있지만 무시하고 적지 않음  -->
+	<!-- 파라미터를 묶어서 보내주지 않는 경우, 파라미터 순서로 부른다. int begin = #{param1}, int end = #{param2} -->
+		SELECT B.*
+        FROM (SELECT ROWNUM AS RN, A.*
+                FROM (SELECT E.*, D.DEPARTMENT_NAME, D.LOCATION_ID
+                        FROM DEPARTMENTS D INNER JOIN EMPLOYEES E
+                          ON D.DEPARTMENT_ID = E.DEPARTMENT_ID
+                        ORDER BY HIRE_DATE DESC) A) B
+       WHERE B.RN BETWEEN #{param1} AND #{param2}
+		 <!--  조인결과를 가장 먼저 보고 정렬한 테이블을 A라고 붙이고, 정렬한 뒤 RN이라는 ROWNUM 붙이기, 그걸 B라고 부르기 -->
+	</select>
 	
 </mapper>

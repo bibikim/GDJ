@@ -23,5 +23,6 @@ public class EmpDTO {
 	private int managerId;
 	private DeptDTO deptDTO;   // 외래키. DeptDTO의 PK이자 EmpDTO의 FK는 DeptDTO 타입으로 잡아준다 
 	    	// └> myBatis에서 조인된 데이터(int departmentId) -> 부서에 관련된 모든 정보가 들어가는 거라 정보 조회가 편해진다.
+	// deptDTO와 department_id는 서로 매핑이 안 되어 있기 때문에 null 뜸 -> 매핑 작업 해줘야 함.
 	
 }

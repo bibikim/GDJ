@@ -28,12 +28,29 @@
 				</tr>
 			</thead>
 			<tbody>
+				<c:forEach items="${employees}" var="emp">
+					<tr>
+						<td>순번자리</td>
+						<td>${emp.employeeId}</td>
+						<td>${emp.firstName} ${emp.lastName}</td>
+						<td>${emp.email}</td>
+						<td>${emp.phoneNumber}</td>
+						<td>${emp.hireDate}</td>
+						<td>${emp.salary}</td>
+						<td>${emp.commissionPct}</td>
+						<td>${emp.deptDTO.departmentId}</td>
+						<td>${emp.deptDTO.departmentName}</td>
+						<!-- emp의 deptDTO에 들어있는 departmentId, departmentName -->
+					</tr>
+				</c:forEach>
+			</tbody>
+			<tfoot>
 				<tr>
 					<td colspan="10">
 						
 					</td>
 				</tr>
-			</tbody>
+			</tfoot>
 		</table>
 	</div>
 	
