@@ -62,7 +62,7 @@
 		SELECT B.*
         FROM (SELECT ROWNUM AS RN, A.*
                 FROM (SELECT E.*, D.DEPARTMENT_NAME, D.LOCATION_ID
-                        FROM DEPARTMENTS D INNER JOIN EMPLOYEES E
+                        FROM DEPARTMENTS D RIGHT OUTER JOIN EMPLOYEES E  <!-- 사장님 사원번호 없어서 INNER JOIN하면 표시 안되니까 RIGHT OUTER JOIN!-->
                           ON D.DEPARTMENT_ID = E.DEPARTMENT_ID
                         ORDER BY HIRE_DATE DESC) A) B
        WHERE B.RN BETWEEN #{begin} AND #{end}

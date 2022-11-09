@@ -33,7 +33,7 @@ public class EmpServiceImpl implements EmpService {
 		// request에서 page 파라미터 꺼내기
 		// page 파라미터가 전달되지 않는 경우 page = 1 로 처리한다.
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-		int page = Integer.parseInt(opt.orElse("1"));   // 파라미터가 없으면 1페이지로 가게 한다.
+		int page = Integer.parseInt(opt.orElse("1"));   // 파라미터가 없으면 1페이지로 가게 한다. page는 내가 클릭해서 현재 있는 페이지!
 
 		/*
 		 * page는 파라미터로 주소창으로 전달
@@ -81,7 +81,9 @@ public class EmpServiceImpl implements EmpService {
 		List<EmpDTO> employees = empMapper.selectEmployeesByPage(map);
 		
 		model.addAttribute("employees" ,employees);  // "employees"이름으로 list.jsp로 넘어간다
-		model.addAttribute("pageUtil", pageUtil);
+		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/emp/list"));   // 경로 보내주기 => request.getContextPath() + "/emp/list"
+		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());  // 1페이지는 107-(1-1) * 10  -> 1페이지는 107부터 시작!
+		//model.addAttribute("pageUtil", pageUtil);  -> view/list.jsp에서 페이징처리할 때 썼던 코드
 		//System.out.println(employees);
 		
 	}

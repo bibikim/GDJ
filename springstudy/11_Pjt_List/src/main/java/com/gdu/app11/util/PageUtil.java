@@ -58,8 +58,40 @@ public class PageUtil {
 			endPage = totalPage;    // endPage를 totalPage와 같은 값으로 해라.
 		}
 		
-		
-		
 	}
+		
+		public String getPaging(String path) {    // ${contextPath}/emp/list 경로는 변수처리(path) -> 그래야 여기저기서 사용 가능
+			// └> 이렇게 만들어 두면, getPaging()만 갖다놓고 사용할 수 있으니까!
+			
+			StringBuilder sb = new StringBuilder();
+			
+			// 이전블록 : 1block이 아니면 이전블록이 있다. 즉 beginPage가 1이 아니면~
+			if(beginPage != 1) {
+				/*
+				 	<a href="path?page=beginPage-1">◀</a>
+				*/
+				sb.append("<a href=\"" + path + "?page=" + (beginPage - 1) + "\">◀</a>");     // href의 ""를 사용하기 위해서 \를 꼭 붙여준다!
+			}
+			
+			// 페이지번호 : 현재 페이지는 링크가 없다
+			for(int p = beginPage; p <= endPage; p++) {
+				if(p == page) {   	// p가 현재 페이지 넘버와 같으면
+					sb.append(p);	// 현재 페이지 번호 보여주고 끝!
+				} else {
+					sb.append("<a href=\"" + path + "?page=" + p + "\">" + p +"</a>");
+				}
+			}
+			// 다음블록 : 마지막 블록이 아니면 다음블록이 있다 (endPage != totalPage -> endPage+1)
+			if(endPage != totalPage) {
+				
+				/*
+			 		<a href="path?page=endPage+1">▶</a>
+				*/
+				
+				sb.append("<a href=\"" + path + "?page=" + (endPage + 1) + "\">▶</a>");
+			}
+	
+			return sb.toString();
+		}
 
 }
