@@ -70,7 +70,7 @@
 			</span>
 		</form>
 		
-		<!-- /emp/search로 보내는 파라미터 4개 = column, query, begin, end -->
+		<!-- /emp/search로 보내는 파라미터 4개 = column, query, start, stop -->
 	</div>
 
 	<div>

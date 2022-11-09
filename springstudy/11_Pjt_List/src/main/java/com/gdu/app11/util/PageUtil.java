@@ -23,7 +23,7 @@ public class PageUtil {
 	
 	// └> 위에 세개로 begin과 end값 구함
 	private int begin;	 // 가져올 목록의 시작 번호(계산한다)
-	private int end;	// 가져올 목록의 끝 번호(계산)
+	private int end;	 // 가져올 목록의 끝 번호(계산)
 	
 	private int totalPage;  // 전체 페이지 개수(계산한다)
 	private int pagePerBlock = 5;  // 블록에 표시할 페이지 개수(임의로 정한다)
@@ -51,7 +51,7 @@ public class PageUtil {
 		}
 		
 		
-		// beginPage, endPage 계산  -> 한 블락 안에 몇 페이지(beginPage)에서 몇 페이지(endPage)까지 
+		// beginPage, endPage 계산  -> 한 블락 안에 몇 페이지(beginPage 1)에서 몇 페이지(endPage 5)까지 
 		beginPage = ((page -1) / pagePerBlock) * pagePerBlock + 1;
 		endPage = beginPage + pagePerBlock - 1;
 		if(endPage > totalPage) {	// 계산된 endPage가 실제 totalPage보다 크면

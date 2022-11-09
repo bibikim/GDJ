@@ -104,7 +104,7 @@
 				
 				따라서, column은 #{}이 아닌 ${}으로 감싸준다. 
 				
-				매핑값은 /search?query=입력값
+				매핑값은 /search?query=입력값 ????
 		 -->
 		 <!--  
 				위 방법이 어렵다면, 쿼리를 여러개 짜면 된다.  매핑값은 /search/title?query=검색어
