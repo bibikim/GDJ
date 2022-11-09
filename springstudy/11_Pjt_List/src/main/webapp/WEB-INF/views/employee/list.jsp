@@ -47,6 +47,25 @@
 			<tfoot>
 				<tr>
 					<td colspan="10">
+						<!-- 이전블록 : 1block이 아니면 이전블록이 있다. 즉 beginPage가 1이 아니면 -->
+						<c:if test="${pageUtil.beginPage != 1}">   <!-- jsp쪽으로 보내준 이름 pageUtil, getter 해놨으니 꺼내쓰는데 문제 없당 -->
+							<a href="${contextPath}/emp/list?page=${pageUtil.beginPage - 1}">◀</a>
+							<!-- ◀ 누르면 바로 이전페이지로 가기 -->
+						</c:if>
+						<!-- 페이지번호 : 현재 페이지는 링크가 없다 -->
+						<c:forEach var="p" begin="${pageUtil.beginPage}" end="${pageUtil.endPage}" step="1"> <!-- for문. begin=시작값, end=종료값, step=증감값 -->
+							<c:if test="${p == pageUtil.page}">
+								${p}  <!-- 현재페이지는 페이지번호 표시하고 끝! -->
+							</c:if>
+							<c:if test="${p != pageUtil.page}">						   <!-- 현재페이지가 p가 아니면,  -->
+								<a href="${contextPath}/emp/list?page=${p}">${p}</a>   <!-- p로 갔을 때 페이지파라미터 p로 이동, 화면에도 p표시 -->
+							</c:if>
+						</c:forEach>
+						
+						<!-- 다음블록: 마지막 블록이 아니면 다음블록이 없다.  endPage != totalPage인 경우 마지막블록이 아님! -->
+						<c:if test="${pageUtil.endPage != pageUtil.totalPage}">					  <!-- endPage와 totalPage가 같지 않으면 -->
+							<a href="${contextPath}/emp/list?page=${pageUtil.endPage + 1}">▶</a>  <!-- ▶ 눌렀을 때 다음블록의 beginPage로 가겠다. 즉 endPage + 1  -->
+						</c:if>
 						
 					</td>
 				</tr>
