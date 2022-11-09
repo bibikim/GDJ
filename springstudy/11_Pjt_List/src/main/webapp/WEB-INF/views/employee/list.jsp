@@ -26,6 +26,10 @@
 				$('#area2').css('display', 'none');
 			}
 		})
+		
+		$('#btn_all').click(function() {
+			location.href = '${contextPath}/emp/list';
+		})
 	})
 </script>
 </head>
@@ -43,7 +47,7 @@
 				<option value="">:::선택:::</option>   <!-- 칼럼이름을 value값으로 -->
 				<!-- area1 : 완벽 일치해야 검색 -->
 				<option value="EMPLOYEE_ID">사원번호</option>     
-				<option value="DEPARTMENT_ID">부서번호</option> 
+				<option value="E.DEPARTMENT_ID">부서번호</option> 
 				 <!-- area1 : 일부만 일치해도 조회 가능 -->
 				<option value="LAST_NAME">성</option>   	 
 				<option value="FIRST_NAME">이름</option>
@@ -56,9 +60,9 @@
 				<input type="text" id="query" name="query">
 			</span>
 			<span id="area2">
-				<input type="text" id="begin" name="begin">
+				<input type="text" id="start" name="start">
 				~
-				<input type="text" id="end" name="end">
+				<input type="text" id="stop" name="stop">
 			</span>
 			<span id="">
 				<input type="submit" value="검색">

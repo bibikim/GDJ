@@ -91,13 +91,29 @@ public class EmpServiceImpl implements EmpService {
 	
 	@Override  // 추상메소드 오버라이드
 	public void findEmployees(HttpServletRequest request, Model model) {
+		
+		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+		int page = Integer.parseInt(opt.orElse("1"));      // 검색후 뜨는 페이징의 페이지도 파라미터로 전달되어야 하므로 ~~~
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("column", request.getParameter("column"));   // list.jsp에서 column이라는 파라미터를 받아와서 column으로 저장. 이걸 employee.xml에서 받아서 씀!
 		map.put("query", request.getParameter("query"));
-		map.put("begin", request.getParameter("begin"));
-		map.put("end", request.getParameter("end"));
+		map.put("start", request.getParameter("start"));
+		map.put("stop", request.getParameter("stop"));
 	
-		System.out.println("검색 결과 개수 : " + empMapper.selectFindEmployeesCount(map));
+		int totalRecord = empMapper.selectFindEmployeesCount(map);  // 전체 검색 개수
+		
+		pageUtil.setPageUtil(page, totalRecord);
+		
+		map.put("begin", pageUtil.getBegin());
+		map.put("end", pageUtil.getEnd());
+		
+		List<EmpDTO> employees = empMapper.selectFindEmployees(map);  // map 전달
+		
+		model.addAttribute("employees", employees);
+		model.addAttribute("beginNo", totalRecord - (page - 1 ) * pageUtil.getRecordPerPage());
+		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/emp/search"));
+		
 	}
 
 }

@@ -72,17 +72,18 @@
 	<!-- Dynamic Query. myBatis에서의 동적 SQL -->
 	<select id="selectFindEmployeesCount" parameterType="Map" resultType="int">  <!-- Map에는 name=column, name=query 가 들어있다 -->
 		SELECT COUNT(*)
-		  FROM EMPLOYEES
+		  FROM EMPLOYEES E
 		 <where>
-			 <if test="column=='EMPLOYEE_ID' or column=='DEPARTMENT_ID'">${column} = #{query}</if>
+			 <if test="column=='EMPLOYEE_ID' or column=='E.DEPARTMENT_ID'">${column} = #{query}</if>
 		<!-- <if test="column=='DEPARTMENT_ID'">WHERE DEPARTMENT_ID = #{query}</if>   query에 들어가 있는 거랑 똑같은거 찾아서 조회 -->
 			 <if test="column=='LAST_NAME' or column=='FIRST_NAME' or column=='PHONE_NUMBER'">${column} LIKE '%' || #{query} ||'%'</if> <!-- || : ORACLE에선 문자열 연결 -->
 		<!-- <if test="column=='FIRST_NAME'">WHERE FIRST_NAME LIKE '%' || #{query} ||'%'</if> 
 			 <if test="column=='PHONE_NUMBER'">WHERE PHONE_NUMBER LIKE '%' || #{query} ||'%'</if>  
 		-->
-			 <if test="column=='HIRE_DATE'">${column} BETWEEN TO_DATE(#{begin}, 'yyyy-mm-dd') AND TO_DATE(#{end}, 'yyyy-mm-dd')</if>
-			 <if test="column=='SALARY'">${column} BETWEEN #{begin} AND #{end}</if> 
+			 <if test="column=='HIRE_DATE'">${column} BETWEEN TO_DATE(#{start}, 'yyyy-mm-dd') AND TO_DATE(#{stop}, 'yyyy-mm-dd')</if>
+			 <if test="column=='SALARY'">${column} BETWEEN #{start} AND #{stop}</if> 
 		 </where>
+	</select>
 		 <!-- 조건절 where을 빼고 <if test>를 <where></where>로 감싸주면 where절로 인식 한다. -->
 		 <!-- 
 		 		#{} 변수값 치환
@@ -122,17 +123,28 @@
 		 		
 		 		where절에 칼럼명을 #{column}으로 수정해주면 똑같게 생긴 쿼리문끼리 or로 합쳐주기도 가능.
 		 -->
-	</select>
+		 
+		 
 	<select id="selectFindEmployees" parameterType="Map" resultMap="EmpMap">
 		SELECT B.*
 		  FROM (SELECT ROWNUM AS RN, A.*     
-			  	  FROM (SELECT *
+			  	  FROM (SELECT E.*, D.DEPARTMENT_NAME, D.LOCATION_ID
 			    	      FROM DEPARTMENTS D RIGHT OUTER JOIN EMPLOYEES E
 			    	        ON D.DEPARTMENT_ID = E.DEPARTMENT_ID
+			    	    <where>
+							<if test="column=='EMPLOYEE_ID' or column=='E.DEPARTMENT_ID'">${column} = #{query}</if>
+							<if test="column=='LAST_NAME' or column=='FIRST_NAME' or column=='PHONE_NUMBER'">${column} LIKE '%' || #{query} ||'%'</if>
+							<if test="column=='HIRE_DATE'">${column} BETWEEN TO_DATE(#{start}, 'yyyy-mm-dd') AND TO_DATE(#{stop}, 'yyyy-mm-dd')</if>
+							<if test="column=='SALARY'">${column} BETWEEN #{start} AND #{stop}</if> 
+		 			    </where>
 			  			 ORDER BY HIRE_DATE DESC) A) B   <!-- 정렬결과에 A라고 이름 붙이고, A에 rownum을 붙이고 난 결과를 B라고 이름 붙임 -->
 		 WHERE B.RN BETWEEN #{begin} and #{end}
-		  	<!-- 먼저 검색 한 후에 걸러놓고 조인하는 것이 성능에좋다 -->
-
+		  	<!-- 
+		  		먼저 검색 한 후에 걸러놓고 조인하는 것이 성능에 좋다! 즉, 조인 전에(ON 전에) 조건을 붙이는게 좋다 
+		  		    =>FROM DEPARTMENTS D RIGHT OUTER JOIN (SELECT * FROM EMPLOYEES WHERE DAPARTMENT_ID = 80) E
+		  	
+		  		성능 생각하면 on전에, 아묻따하면 ON 밑에(조인 후에) WHERE DAPARTMENT_ID = 80 을 붙여주면 된다.
+		  	-->
 
 	</select>
 	
