@@ -32,16 +32,25 @@
 <body>
 
 	<div>
-		<form id="frm_search">
-			<select id="column" name="column">
+	<!-- 
+		<selcet name="column">
+		<input name="query">     -> 이 두개의 데이터가 DB로 전달 될 것
+		
+		 /emp/search로 보내는 파라미터 4개 = column, query, begin, end
+	-->
+		<form id="frm_search" action="${contextPath}/emp/search">
+			<select id="column" name="column">  <!-- submit할 때 넘어가는 값은 name값! -->
 				<option value="">:::선택:::</option>   <!-- 칼럼이름을 value값으로 -->
-				<option value="EMPLYEE_ID">사원번호</option>     <!-- 완벽 일치해야 검색 -->
-				<option value="DEPARTMENT_ID">부서번호</option>  <!-- 완벽 일치해야 검색 -->
-				<option value="LAST_NAME">성</option>   	  <!-- 일부만 일치해도 검색 -->
+				<!-- area1 : 완벽 일치해야 검색 -->
+				<option value="EMPLOYEE_ID">사원번호</option>     
+				<option value="DEPARTMENT_ID">부서번호</option> 
+				 <!-- area1 : 일부만 일치해도 조회 가능 -->
+				<option value="LAST_NAME">성</option>   	 
 				<option value="FIRST_NAME">이름</option>
-				<option value="PHONE_NUMBER">연락처</option>  <!-- 일부만 일치해도 검색 -->
-				<option value="HIRE_DATE">입사일</option> <!-- area2 -->
-				<option value="SALARY">연봉</option> <!-- area2 -->
+				<option value="PHONE_NUMBER">연락처</option> 
+				 <!-- area2 : 날짜 및 숫자 검색 -->
+				<option value="HIRE_DATE">입사일</option>
+				<option value="SALARY">연봉</option>
 			</select>
 			<span id="area1">
 				<input type="text" id="query" name="query">
@@ -56,6 +65,8 @@
 				<input type="button" value="전체사원 조회" id="btn_all">
 			</span>
 		</form>
+		
+		<!-- /emp/search로 보내는 파라미터 4개 = column, query, begin, end -->
 	</div>
 
 	<div>

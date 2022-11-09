@@ -23,8 +23,8 @@
 		<result column="PHONE_NUMBER" property="phoneNumber"/>
 		<result column="HIRE_DATE" property="hireDate"/>
 		<result column="JOB_ID" property="jobId"/>
-		<result column="COMMISSION_PCT" property="salary"/>
-		<result column="SALARY" property="commissionPct"/>
+		<result column="COMMISSION_PCT" property="commissionPct"/>
+		<result column="SALARY" property="salary"/>
 		<result column="MANAGER_ID" property="managerId"/>
 		<collection resultMap="DeptMap" property="deptDTO"></collection>
 	</resultMap>
@@ -34,6 +34,7 @@
 		SELECT COUNT(*)
 		  FROM EMPLOYEES
 	</select>
+	
 	
 	<!-- dto로 매핑을 해버리면 같은 이름이 아니기 때문에 private DeptDTO deptDTO랑 연결이 안된다. -->
 	<!-- resultType=EmpDTO가 아닌, 위에서 만들어준 ** resultMap=EmpMap ** -->
@@ -47,7 +48,6 @@
 	 	
 		<select id="selectEmployeesByPage" resultMap="EmpMap"> 
 	 -->
-	
 	
 	<!--
 	     * 파라미터를 묶어서 보내는 경우 *
@@ -67,6 +67,73 @@
                         ORDER BY HIRE_DATE DESC) A) B
        WHERE B.RN BETWEEN #{begin} AND #{end}
 		 <!--  조인결과를 가장 먼저 보고 정렬한 테이블을 A라고 붙이고, 정렬한 뒤 RN이라는 ROWNUM 붙이기, 그걸 B라고 부르기 -->
+	</select>
+	
+	<!-- Dynamic Query. myBatis에서의 동적 SQL -->
+	<select id="selectFindEmployeesCount" parameterType="Map" resultType="int">  <!-- Map에는 name=column, name=query 가 들어있다 -->
+		SELECT COUNT(*)
+		  FROM EMPLOYEES
+		 <where>
+			 <if test="column=='EMPLOYEE_ID' or column=='DEPARTMENT_ID'">${column} = #{query}</if>
+		<!-- <if test="column=='DEPARTMENT_ID'">WHERE DEPARTMENT_ID = #{query}</if>   query에 들어가 있는 거랑 똑같은거 찾아서 조회 -->
+			 <if test="column=='LAST_NAME' or column=='FIRST_NAME' or column=='PHONE_NUMBER'">${column} LIKE '%' || #{query} ||'%'</if> <!-- || : ORACLE에선 문자열 연결 -->
+		<!-- <if test="column=='FIRST_NAME'">WHERE FIRST_NAME LIKE '%' || #{query} ||'%'</if> 
+			 <if test="column=='PHONE_NUMBER'">WHERE PHONE_NUMBER LIKE '%' || #{query} ||'%'</if>  
+		-->
+			 <if test="column=='HIRE_DATE'">${column} BETWEEN TO_DATE(#{begin}, 'yyyy-mm-dd') AND TO_DATE(#{end}, 'yyyy-mm-dd')</if>
+			 <if test="column=='SALARY'">${column} BETWEEN #{begin} AND #{end}</if> 
+		 </where>
+		 <!-- 조건절 where을 빼고 <if test>를 <where></where>로 감싸주면 where절로 인식 한다. -->
+		 <!-- 
+		 		#{} 변수값 치환
+		 		-> 변수값을 작은 따옴표('')로 묶어서 문자열로 값을 치환.
+		 		
+		 		ex)
+				between #{begin} and #{end}   -> 변수값에 ''를 붙여서 문자열로 치환,
+				between '1' and '10'          -> 불가능~
+				          ▼
+				between ${begin} and ${end} 
+				between 1 and 10              -> 변수값을 그대로 치환. 가능하지만! 굳이 $로 바꿔줄 필요 없음. 성능상 이점도 없음.
+				
+				where #{column} = #{query} 
+				where 'employee_id' = '150'   -> 칼럼명을 ''로 묶으면 안됨.
+				           ▼
+				where ${column} = #{query}
+				where employee_id = '150'     -> 오라클에선 숫자가 ''로 묶여서 문자로 인식하는건 문제되지 않으므로 가능. to_number로 알아서 자동변환 해줌
+				
+				따라서, column은 #{}이 아닌 ${}으로 감싸준다. 
+				
+				매핑값은 /search?query=입력값
+		 -->
+		 <!--  
+				위 방법이 어렵다면, 쿼리를 여러개 짜면 된다.  매핑값은 /search/title?query=검색어
+																	   /search/review?query=검색어
+				조회해야 하는 테이블이 하나라면 이렇게 짜면 된다. (별도의 쿼리문, 별도의 테이블...)			 
+		 -->
+		 
+		 <!-- 
+		 		* MyBatis에서는 매퍼에서 <if> 사용이 가능하다. (가장 많이 사용되는 요소)
+		 		파라미터로 받아온 값을 조건절로 걸러서 조건절 등을 추가할 때 사용!
+		 		
+		 		<if test="column=='EMPLOYEE_ID'">  
+		 		column 		  => select id="column"           (<select>는 <option> 중에 하나만을 골라서 가져감)
+		 		'EMPLOYEE_ID' => option value="EMPLOYEE_ID"
+		 		#{query}      => 사용자 입력값
+		 		
+		 		where절에 칼럼명을 #{column}으로 수정해주면 똑같게 생긴 쿼리문끼리 or로 합쳐주기도 가능.
+		 -->
+	</select>
+	<select id="selectFindEmployees" parameterType="Map" resultMap="EmpMap">
+		SELECT B.*
+		  FROM (SELECT ROWNUM AS RN, A.*     
+			  	  FROM (SELECT *
+			    	      FROM DEPARTMENTS D RIGHT OUTER JOIN EMPLOYEES E
+			    	        ON D.DEPARTMENT_ID = E.DEPARTMENT_ID
+			  			 ORDER BY HIRE_DATE DESC) A) B   <!-- 정렬결과에 A라고 이름 붙이고, A에 rownum을 붙이고 난 결과를 B라고 이름 붙임 -->
+		 WHERE B.RN BETWEEN #{begin} and #{end}
+		  	<!-- 먼저 검색 한 후에 걸러놓고 조인하는 것이 성능에좋다 -->
+
+
 	</select>
 	
 </mapper>

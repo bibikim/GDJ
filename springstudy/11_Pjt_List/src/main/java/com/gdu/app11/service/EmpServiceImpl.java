@@ -87,5 +87,17 @@ public class EmpServiceImpl implements EmpService {
 		//System.out.println(employees);
 		
 	}
+	
+	
+	@Override  // 추상메소드 오버라이드
+	public void findEmployees(HttpServletRequest request, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("column", request.getParameter("column"));   // list.jsp에서 column이라는 파라미터를 받아와서 column으로 저장. 이걸 employee.xml에서 받아서 씀!
+		map.put("query", request.getParameter("query"));
+		map.put("begin", request.getParameter("begin"));
+		map.put("end", request.getParameter("end"));
+	
+		System.out.println("검색 결과 개수 : " + empMapper.selectFindEmployeesCount(map));
+	}
 
 }

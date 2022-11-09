@@ -25,4 +25,10 @@ public class EmpController {
 		empService.findAllEmployees(request, model);
 		return "employee/list";  // 폴더이름 앞에 / 는 붙여도, 안 붙여도 노상관
 	}
+	
+	@GetMapping("/emp/search")
+	public String search(HttpServletRequest request, Model model) {
+		empService.findEmployees(request, model);
+		return "employee/list";	// 동일한 list.jsp페이지 보여주기
+	}
 }

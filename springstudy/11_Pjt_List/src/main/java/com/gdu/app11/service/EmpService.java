@@ -11,7 +11,7 @@ public interface EmpService {
 		// 서비스에서 리스트를 반환한다 -> 컨트롤러가 해야 되는 일 : 포워딩하기 위해서 model에 싣고(model.addAtribute) 실어서 jsp로 가고 view로 간다.
 		// void 처리 해놨기 때문에 서비스와 컨트롤러가 주고받는게 없음 -> 넘겨지지 않음 -> service인 내가 할게! (= model.addAttribute)
 		// 따라서 두번째 파라미터로 model이 필요하다.
-		
+	public void findEmployees(HttpServletRequest request, Model model);	
 		
 		
 		
