@@ -24,6 +24,11 @@
 		
 	});
 </script>
+<style>
+	.lnk_remove {
+		cursor: pointer;
+	}
+</style>
 </head>
 <body>
 
@@ -56,42 +61,43 @@
 			</thead>
 			<tbody>
 				<c:forEach var="bbs" items="${bbsList}" varStatus="vs">   <%-- items는 EL-${}로 작성 --%>
-					<tr>
-						<td>${beginNo - vs.index}</td>  <!-- vs.index => 0, 1, 2, 3, ... -->
-						<td>${bbs.writer}</td>
-						<td>
-							<c:if test="${bbs.state == 0}">
-								삭제된 게시글입니다.          <!-- 삭제한 게시물은 안보이게 만드는 것으로! -->
-							</c:if>
-							<c:if test="${bbs.state == 1}">
-								${bbs.title}
-							</c:if>
-						</td>
-						<td>${bbs.ip}</td>
-						<td>${bbs.createDate}</td>
-						<td>
-							<%-- forEach문으로 class가 여러개 만들어졌을 때, 내가 삭제하려는(원하는) frm_remove가 어떤 frm_remove이냐 어떻게 알거냐? form이 여러개 있음 --%>
-						<%-- <form data-aaa="${bbs.bbsNo}" class="frm_remove" method="post" action="${contextPath}/bbs/remove">  --%>
-							<form method="post" action="${contextPath}/bbs/remove"> 
-							<%-- data-aaa="${bbs.bbsNo}" -> data-속성의 값을 ${bbs.bbsNo}로 주면, form마다 다르게 부여됨 --%>
-								<input type="hidden" name="bbsNo" value="${bbs.bbsNo}">
-								<a id="Ink_remove${bbs.bbsNo}">X</a>
-							</form>
-							<script>
-								$('#Ink_class').click(function() {
-									if(confirm('삭제할까요?')) {
-										// $('.frm_remove').submit();  -> 이렇게 form을 부르면 아예 싹 삭제..?
-									    // alert( $(this).parent().data('aaa') );  
-									   <%-- 번호를 누른 <a>의 부모 <form>의 data-aaa속성을 클릭하게 한 것. /// data- 속성값을 가지고 오는 함수 :  .data('aaa') --%>
-										// alert($(this).prev().val());  // 같은레벨의 이전형제, 즉 input=hidden의 value값=bbs.bbsNo 을 창을 띄워준 것
-										$(this).parent().submit();
-									} 
-								})
-							</script>
-						</td>
-					</tr>
+					<c:if test="${bbs.state == 1}">
+						<tr>
+							<td>${beginNo - vs.index}</td>  <!-- vs.index => 0, 1, 2, 3, ... -->
+							<td>${bbs.writer}</td>
+							<td>${bbs.title}</td>
+							<td>${bbs.ip}</td>
+							<td>${bbs.createDate}</td>
+							<td>
+								<form method="post" action="${contextPath}/bbs/remove"> 
+									<input type="hidden" name="bbsNo" value="${bbs.bbsNo}">
+									<a id="lnk_remove${bbs.bbsNo}">X</a>
+								</form>
+								<script>
+									$('#lnk_remove${bbs.bbsNo}').click(function() {
+										if(confirm('삭제할까요?')) {
+											// $('.frm_remove').submit();  -> 이렇게 form을 부르면 아예 싹 삭제..?
+										    // alert( $(this).parent().data('aaa') );  
+										   <%-- 번호를 누른 <a>의 부모 <form>의 data-aaa속성을 클릭하게 한 것. /// data- 속성값을 가지고 오는 함수 :  .data('aaa') --%>
+											// alert($(this).prev().val());  // 같은레벨의 이전형제, 즉 input=hidden의 value값=bbs.bbsNo 을 창을 띄워준 것
+											$(this).parent().submit();
+										} 
+									})
+								</script>
+							</td>
+						</tr>
+					</c:if>
+					<c:if test="${bbs.state == 0}">
+						<tr>
+							<td>${beginNo - vs.index}</td>
+							<td colspan="5">삭제된 게시글입니다</td>  <!-- 삭제한 게시물은 안보이게 만드는 것으로! -->
+						</tr>
+					</c:if>
 				</c:forEach>
 			</tbody>
+							<%-- forEach문으로 class가 여러개 만들어졌을 때, 내가 삭제하려는(원하는) frm_remove가 어떤 frm_remove이냐 어떻게 알거냐? form이 여러개 있음 --%>
+							<%-- <form data-aaa="${bbs.bbsNo}" class="frm_remove" method="post" action="${contextPath}/bbs/remove">  --%>
+							<%-- data-aaa="${bbs.bbsNo}" -> data-속성의 값을 ${bbs.bbsNo}로 주면, form마다 다르게 부여됨 --%>
 			<tfoot>
 				<tr>
 					<td colspan="6">${paging}</td>
