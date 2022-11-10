@@ -20,4 +20,9 @@ public class BbsDTO {
 	private int depth;
 	private int groupNo;
 	private int groupOrder;
+	
+	/* 
+	 * 자기 게시글 번호(bbsNo)를 가지고 그룹 번호(groupNo)로 사용한다
+		=>  BBS_SEQ.NEXTVAL == BBS_SEQ.CURRVAL
+	*/
 }

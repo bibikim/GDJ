@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.app12.service.BbsService;
 
@@ -22,8 +24,24 @@ public class BbsController {
 	
 	@GetMapping("/bbs/list")
 	public String list(HttpServletRequest request, Model model) {
-		bbsService.findAllBbsList(request, model);
+		bbsService.findAllBbsList(request, model);      // request에 recordPerPage가 포함 되어 있음
 		return "bbs/list"; // 이동할 장소 bbs 폴더 아래 list.jsp
 	}
 	
+	@GetMapping("/bbs/write")
+	public String write() {
+		return "bbs/write"; // bbs 폴더 아래 write.jsp
+	}
+	
+	@PostMapping("/bbs/add")
+	public String add(HttpServletRequest request) {
+		bbsService.addBbs(request);
+		return "redirect:/bbs/list";
+	}
+	
+	@PostMapping("/bbs/remove")
+	public String remove(@RequestParam("bbsNo") int bbsNo) {
+		bbsService.removeBbs(bbsNo);
+		return "redirect:/bbs/list";
+	}
 }

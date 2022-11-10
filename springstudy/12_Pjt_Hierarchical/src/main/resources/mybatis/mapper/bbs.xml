@@ -33,6 +33,10 @@
 	</select>
 	
 	<insert id="insertBbs" parameterType="BbsDTO">
+		INSERT INTO BBS
+				(BBS_NO, WRITER, TITLE, IP, CREATE_DATE, STATE, DEPTH, GROUP_NO, GROUP_ORDER)
+			VALUES
+				(BBS_SEQ.NEXTVAL, #{writer}, #{title}, #{ip}, SYSDATE, 1, 0, BBS_SEQ.CURRVAL, 0)
 	</insert>
 	
 	<update id="updatePreviousReply" parameterType="BbsDTO">
@@ -41,6 +45,10 @@
 	<insert id="insertReply" parameterType="BbsDTO">
 	</insert>
 	
-	<delete id="delete" parameterType="int">
-	</delete>
+	<!-- 삭제 아닌 업데이트. 삭제하기로 한 정보는 STATE값을 0으로 바꿔보기로 함. -->
+	<update id="delete" parameterType="int">
+		 UPDATE BBS
+		    SET STATE = 0
+		  WHERE BBS_NO = #{bbsNo}
+	</update>
 </mapper>

@@ -14,7 +14,8 @@ public interface BbsMapper {     // 매퍼니까 = db에서 가져오는거! 다
 	public int selectAllBbsCount();
 	public List<BbsDTO> selectAllBbsList(Map<String, Object> map);   // begin과 end 전달할 Map
 
-	/*삽입*/ // 게시글 작성할 때, 댓글 작성할 때 경우 다 만들기
+	/*삽입*/ 
+	// 원글 작성할 때, 답글 작성할 때 경우 다 만들기
 	public int insertBbs(BbsDTO bbs);    // 원댓 삽입
 	// insertReply할 때 이전에 있었던 대댓들은 update 해줘야 함(순서맞추기 위해) -> insert할 때, update도 동시에 돌아가야기 때문에 트랜잭션 필요
 	public int updatePreviousReply(BbsDTO bbs);  // 댓글 삽입 전 기존 댓글의 group_order 값을 업데이트 해야함 -> order가 변해야 줄을 세울 수 있기 때문

@@ -29,14 +29,20 @@ public class BbsServiceImpl implements BbsService {
 	public void findAllBbsList(HttpServletRequest request, Model model) {
 		
 		// 파라미터 page, 전달되지 않으면 page=1로 처리
-		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-		int page = Integer.parseInt(opt.orElse("1"));		 // page 파라미터가 null이면 대신 1을 써라
+		Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));  
+		int page = Integer.parseInt(opt1.orElse("1"));		 // page 파라미터가 null이면 대신 1을 써라
+		
+		// request에 recordPerPage가 파라미터로 포함 되어 있음
+		// 파라미터 recordPerPage, 전달되지 않으면 recordPerPage=10으로 처리
+		Optional<String> opt2 = Optional.ofNullable(request.getParameter("recordPerPage"));  
+		int recordPerPage = Integer.parseInt(opt2.orElse("10"));
+		
 		
 		// 전체 개시글 개수
 		int totalRecord = bbsMapper.selectAllBbsCount();
 		
 		// 페이징에 필요한 모든 계산 완료
-		pageUtil.setPageUtil(page, totalRecord);
+		pageUtil.setPageUtil(page, recordPerPage, totalRecord);
 		
 		// DB로 보낼 Map(begin + end)
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -50,13 +56,22 @@ public class BbsServiceImpl implements BbsService {
 		model.addAttribute("bbsList", bbsList);  // "bbsList"라는 이름으로 bbsList를 model에 실어준다~
 		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/bbs/list"));
 		model.addAttribute("beginNo", totalRecord - (page - 1) * pageUtil.getRecordPerPage());
-	
+		model.addAttribute("recordPerPage", recordPerPage); 
 	}
 
 	@Override
 	public int addBbs(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		String writer = request.getParameter("writer");
+		String title = request.getParameter("title");
+		String ip = request.getRemoteAddr();
+		
+		BbsDTO bbs = new BbsDTO();
+		bbs.setWriter(writer);
+		bbs.setTitle(title);
+		bbs.setIp(ip);
+		
+		return bbsMapper.insertBbs(bbs);
 	}
 
 	@Override
@@ -68,7 +83,7 @@ public class BbsServiceImpl implements BbsService {
 	@Override
 	public int removeBbs(int bbsNo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return bbsMapper.delete(bbsNo);
 	}
 
 }
