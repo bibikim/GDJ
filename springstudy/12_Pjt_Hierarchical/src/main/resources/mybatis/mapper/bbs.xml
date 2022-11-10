@@ -10,9 +10,26 @@
 
 	<!-- id는 메소드 이름을 카피해서 만들기, 괄호안에 전달되는 파라미터를 파라미터타입으로 잡아라, 반환하는 반환타입을 resultType으로 잡아라 -->
 	<select id="selectAllBbsCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM BBS
 	</select>
+	<!--  
+		원글 개수 : WHERE DEPTH = 0
+		답글 개수 : WHERE GROUP_ORDER = 원글번호 AND DEPTH = 0
+	-->
 	
 	<select id="selectAllBbsList" parameterType="Map" resultType="BbsDTO">
+	<!-- 
+		Map에 들어있는 begin과 end값 사용!
+		정렬(order) 먼저 하고 번호붙이기(rownum) => 1단 (ROW_NUMBER() OVER(정렬기준)
+		between @ and @ => 2단
+		
+		
+	-->
+		SELECT A.RN, A.BBS_NO, A.WRITER, A.TITLE, A.IP, A.CREATE_DATE, A.STATE, A.DEPTH, A.GROUP_NO, A.GROUP_ORDER
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY BBS_NO DESC) AS RN, BBS_NO, WRITER, TITLE, IP, CREATE_DATE, STATE, DEPTH, GROUP_NO, GROUP_ORDER
+		   		  FROM BBS) A
+		 WHERE A.RN BETWEEN #{begin} and #{end}
 	</select>
 	
 	<insert id="insertBbs" parameterType="BbsDTO">

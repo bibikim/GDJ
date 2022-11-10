@@ -133,7 +133,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${employees}" var="emp" varStatus="vs">  <!-- varStatus  0부터 시작하는 index 갖고 오는 방법! 변수vs에서 index 가져오기 -->
+				<c:forEach items="${employees}" var="emp" varStatus="vs">  <!-- varStatus : 0부터 시작하는 index 갖고 오는 방법! 변수vs에서 index 가져오기 -->
 					<tr>
 						<td>${beginNo - vs.index}</td>  <!-- 107, 106, 105 ... 순번 표시하기 -->
 						<td>${emp.employeeId}</td>
