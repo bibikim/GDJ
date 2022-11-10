@@ -1,5 +1,7 @@
 package com.gdu.app11.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
@@ -12,7 +14,7 @@ public interface EmpService {
 		// void 처리 해놨기 때문에 서비스와 컨트롤러가 주고받는게 없음 -> 넘겨지지 않음 -> service인 내가 할게! (= model.addAttribute)
 		// 따라서 두번째 파라미터로 model이 필요하다.
 	public void findEmployees(HttpServletRequest request, Model model);	
-		
+	public Map<String, Object> findAutoCompleteList(HttpServletRequest request);  // request에는 param이라는 검색어가 들어가 있을 것!
 		
 		
 		// 요청/응답/세션/모델 : 최초로 선언할 수 있는 곳 = Controller

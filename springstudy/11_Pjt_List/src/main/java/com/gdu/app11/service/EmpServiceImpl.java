@@ -95,11 +95,16 @@ public class EmpServiceImpl implements EmpService {
 		Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
 		int page = Integer.parseInt(opt.orElse("1"));      // 검색후 뜨는 페이징의 페이지도 파라미터로 전달되어야 하므로 ~~~
 		
+		String column = request.getParameter("column");
+		String query = request.getParameter("query");
+		String start =  request.getParameter("start");
+		String stop = request.getParameter("stop");
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("column", request.getParameter("column"));   // list.jsp에서 column이라는 파라미터를 받아와서 column으로 저장. 이걸 employee.xml에서 받아서 씀!
-		map.put("query", request.getParameter("query"));
-		map.put("start", request.getParameter("start"));
-		map.put("stop", request.getParameter("stop"));
+		map.put("column", column);   // list.jsp에서 column이라는 파라미터를 받아와서 column으로 저장. 이걸 employee.xml에서 받아서 씀!
+		map.put("query", query);
+		map.put("start", start);
+		map.put("stop", stop);
 	
 		int totalRecord = empMapper.selectFindEmployeesCount(map);  // 전체 검색 개수
 		
@@ -112,7 +117,95 @@ public class EmpServiceImpl implements EmpService {
 		
 		model.addAttribute("employees", employees);
 		model.addAttribute("beginNo", totalRecord - (page - 1 ) * pageUtil.getRecordPerPage());
-		model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/emp/search"));
+		//model.addAttribute("paging", pageUtil.getPaging(request.getContextPath() + "/emp/search"));
+									// └> 여기서 파라미터 정보를 넘겨주지 않고 있어서 검색후 페이징이 넘어가면 초기화 되는것이 문제
+									// 페이징처리할 때도 주소창으로 파라미터를 보내줘야 한다.
+		
+		// 새로 path 잡기!
+		// 페이징에도 검색했을 때 붙는 파라미터를 적어줘야 한다.
+		String path = null;
+		switch(column) {
+		case "EMPLOYEE_ID" :
+		case "E.DEPARTMENT_ID":
+		case "LAST_NAME":
+		case "FIRST_NAME":
+		case "PHONE_NUMBER":
+			// └---- 조회 시 사용하는 파라미터 : query  사용
+			path = request.getContextPath() + "/emp/search?column=" + column + "&query=" + query;
+			break;
+		case "HIRE_DATE":
+		case "SALARY":
+			// └---- 조회 시 사용하는 파라미터 : start, stop 사용
+			path = request.getContextPath() + "/emp/search?column=" + column + "&start=" + start + "&stop=" + stop;
+			break;
+		}
+		model.addAttribute("paging", pageUtil.getPaging(path));
+		/* /app11/emp/search?column=EMPLOYEE_ID&query=150 --> 이 주소가 getPaging(path)의 path로 들어감
+		   -> 그럼 이 path는 pageUtil의 <a>링크 안에 path로 들어간다. 
+		    * <a href=\"" + ^/app11/emp/search?column=EMPLOYEE_ID&query=150^ + "?page=" + p + "\">"
+		    주소창 뒤에 파라미터가 시작될 때 들어가는 ? 가 두개가 됨. 잘못된 주소!!
+		    
+		    전달받은 패스에 ?가 있따는건 검색을 했다는 것인데, 검색한 상태를 유지하면서 page 파라미터를 &page로 처리할 수 있게끔 만들어줘야 한다.
+				-> pageUtil에서 <a>링크 이전에 if(path.contains)으로 처리한다!
+		*/
+	}
+	
+	// empService에서 메소드 만들고 나면 여기서 ctrl+space로 오버라이드 자동완성 하면 됨
+	@Override
+	public Map<String, Object> findAutoCompleteList(HttpServletRequest request) {
+		
+		String target = request.getParameter("target");
+		String param = request.getParameter("param");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("target", target);
+		map.put("param", param);
+		
+		List<EmpDTO> list = empMapper.selectAutoCompleteList(map);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		if(list.size() == 0) {  // list에 검색결과가 없으면
+			result.put("status", 400);
+			result.put("list", null);
+		} else {	// list에 검색결과가 있으면
+			result.put("status", 200);
+			result.put("list", list);
+		}
+		
+		switch(target) {
+		case "FIRST_NAME" : result.put("target", "firstName"); break;
+		case "LAST_NAME" : result.put("target", "lastName"); break;
+		case "EMAIL" : result.put("target", "email"); break;
+		}
+	
+		
+		return result;
+		
+		/*
+			Map<> result가 jackson에 의해서 아래 JSON으로 자동 변환된다.
+				result에 들어있는 프로퍼티가 3개~! status와 list, target
+			result = {
+				"status" : 200							=> status property 꺼내기 :  result.status  /  result["status"]
+				"list" : [          
+					
+						// {}하나하나의 타입은 EmpDTO
+					{
+					 	// select에서 email만 가져오고 나머지는 안 갖고 왔기 때문에 null 
+					  "employeeId": null,
+					  "firstName": null,
+					  ...
+					  "email": "MHARTSTE"  				=> list property 꺼내기 :   result.list[0].email
+					},
+					{
+						...
+					},
+					...
+				],
+				"target" : "email"						=> result.target
+			}
+		
+		*/
+		
 		
 	}
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+
+<mapper namespace="com.gdu.app12.mapper.BbsMapper">   
+<!-- BbsMapper를 쓰면 곧 나를 쓰는 거다!!라고 말하는 애  --> 
+
+	<!-- id는 메소드 이름을 카피해서 만들기, 괄호안에 전달되는 파라미터를 파라미터타입으로 잡아라, 반환하는 반환타입을 resultType으로 잡아라 -->
+	<select id="selectAllBbsCount" resultType="int">
+	</select>
+	
+	<select id="selectAllBbsList" parameterType="Map" resultType="BbsDTO">
+	</select>
+	
+	<insert id="insertBbs" parameterType="BbsDTO">
+	</insert>
+	
+	<update id="updatePreviousReply" parameterType="BbsDTO">
+	</update>
+	
+	<insert id="insertReply" parameterType="BbsDTO">
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+	</delete>
+</mapper>

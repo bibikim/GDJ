@@ -145,7 +145,14 @@
 		  	
 		  		성능 생각하면 on전에, 아묻따하면 ON 밑에(조인 후에) WHERE DAPARTMENT_ID = 80 을 붙여주면 된다.
 		  	-->
-
+	</select>
+	
+	<!-- 검색어를 받아오는거니까 파라미터타입=String, 검색결과는 email을 포함하는 resultType=EmpDTO -->
+	<!-- 입력된값 param 하나만 받아올 땐 parameterType="String"이지만, target/param을 map에 담아뒀으므로 parameterType="Map" -->
+	<select id="selectAutoCompleteList" parameterType="Map" resultType="EmpDTO">
+		SELECT DISTINCT ${target}
+		  FROM EMPLOYEES
+		 WHERE ${target} LIKE #{param} || '%'   <!-- mySql, oracle 모두 사용가능한 문자연결함수 LIKE CONCAT(#{param}, '%') !주의! 문자를 세 개 이상 붙이려면 CONCAT을 2개 이상 써야 함. -->
 	</select>
 	
 </mapper>

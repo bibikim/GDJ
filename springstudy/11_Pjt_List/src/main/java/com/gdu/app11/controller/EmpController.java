@@ -1,11 +1,14 @@
 package com.gdu.app11.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdu.app11.service.EmpService;
 
@@ -30,5 +33,13 @@ public class EmpController {
 	public String search(HttpServletRequest request, Model model) {
 		empService.findEmployees(request, model);
 		return "employee/list";	// 동일한 list.jsp페이지 보여주기
+	}
+	
+	@ResponseBody  // return이 jsp가 아니라고 알려주는 애너테이션. ajax 처리시 필수!!!
+	@GetMapping(value="/emp/autoComplete", produces="application/json")   // 다른거 안 적어줄 때는 value를 안 붙여도 되는데, 적어줄 땐 붙여야 함
+	// Map이 잭슨에 의해서 json데이터로 알아서 바뀔 것! 반환하는 타(produces)
+	public Map<String, Object> autoComplete(HttpServletRequest request) {
+		return empService.findAutoCompleteList(request); 
+		      // ---------> 요기가 jsp로 가는게 아니라는걸 알려주기 위해 @ResponseBody
 	}
 }

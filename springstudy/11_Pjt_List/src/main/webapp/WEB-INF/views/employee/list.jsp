@@ -27,6 +27,35 @@
 			}
 		})
 		
+		// 자동 완성
+		$('#email').keyup(function(){
+			// db를 갔다 와야 함. 한 글자 입력하고 그 글자가 포함된 모든걸 자동완성 되려면. 따라서 ajax 처리!
+			$('#auto_complete').empty();
+			if($(this).val() == '') {
+				return;
+			}
+			$.ajax({
+				/* 요청 */
+				type: 'get',
+				url: '${contextPath}/emp/autoComplete',
+				/* 응답 */
+				data: 'target=' + $('#target').val() + '&param=' + $(this).val(), // 입력된 값 param=, this는 이벤트 대상! 따라서 #email. -> 입력된 이메일 값을 param으로 보내겠따
+				dataType: 'json',
+				success: function(resData) {
+					if(resData.status == 200) {
+					 //	$.each(배열, function(인덱스, 요소))  // 요소 이름은 내가 주고싶은걸로 주면 된다
+						$.each(resData.list, function(i, emp){  // 요소 하나{}를 emp라고 부르겠다						 
+					 		$('#auto_complete')
+							.append($('<option>').val(emp.email));  // 만들고 싶은 태그를 jquery wrapper로 묶어서 적어주면 만들어준당~
+													// list 배열에서 emp라는 요소의 email를 가져오겠다!
+													// 자바스크립트 객체 문법으로는 emp["email"] 로 적는 것도 가능
+						});
+					}
+				}
+			})
+		})
+		
+		
 		$('#btn_all').click(function() {
 			location.href = '${contextPath}/emp/list';
 		})
@@ -40,7 +69,7 @@
 		<selcet name="column">
 		<input name="query">     -> 이 두개의 데이터가 DB로 전달 될 것
 		
-		 /emp/search로 보내는 파라미터 4개 = column, query, begin, end
+		 /emp/search로 보내는 파라미터 4개 = column, query, start, stop
 	-->
 		<form id="frm_search" action="${contextPath}/emp/search">
 			<select id="column" name="column">  <!-- submit할 때 넘어가는 값은 name값! -->
@@ -72,6 +101,19 @@
 		
 		<!-- /emp/search로 보내는 파라미터 4개 = column, query, start, stop -->
 	</div>
+
+	<div>
+		<select name="target" id="target">
+			<option value="FIRST_NAME">이름</option>
+			<option value="LAST_NAME">성</option>
+			<option value="EMAIL">이메일</option>
+		</select>
+		<input type="text" id="email" name="email" list="auto_complete">
+		<datalist id="auto_complete"></datalist>
+		<!-- datalist 안에 option 태그 집어넣기를 위에서 jquery로! -->
+	</div>
+	
+	<hr>
 
 	<div>
 		<table border="1">

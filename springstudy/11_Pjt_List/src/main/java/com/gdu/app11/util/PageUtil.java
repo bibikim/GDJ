@@ -65,12 +65,31 @@ public class PageUtil {
 			
 			StringBuilder sb = new StringBuilder();
 			
+			
+			// "column=파라미터"(검색내용)를 유지하면서 paging 처리하기 위한 path.contains 작업!
+			/*
+			 * 	1. path에 파라미터가 없는 경우
+			 *      /emp/list
+			 *      /emp/list?page=1   (page 앞에 ? 를 사용)
+		
+			 *  2. path에 파라미터가 있는 경우
+			 *      /emp/search?column=EMPLOYEE_ID&query=150
+			 *      /emp/search?column=EMPLOYEE_ID&query=150&page=1   (page 앞에 &를 사용)
+			 */
+			if(path.contains("?")) {   // path에 ?가 포함 되어 있으면
+				path += "&";		   // path에 &를 붙여주라
+			} else {				   // path에 ?가 없으면
+				path += "?";		   // ?를 붙여주라
+			}
+			// └> 여기서 path뒤에 뭘 붙일지 ? or & 처리를 했기 때문에 <a>링크에서 path 뒤 page 앞에는 ?를 붙여주지 않아도 되는 것!
+			
+			
 			// 이전블록 : 1block이 아니면 이전블록이 있다. 즉 beginPage가 1이 아니면~
 			if(beginPage != 1) {
 				/*
 				 	<a href="path?page=beginPage-1">◀</a>
 				*/
-				sb.append("<a href=\"" + path + "?page=" + (beginPage - 1) + "\">◀</a>");     // href의 ""를 사용하기 위해서 \를 꼭 붙여준다!
+				sb.append("<a href=\"" + path + "page=" + (beginPage - 1) + "\">◀</a>");     // href의 ""를 사용하기 위해서 \를 꼭 붙여준다!
 			}
 			
 			// 페이지번호 : 현재 페이지는 링크가 없다
@@ -78,7 +97,7 @@ public class PageUtil {
 				if(p == page) {   	// p가 현재 페이지 넘버와 같으면
 					sb.append(p);	// 현재 페이지 번호 보여주고 끝!
 				} else {
-					sb.append("<a href=\"" + path + "?page=" + p + "\">" + p +"</a>");
+					sb.append("<a href=\"" + path + "page=" + p + "\">" + p +"</a>");
 				}
 			}
 			// 다음블록 : 마지막 블록이 아니면 다음블록이 있다 (endPage != totalPage -> endPage+1)
@@ -88,7 +107,7 @@ public class PageUtil {
 			 		<a href="path?page=endPage+1">▶</a>
 				*/
 				
-				sb.append("<a href=\"" + path + "?page=" + (endPage + 1) + "\">▶</a>");
+				sb.append("<a href=\"" + path + "page=" + (endPage + 1) + "\">▶</a>");
 			}
 	
 			return sb.toString();
