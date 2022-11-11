@@ -23,11 +23,9 @@
 		Map에 들어있는 begin과 end값 사용!
 		정렬(order) 먼저 하고 번호붙이기(rownum) => 1단 (ROW_NUMBER() OVER(정렬기준)
 		between @ and @ => 2단
-		
-		
 	-->
 		SELECT A.RN, A.BBS_NO, A.WRITER, A.TITLE, A.IP, A.CREATE_DATE, A.STATE, A.DEPTH, A.GROUP_NO, A.GROUP_ORDER
-		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY BBS_NO DESC) AS RN, BBS_NO, WRITER, TITLE, IP, CREATE_DATE, STATE, DEPTH, GROUP_NO, GROUP_ORDER
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, GROUP_ORDER ASC) AS RN, BBS_NO, WRITER, TITLE, IP, CREATE_DATE, STATE, DEPTH, GROUP_NO, GROUP_ORDER
 		   		  FROM BBS) A
 		 WHERE A.RN BETWEEN #{begin} and #{end}
 	</select>
@@ -39,10 +37,37 @@
 				(BBS_SEQ.NEXTVAL, #{writer}, #{title}, #{ip}, SYSDATE, 1, 0, BBS_SEQ.CURRVAL, 0)
 	</insert>
 	
+	<!-- update에서 BbsDTO는 원글임. 원글의 그룹오더를 알아야 하므로 원글의 정보를 받아온다. 그래야 조건을 세울 수가 있다. -->
+	<!-- 
+		updatePreviousReply 쿼리                      <- 이거 호출할 때는 ★원글★을 넘겨줘야 한다! 답글 삽입을 위해서는 원글의 모든 정보가 필요하기 때문.
+		 1. 기존 답글들의 GROUP_ORDER를 1 증가시키는 쿼리문이다.
+		 2. parameterType="BbsDTO"는 원글을 의미한다.
+		 
+		 조건: 같은 그룹(GROUP_NO). 원글(BbsDTO)에서 꺼낸 그룹 넘버는 #{groupNO}
+		                                             원글의 그룹오더 #{groupOrder}    -> 이 두개를 받아와야 하기 때문에 parameterType이 원글의 BbsDTO인 것
+		      >> 같은 그룹(WHERE절)에서 원글 GROUP_ORDER보다 큰 GROUP_ORDER를 가진 답글의 GROUP_ORDER를 1씩 증가(AND절)
+	-->
 	<update id="updatePreviousReply" parameterType="BbsDTO">
+		UPDATE BBS
+		   SET GROUP_ORDER = GROUP_ORDER + 1
+		 WHERE GROUP_NO = #{groupNo}
+		   AND GROUP_ORDER > #{groupOrder}
 	</update>
 	
+	<!--  
+		insertReply에서 BbsDTO는 답글.
+		답글을 만들어서 INSERT를 진행하는 거니까 여기서의 parameterType="BbsDTO"는 답글
+		원글의 정보는 서비스단에서 보내겠다..! 여기서는 신경 쓰지 말라!
+	-->
+	<!--  
+		답글DTO 만들기! insertReply
+		답글의 DEPTH, GROUP_NO, GROUP_ORDER는 #{depth}, #{groupNo}, #{groupOrder}로 서비스단에서 해놓은거(원글DTO) 가져다 쓰는 것.
+	-->
 	<insert id="insertReply" parameterType="BbsDTO">
+		INSERT INTO BBS
+			(BBS_NO, WRITER, TITLE, IP, CREATE_DATE, STATE, DEPTH, GROUP_NO, GROUP_ORDER)
+		VALUES
+			(BBS_SEQ.NEXTVAL, #{writer}, #{title}, #{ip}, SYSDATE, 1, #{depth}, #{groupNo}, #{groupOrder})
 	</insert>
 	
 	<!-- 삭제 아닌 업데이트. 삭제하기로 한 정보는 STATE값을 0으로 바꿔보기로 함. -->

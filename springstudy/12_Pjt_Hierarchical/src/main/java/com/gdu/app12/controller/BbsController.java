@@ -44,4 +44,12 @@ public class BbsController {
 		bbsService.removeBbs(bbsNo);
 		return "redirect:/bbs/list";
 	}
+	
+	@PostMapping("/bbs/reply/add")
+	public String replyAdd(HttpServletRequest request) {
+		bbsService.addReply(request);
+		return "redirect:/bbs/list";
+		// service에서 여기의 request에서 받아옴. 따라서 컨트롤러에서 리퀘스트를 선언해줘야 함
+	}
+	
 }

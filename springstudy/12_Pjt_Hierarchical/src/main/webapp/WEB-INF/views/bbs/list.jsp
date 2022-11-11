@@ -28,6 +28,9 @@
 	.lnk_remove {
 		cursor: pointer;
 	}
+	.blind {
+		display: none;      
+	}
 </style>
 </head>
 <body>
@@ -65,7 +68,40 @@
 						<tr>
 							<td>${beginNo - vs.index}</td>  <!-- vs.index => 0, 1, 2, 3, ... -->
 							<td>${bbs.writer}</td>
-							<td>${bbs.title}</td>
+							<td>
+								<!-- 
+									depth에 따른 들여쓰기 : 반복문으로! 
+								 	depth가 0이면 원글이고 시작은 1부터니까 반복x  >> 들여쓰기 x
+								 		depth가 1이면 답글이고 반복문 실행o >> &nbsp;&nbsp; 한번 진행
+								 		depth가 2이면 다답글이고  〃        >> &nbsp;&nbsp; 두번 진행
+								-->
+								<c:forEach begin="1" end="${bbs.depth}" step="1">
+									&nbsp;&nbsp;
+								</c:forEach>
+								<!-- 답글은 [RE] 표시. 답글인지 아닌지는 depth로 알 수 있음. depth가 0보다 크면 답글! -->
+								<c:if test="${bbs.depth > 0}">
+									[RE]
+								</c:if>
+								<!-- 제목 -->
+								${bbs.title}
+								<%-- 
+										대댓에 대댓을 못 주게 하려면! 답글달기에 c:if를 달아서 depth=0일때만 [답글]버튼 보이게!
+										▶  <c:if test="${bbs.depth == 0}"><input 답글></c:if>
+								--%>
+								<!-- 답글달기 버튼 : 입력할 수 있는 양식을 만들어 두기 -->
+								<input type="button" value="답글" class="btn_reply_write">
+								<script>   
+									$('.btn_reply_write').click(function() {
+										// 답글 버튼 누르면 모든 tr의 blind 주기!                       .addClass(blind)
+										// 내가 클릭한 버튼에 속한 것만 보여주고 나머지는 안보여줌      .removeClass(blind)
+										// 즉, 답글버튼 누를 때마다 다른 글의 답글도 열리게 하는게 아니라, 하나만 열리게
+										$('.reply_write_tr').addClass('blind');
+										// this(btn_reply_write)의 부모<td>의 부모<tr>의 다음인접형제next()가 <tr class="blind">
+										$(this).parent().parent().next().removeClass('blind');
+										
+									})
+								</script>
+							</td>
 							<td>${bbs.ip}</td>
 							<td>${bbs.createDate}</td>
 							<td>
@@ -84,6 +120,19 @@
 										} 
 									})
 								</script>
+							</td>
+						</tr>
+						<tr class="reply_write_tr blind">  <!-- display: none; 처리해서 있지만 안 보이게, [답글]버튼을 누르면, <tr>의 class를 제거하는 걸로 => jquery에서 .remove -->
+						    <!-- BbsServiceImpl의 addReply()메소드에서 보내는 파라미터 5개 -->
+							<td colspan="6">
+								<form method="post" action="${contextPath}/bbs/reply/add">
+									<div><input type="text" name="writer" placeholder="작성자" required></div>
+									<div><input type="text" name="title" placeholder="제목" required></div>
+									<div><button>답글달기</button></div>
+									<input type="hidden" name="depth" value="${bbs.depth}">
+									<input type="hidden" name="groupNo" value="${bbs.groupNo}">
+									<input type="hidden" name="groupOrder" value="${bbs.groupOrder}">
+								</form>
 							</td>
 						</tr>
 					</c:if>
