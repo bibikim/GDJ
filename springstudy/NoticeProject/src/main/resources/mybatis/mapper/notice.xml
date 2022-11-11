@@ -19,10 +19,67 @@
 			(NOTICE_SEQ.NEXTVAL, #{title}, #{content}, 0, SYSTIMESTAMP, SYSTIMESTAMP)
 	</insert>
 	
+	<select id="selectNoticeByNo" parameterType="int" resultType="NoticeDTO">
+		SELECT NOTICE_NO, TITLE, CONTENT, HIT, CREATE_DATE, MODIFY_DATE
+		  FROM NOTICE
+		 WHERE NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<!-- 조회수 : 상세보기할 때랑 같은 데이터 받아온다고 생각 하면 된다. 상세보기랑 같이 돌아갈 거니까 
+	     공지 번호가 일치하는 대상으로 상세보기 + 조회수 UPDATE까지
+	-->
+	<update id="updateHit" parameterType="int" >
+		UPDATE NOTICE
+		   SET HIT = HIT + 1
+		 WHERE NOTICE_NO = #{noticeNo}
+	</update>
 	
 	
+	<update id="updateNotice" parameterType="NoticeDTO">   <!-- 제목, 내용, 번호 받아오는 거니까 NoticeDTO -->
+		UPDATE NOTICE
+		   SET CONTENT = #{content}
+		   	   <if test="title != ''">, TITLE = #{title}</if> 
+		 WHERE NOTICE_NO = #{noticeNo}
+	</update> 
+	<!-- 
+		#{}에 null이 들어오면 서버오류500뜸. 그걸 막기 위해 required를 해놓은 것. 
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		★ DB에서 할 수 있는 걸로 다른 방법이 있땅! ▼
+		detail.jsp에서 <input="text" name="title" required="required">에서 required 속성을 지우고 아래와 같은 쿼리를 짜면! 새로운 방법
+		내용은 null이 들어와도 노상관 => title에 <if>를 박아준다! title이 ''(빈 문자열)이 아니면, #{title}을 가져오겠다~
+		   
+		   
+		   SET CONTENT = #{content}
+		   	   <if test="title != ''">, TITLE = #{title}</if> 
+		 WHERE 1 = 1      // 1=1은 문법오류를 막으려는 당연한 식의 아무말. 이게 없으면 혹여나 content가 ''일 시, SET 다음 (,)가 바로 와버리기 때문에 오류..
+		 	   <if test="content != ''"> AND NOTICE_NO = #{noticeNo}</if>
+		 	   
+		 	   => 이렇게 쿼리를 짜면 제목/내용 편집 시, 빈 문자열(= )로 주면 원래 제목을 유지하게 된다.
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		 	   
+		name 속성이 없어야 title = null임. 근데 <form>에 name속성을 줬기 때문에 일단 null은 아니다
+		▶ 즉, input 타입에 name속성을 줬으면 null일 수 없다. ◀
+		
+		입력을 안 했으면 null이 아니라 빈 문자열인 것!
+		
+		※ <form>에서의 null 체크??
+		<form>으로 보냈음 -> <form>에 name 속성이 붙어 있으면 절대 null값이 될 수 없다. 받는 측에서 null 체크를 하지 못한다.
+		                  -> 같은 맥락으로 Optional로도 불가. Optioanl도 null 체크 하는 애니까.
+		                  -> null체크를 하고싶다면? if(no.isEmpty())로 해야 한다.
+		
+		※ null 체크 가능한 곳!
+		<a href='____?no=1'>       -> Optional("0") or if(no == null)로 null체크 가능
+		location.href='____?no=1'  -> Optional("0") or if(no == null)로 null체크 가능
+		
+	-->
 	
 	
+	<delete id="deleteNotice" parameterType="int">
+		DELETE 
+		  FROM NOTICE
+		 WHERE NOTICE_NO = #{noticeNo}
+	</delete>
 	
 
 </mapper>

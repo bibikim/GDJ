@@ -7,6 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="${contextPath}/resources/js/jquery-3.6.1.min.js"></script>
+<style>
+	.notice:hover {
+		background-color : beige;
+	}
+</style>
 </head>
 <body>
 
@@ -28,13 +34,19 @@
 			</thead>
 			<tbody>
 				<c:forEach items="${notices}" var="n">
-					<tr>
+					<tr class="notice" data-notice_no="${n.noticeNo}">
 						<td>${n.noticeNo}</td>
 						<td>${n.title}</td>
 						<td>${n.hit}</td>
 						<td>${n.createDate}</td>
 					</tr>
 				</c:forEach>
+				<script>
+					// 행 단위 선택(클릭)
+					$('.notice').click(function(){
+						location.href='${contextPath}/ntc/detail?noticeNo=' + $(this).data('notice_no');   // this에 들어있는 data속성이 noticeNo이므로 ${no.noticeNo} 대체 가능
+					})
+				</script>
 			</tbody>
 		</table>
 	</div>
