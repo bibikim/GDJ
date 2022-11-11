@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import com.gdu.app12.domain.BbsDTO;
 import com.gdu.app12.mapper.BbsMapper;
 import com.gdu.app12.util.PageUtil;
+import com.gdu.app12.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -25,6 +26,7 @@ public class BbsServiceImpl implements BbsService {
 	// 필드가 여러 개(여긴 2개)이면, Autowired를 여러개 쓰는 것 보다는, 생성자를 이용해서 자동주입 하는 것이 좋다.
 	private BbsMapper bbsMapper;
 	private PageUtil pageUtil;
+	private SecurityUtil securityUtil;
 
 	@Override
 	public void findAllBbsList(HttpServletRequest request, Model model) {
@@ -63,8 +65,8 @@ public class BbsServiceImpl implements BbsService {
 	@Override
 	public int addBbs(HttpServletRequest request) {
 		
-		String writer = request.getParameter("writer");
-		String title = request.getParameter("title");
+		String writer = securityUtil.sha256(request.getParameter("writer"));  // 작성자 암호화
+		String title = securityUtil.preventXSS(request.getParameter("title"));   // 사용자가 입력한 title이 의도적인 스크립트 사용이 들어오더라도 그걸 방지
 		String ip = request.getRemoteAddr();
 		
 		BbsDTO bbs = new BbsDTO();
@@ -89,8 +91,8 @@ public class BbsServiceImpl implements BbsService {
 		
 		// 파라미터로 받아오는 것 : writer, title, ip
 		// 사용자 입력 정보 : 작성자, 제목
-		String writer = request.getParameter("writer");
-		String title = request.getParameter("title");
+		String writer = securityUtil.sha256(request.getParameter("writer"));   // 사용자 비밀번호에 접목시키면 됨. 비밀번호를 암호화 시킨 후에 db에 저장!
+		String title = securityUtil.preventXSS(request.getParameter("title"));
 		
 		// ip
 		String ip = request.getRemoteAddr();
