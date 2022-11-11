@@ -1,6 +1,7 @@
 package com.gdu.app12.util;
 
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 
 import org.springframework.stereotype.Component;
 
@@ -46,4 +47,33 @@ public class SecurityUtil {
 		return sb.toString();
 		
 	}
+
+	// 인증코드 만들기
+	// 1. 보안을 위해서 Math.random() 내지는 Random 클래스 사용을 지양한다.
+	// 2. SecureRandom 클래스를 대신 사용한다.
+	private SecureRandom secureRandom = new SecureRandom();
+	
+	public String getAuthCode(int length) {
+		/*
+			문자	아스키코드	생성
+			'0'		48			48부터 10개 중 하나의 난수('0'~'9')
+			'A'		65			65부터 26개 중 하나의 난수('A'~'Z')
+			'a'		97			97부터 26개 중 하나의 난수('a'~'z')
+		 */
+		// 대문자와 숫자의 조합
+		StringBuilder sb = new StringBuilder();
+			// 받아온 글자 만큼 for문
+		for(int cnt = 0; cnt < length; cnt++) {   // length만큼 반복
+			if(secureRandom.nextDouble() < 0.5) {  // 50퍼센트의 확률로
+				sb.append( (char)(secureRandom.nextInt(10) + '0') );  // secureRandom.nextInt(10) : 0부터 9사이의 숫자 1개 -> '0'(=48)부터 10개 사이 숫자 중 1개
+			} else {
+				sb.append( (char)(secureRandom.nextInt(26) + 'A') );  // 'A'부터 26개 사이의 문자 중 1개
+			}
+		}
+		
+		return sb.toString();   
+		
+		
+	}
+
 }

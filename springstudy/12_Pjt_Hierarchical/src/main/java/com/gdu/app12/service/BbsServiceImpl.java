@@ -31,6 +31,10 @@ public class BbsServiceImpl implements BbsService {
 	@Override
 	public void findAllBbsList(HttpServletRequest request, Model model) {
 		
+		// 인증코드 만들때 사용 가능!
+		System.out.println(securityUtil.getAuthCode(4));    // 4자리 인증코드
+		System.out.println(securityUtil.getAuthCode(6));    // 6자리 인증코드
+		
 		// 파라미터 page, 전달되지 않으면 page=1로 처리
 		Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));  
 		int page = Integer.parseInt(opt1.orElse("1"));		 // page 파라미터가 null이면 대신 1을 써라
