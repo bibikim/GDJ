@@ -14,6 +14,7 @@
 <body>
 
 	<div>
+	
 		<h1>약관 동의하기</h1>
 		<form id="frm_agree" action="${contextPath}/user/join/write">   <!-- 어떤 약관을 체크해서 넘겨줘야되는지 알아야 되니까 form 만들어 주기 -->
 			
