@@ -12,7 +12,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gdu.app13.mapper.UserMapper;
@@ -53,9 +52,9 @@ public class UserServiceImpl implements UserService {
 		
 		// 이메일 전송을 위한 필수 속성을 Properties 객체로 생성
 		Properties properties = new Properties();
-		properties.put("mail.smtp.host", "smtp.gmail.com");   // 구글 메일로 보냄(보내는 메일은 구글 메일만 가능)
-		properties.put("mail.smtp.port", "587");			 // 구글 메일로 보내는 포트
-		properties.put("mail.smtp.auth", "true");			 // 인증된 메일
+		properties.put("mail.smtp.host", "smtp.gmail.com");  // 구글 메일로 보냄(보내는 메일은 구글 메일만 가능)
+		properties.put("mail.smtp.port", "587");             // 구글 메일로 보내는 포트 번호
+		properties.put("mail.smtp.auth", "true");            // 인증된 메일
 		properties.put("mail.smtp.starttls.enable", "true"); // TLS 허용
 				
 		/*
