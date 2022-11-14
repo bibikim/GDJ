@@ -109,7 +109,7 @@
 					/*요청*/
 					type: 'get',
 					url: '${contextPath}/user/sendAuthCode',
-					data: 'eamil=' + $('#email').val(), // email을 자바측으로 보내줘야 인증코드를 이메일로 보내줄 수 있다
+					data: 'email=' + $('#email').val(), // email을 자바측으로 보내줘야 인증코드를 이메일로 보내줄 수 있다
 					/*응답 - 받아오기*/ 
 					dataType: 'json',
 					success: function(resData) {  // resData에 authCode 인증코드 들어있음
