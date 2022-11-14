@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+
+.blind {
+		display: none;
+}
+	
+.lbl_all, .lbl_one{        /* 서로 다른 요소이면 ,로 구분해야 한다. 그냥 공백은 후손이므로 */
+		padding-left: 20px;
+		background-image: url(../../resources/images/uncheck.png);
+		background-size: 18px 18px;
+		background-repeat: no-repeat;
+}
+	
+.lbl_checked {
+		background-image: url(../../resources/images/check.png);
+}
