@@ -1,5 +1,6 @@
 package com.gdu.app13.service;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -11,12 +12,15 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.gdu.app13.domain.UserDTO;
 import com.gdu.app13.mapper.UserMapper;
 import com.gdu.app13.util.SecurityUtil;
 
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired  // -> 필드가 2개니까 autowired 안하고 allArgsCon~으로
 	private UserMapper userMapper;
 	@Autowired
-	private SecurityUtil securityUtil;
+	private SecurityUtil securityUtil;   // 인증코드, 비밀번호 암호화를 위해 선언
 	
 	@Override
 	public Map<String, Object> isReduceId(String id) {
@@ -113,6 +117,86 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("authCode", authCode);
 		return result;            // success: function(resData)까지 authCode를 보내주는 것임
+	}
+	
+	@Override
+	public void join(HttpServletRequest request, HttpServletResponse response) {
+
+		// 파라미터(넘어오는 파라미터가 궁금하면 join.jsp 참고!)
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");   // 비밀번호는 암호화처리 필요!    re_pw는 넘길필요가 없어서 넘기지 않음
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		String mobile = request.getParameter("mobile");
+		String birthyear = request.getParameter("birthyear");
+		String birthmonth = request.getParameter("birthmonth");
+		String birthdate = request.getParameter("birthdate");
+		String postcode = request.getParameter("postcode");
+		String roadAddress = request.getParameter("roadAddress");
+		String jibunAddress = request.getParameter("jibunAddress");
+		String detailAddress = request.getParameter("detailAddress");
+		String extraAddress = request.getParameter("extraAddress");
+		String email = request.getParameter("email");    // authCode(인증코드)는 db에 저장할 필요 없으므로 넘길 필요 없다!
+		String location = request.getParameter("location");
+		String promotion = request.getParameter("promotion");
+		
+		// 일부 파라미터는 DB에 넣을 수 있도록 가공
+		pw = securityUtil.sha256(pw);
+		name = securityUtil.preventXSS(name);  // <scpript> alert('')</script> 방지를 위함
+		String birthday = birthmonth + birthdate;  // birthmonth, birthdate를 합쳐서 birtday로 재구성 해야 함(DB에는 BIRTHYEAR, BIRTHDAY가 들어가있기 때문에)).
+												  // DB에 BIRTHDAY는 varchar2 4바이트로 설정. 자바스크립트에서 month와 date는 각각 두자리수로 들어오도록 해놨기 때문에 +로 4바이트 만들어주기
+		int agreeCode = 0;  // 필수 동의만 체크
+		if(location != null && promotion == null) {
+			agreeCode = 1;  // 필수 + 위치 동의
+		} else if(location == null && promotion != null) {
+			agreeCode = 2;	// 필수 + 프로모션 동의
+		} else if(location != null && promotion != null) {
+			agreeCode = 3;  // 필수 + 위치 + 프로모션 모두 동의
+		}
+		
+		// DB로 보낼 UserDTO 만들기
+		UserDTO user = UserDTO.builder()
+			.id(id)
+			.pw(pw)
+			.name(name)
+			.gender(gender)
+			.email(email)
+			.mobile(mobile)
+			.birthyear(birthyear)
+			.birthday(birthday)
+			.postcode(postcode)
+			.roadAddress(roadAddress)
+			.jibunAddress(jibunAddress)
+			.detailAddress(detailAddress)
+			.extraAddress(extraAddress)
+			.agreeCode(agreeCode)
+			.build();
+		
+		// 회원가입처리
+		int result = userMapper.insertUser(user);
+		
+		// 응답
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			if(result > 0) {
+				out.println("<script>");
+				out.println("alert('회원 가입 되었습니다')");
+				out.println("location.href='" + request.getContextPath()  + "';");  // contextPath = /app13
+				out.println("</script>");
+			} else {
+				out.println("<script>");
+				out.println("alert('회원 가입에 실패했습니다')");
+				out.println("histroy.go(-2);");  // 두 칸 돌려보내기! 2칸 전으로 가라! history.go(-1) == history.back()
+				out.println("</script>");
+			}
+			out.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

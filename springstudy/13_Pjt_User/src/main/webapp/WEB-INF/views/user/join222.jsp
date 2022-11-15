@@ -25,8 +25,21 @@
 	// 1. 아이디 중복체크 & 정규식
 	function fn_idCheck(){
 		$('#id').keyup(function(){
+			
+			// 입력한 아이디
+			let idValue = $(this).val();
+			
 			// 정규식
-		
+			let regId = /^[0-9a-z][0-9a-z-_]{3,19}$/;
+			
+			// 정규식 검사
+			if(regId.test(idValue) == false) {
+				$('#msg_id').text('아이디는 4~20자의 소문자, 숫자, 특수문자(-,_)를 조합해야 합니다.')
+				return; // 코드 진행 방지(이후에 나오는 ajax 실행을 막는다.)
+			} else {
+				$('#msg_id').text('사용 가능한 아이디 입니다.')
+			}
+			
 			// 중복체크(중복체크 하려면 DB를 갔다와야 함(요청과 응답까지 모두 가능한 ajax!))
 			$.ajax({
 				/*요청*/
@@ -51,6 +64,15 @@
 	// 2. 패스워드
     function fn_pwCheck(){
       
+		$('#pw').keyup(function(){
+			
+			// 입력한 패스워드
+			let pwValue = $(this).val();
+			
+			// 정규식(8~20자, 소문자+대문자+숫자+특수문자8종(!@#$%^&*) 3개 이상의 조합)
+			let regPw = /^[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+		})
+		
     }
    
     // 3. 패스워드 확인
@@ -109,7 +131,7 @@
 					/*요청*/
 					type: 'get',
 					url: '${contextPath}/user/sendAuthCode',
-					data: 'email=' + $('#email').val(), // email을 자바측으로 보내줘야 인증코드를 이메일로 보내줄 수 있다
+					data: 'email=' + $('#email').val(), // 사용자가 입력한 email을 자바측으로 보내줘야 인증코드를 해당 이메일로 보내줄 수 있다
 					/*응답 - 받아오기*/ 
 					dataType: 'json',
 					success: function(resData) {  // resData에 authCode 인증코드 들어있음
