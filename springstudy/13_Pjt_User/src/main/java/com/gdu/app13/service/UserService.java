@@ -12,6 +12,7 @@ public interface UserService {
 	public Map<String, Object> sendAuthCode(String email);  // 인증코드 발송(db로 갈 것도 읎다)
 	public void join(HttpServletRequest request, HttpServletResponse response); 
 	// 로그인을 시킨다 -> 세션이 기본! 세션은 request를 통해서 꺼낼 수 있기 때문에 request와 response 를 매개변수로 넘겨주고, 반환타입은 void -> 즉, 응답을 직접 만들어서 가니까 어디로 갈 jsp는 없는거야~
-		
+	public void retire(HttpServletRequest request, HttpServletResponse response);
+	public void login(HttpServletRequest request, HttpServletResponse response);
 	
 }

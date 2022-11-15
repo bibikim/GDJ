@@ -7,7 +7,7 @@
 <mapper namespace="com.gdu.app13.mapper.UserMapper">
 
 	<select id="selectUserById" parameterType="String" resultType="UserDTO"> <!-- id 하나 넘어오는거니까 파라미터타입 String -->
-		SELECT ID
+		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
 		  FROM USERS
 		 WHERE ID = #{id}
 	</select>
@@ -19,7 +19,7 @@
 	</select>
 	
 	<select id="selectUserByEmail" parameterType="String" resultType="UserDTO"> <!-- email 하나 넘기는거니까 파라미터타입 String -->
-		SELECT EMAIL
+		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
 		  FROM USERS
 		 WHERE EMAIL = #{email}
 	</select>
@@ -44,5 +44,28 @@
 		VALUES
 			(ACCESS_LOG_SEQ.NEXTVAL, #{id}, SYSDATE)
 	</insert>
+	
+	<!-- 회원탈퇴1 : USERS 테이블에서 제거 (user_no로 제거) -->
+	<delete id="deleteUser" parameterType="int">
+		DELETE
+		  FROM USERS
+		 WHERE USER_NO = #{userNo}
+	</delete>
+	
+	<!-- 회원탈퇴2 : RETIRE_USERS 테이블에 추가 -->
+	<insert id="insertRetireUser" parameterType="RetireUserDTO">
+		INSERT INTO RETIRE_USERS
+			(USER_NO, ID, JOIN_DATE, RETIRE_DATE)
+		VALUES
+			(#{userNo}, #{id}, #{joinDate}, SYSDATE)
+	</insert>
+	
+	<!-- 로그인 : 받아오는 파라미터는 Map 혹은 UserDTO 두가지 중 하나, 반환하는 타입 UserDTO -->
+	<select id="selectUserByIdPw" parameterType="UserDTO" resultType="UserDTO">
+		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
+		  FROM USERS
+		 WHERE ID = #{id}
+		   AND PW = #{pw}
+	</select>
 	
 </mapper>

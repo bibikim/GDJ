@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SleepUserDTO {
-	private Long userNo;
+	private int userNo;
 	private String id;
 	private String pw;
 	private String name;

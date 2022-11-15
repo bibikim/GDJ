@@ -13,5 +13,8 @@ public interface UserMapper {
 	public int insertUser(UserDTO user);
 	public int updateAccessLog(String id);
 	public int insertAccessLog(String id);
+	public int deleteUser(int userNo);
+	public int insertRetireUser(RetireUserDTO user);
+	public UserDTO selectUserByIdPw(UserDTO user);
 
 }

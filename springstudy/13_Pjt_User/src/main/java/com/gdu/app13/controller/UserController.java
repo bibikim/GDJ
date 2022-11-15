@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -66,5 +67,37 @@ public class UserController {
 		userService.join(request, response);
 	}
 	
+	@GetMapping("/user/retire")    // 서비스에 넘겨줘야하기 때문에 request, response 다 받아온당 (데이터 흐름 : xml -> 패키지mapper -> 서비스, 서비스impl -> 컨트롤러 -> 뷰)
+	public void retire(HttpServletRequest request, HttpServletResponse response) {
+		userService.retire(request, response);
+	}
 	
+	// naver로그인창 보면, 내가 있던 창에서 login창을 누르면 뒤에 붙여서 보내는 url 파라미터가 있는데, (login?url=https%3A%2F%2Fvibe.naver.com%2Ftoday)
+	// 로그인을 완료하면 원래 있던 창으로 다시 돌아가게끔 하기 위한 것. 
+	@GetMapping("/user/login/form")  // <a> 태그를 이용하여 값을 전달하면 GET 방식이다. @GetMapping 
+	public String loginForm(HttpServletRequest request, Model model) {
+		
+		// 요청 헤더 referer : 이전 페이지의 주소가 저장  // 요청헤더에는 그 직전에 주소가 뭔지 referer라는 값으로 저장을 해둠.
+		model.addAttribute("url", request.getHeader("referer")); // 로그인 후 되돌아 갈 주소 url를 login.jsp에서 써먹기 위해!
+		return "user/login";
+	}
+	
+	@PostMapping("/user/login")   // 간혹 로그인페이지와 로그인하고나서 페이지의 매핑방식을 맞춰야되는 경우도 있을 수 있다.
+	public void login(HttpServletRequest request, HttpServletResponse response) {
+		userService.login(request, response);
+	}
+	
+	@GetMapping("/user/logout")  // 로그아웃 후 웰컴페이지로 이동(redirect)
+	public String logout(HttpServletRequest request, HttpServletResponse response) {   // request로부터 구하기
+		request.getSession().invalidate();  // 로그아웃은 세션초기화만 하면 된다. 다른거 필요 없ㅋ엉ㅋ
+		return "redirect:/";    
+	}
+	/*
+	 위와 같은 방식!  여기서 직접 session 선언도 가능하다
+	@GetMapping("/user/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";    // session을 여기서 직접 선언하고 세션초기화 해준 후, 웰컴페이지로 redirect 해주면 된다.
+	}
+	*/
 }
