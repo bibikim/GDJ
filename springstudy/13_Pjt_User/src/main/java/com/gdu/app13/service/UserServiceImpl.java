@@ -49,16 +49,33 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public Map<String, Object> isReduceId(String id) {
+		
+		// selectUserByMap 사용하기 위해 map 선언해서 id 값 넣어주기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id); 
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isUser", userMapper.selectUserById(id) != null);    // select 결과가 null이 아니면(조회 되었으면) true - 회원이다
+		
+		// selectUserByMap 수정 부분
+		// result.put("isUser", userMapper.selectUserById(id) != null);    // select 결과가 null이 아니면(조회 되었으면) true - 회원이다
+		result.put("isUser", userMapper.selectUserByMap(map) != null);
+		
 		result.put("isRetireUser", userMapper.selectRetireUserById(id) != null);    // select 결과가 null이 아니면(조회 되었으면) true - 탈퇴한 회원의 아이디
 		return result;
 	}
 
 	@Override
 	public Map<String, Object> isReduceEmail(String email) {
+		
+		// selectUserByMap 사용하기 위해 map 선언해서 email 값 넣어주기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("email", email);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isUser", userMapper.selectUserByEmail(email) != null);  // 검색결과가 null이 아니면 회원인 것! 기존 회원이 가지고 있다는것
+		
+		// selectUserByMap 수정 부분
+		// result.put("isUser", userMapper.selectUserByEmail(email) != null);  // 검색결과가 null이 아니면 회원인 것! 기존 회원이 가지고 있다는것
+		result.put("isUser", userMapper.selectUserByMap(map) != null); 
 		return result;
 	}
 	
@@ -148,7 +165,7 @@ public class UserServiceImpl implements UserService {
 		// 일부 파라미터는 DB에 넣을 수 있도록 가공
 		pw = securityUtil.sha256(pw);
 		detailAddress = securityUtil.preventXSS(detailAddress);   // 상세주소에도 스크립팅 방지!!
-		name = securityUtil.preventXSS(name);  // <scpript> alert('')</script> 방지를 위함
+		name = securityUtil.preventXSS(name);  // <scpript> alert('')</script> 등의 태그 먹히는 것 방지를 위함
 		String birthday = birthmonth + birthdate;  // birthmonth, birthdate를 합쳐서 birtday로 재구성 해야 함(DB에는 BIRTHYEAR, BIRTHDAY가 들어가있기 때문에)).
 												  // DB에 BIRTHDAY는 varchar2 4바이트로 설정. 자바스크립트에서 month와 date는 각각 두자리수로 들어오도록 해놨기 때문에 +로 4바이트 만들어주기
 		int agreeCode = 0;  // 필수 동의만 체크
@@ -189,10 +206,19 @@ public class UserServiceImpl implements UserService {
 			
 			if(result > 0) {
 				
+				// selectUserByMap 추가 부분
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);  // map에 "id"라는 이름으로 id전달
+				
 				// 가입 성공 
 				// 로그인 처리를 위해서 session에 로그인 된 사용자 정보를 올려둠
-				request.getSession().setAttribute("loginUser", userMapper.selectUserById(id));  // session에 올려두기(setAttribute), db로부터 사용자 정보 가져오기 -> 매퍼에서 selectUserById 쿼리를 실행한 것!
-									// 서비스 목적을 가지고 DB 쿼리문의 id를 적는 것은 실무에서 좋지 않다! 어떤 목적으로 쓴다는 의미의 이름보다는 최대한 일반적인 이름을 쓰는 것이 좋다.(selcet~가 나음요)
+				request.getSession().setAttribute("loginUser", userMapper.selectUserByMap(map));   // session에 올려두기(setAttribute) <- DB로부터 사용자정보 가져오기(mapper에서 selectUserByMap 쿼리를 실행한 것)
+															// selectUserByMap쿼리를 실행해서 나온 값을 map에 넣고 loginUser라는 변수로 session에 저장. 맞나?..
+				
+				
+				// selectUserByMap 수정 부분
+				//request.getSession().setAttribute("loginUser", userMapper.selectUserById(id));  // session에 올려두기(setAttribute), db로부터 사용자 정보 가져오기 -> 매퍼에서 selectUserById 쿼리를 실행한 것!
+				// 서비스 목적을 가지고 DB 쿼리문의 id를 적는 것은 실무에서 좋지 않다! 어떤 목적으로 쓴다는 의미의 이름보다는 최대한 일반적인 이름을 쓰는 것이 좋다.(selcet~가 나음요)
 				
 				// 로그인 기록 남기기
 				int updateResult = userMapper.updateAccessLog(id);
@@ -283,14 +309,22 @@ public class UserServiceImpl implements UserService {
 		// pw는 DB에 저장된 데이터와 동일한 형태로 가공(암호화)
 		pw = securityUtil.sha256(pw);
 		
-		// DB로 보낼 UserDTO 생성
+		// DB로 보낼 UserDTO 생성 (Map으로 대체)
+		/*
 		UserDTO user = UserDTO.builder()
 				.id(id)
 				.pw(pw)
 				.build();
+		*/
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("pw", pw);
 		
 		// id, pw가 일치하는 회원을 DB에서 조회하기
-		UserDTO loginUser = userMapper.selectUserByIdPw(user);
+		UserDTO loginUser = userMapper.selectUserByMap(map);
+		// UserDTO loginUser = userMapper.selectUserByIdPw(user);
+		
 		
 		// id, pw가 일치하는 회원이 있다 : 로그인 기록 남기기 + session에 loginUser 저장
 		if(loginUser != null) {
@@ -302,7 +336,7 @@ public class UserServiceImpl implements UserService {
 			}
 			
 			// 로그인 처리를 위해서 session에 로그인 된 사용자 정보를 올려둠.
-			request.getSession().setAttribute("loginUser", userMapper.selectUserById(id));
+			request.getSession().setAttribute("loginUser", loginUser);
 			
 			// 이동 (로그인 페이지 이전 페이지로 되돌아가기)
 			// 자기 스스로 이동할 코드(response.sendRedirect(url);)가 있기 때문에 void 처리한 것

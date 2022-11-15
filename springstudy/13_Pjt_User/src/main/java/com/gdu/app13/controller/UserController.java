@@ -77,7 +77,8 @@ public class UserController {
 	@GetMapping("/user/login/form")  // <a> 태그를 이용하여 값을 전달하면 GET 방식이다. @GetMapping 
 	public String loginForm(HttpServletRequest request, Model model) {
 		
-		// 요청 헤더 referer : 이전 페이지의 주소가 저장  // 요청헤더에는 그 직전에 주소가 뭔지 referer라는 값으로 저장을 해둠.
+		// 요청 헤더 referer : 이전 페이지의 주소가 저장돼 있음(요청헤더에는 그 직전에 주소가 뭔지 referer라는 값으로 저장을 해둠.)
+		// referer를 참조함으로써 현재 있는 페이지가 직전에 어떤 페이지에서 요청되어 있는지 알 수 있다(방문자가 어떤 웹사이트나 웹서버에서 왔는지 파악 가능)
 		model.addAttribute("url", request.getHeader("referer")); // 로그인 후 되돌아 갈 주소 url를 login.jsp에서 써먹기 위해!
 		return "user/login";
 	}
@@ -92,6 +93,7 @@ public class UserController {
 		request.getSession().invalidate();  // 로그아웃은 세션초기화만 하면 된다. 다른거 필요 없ㅋ엉ㅋ
 		return "redirect:/";    
 	}
+	
 	/*
 	 위와 같은 방식!  여기서 직접 session 선언도 가능하다
 	@GetMapping("/user/logout")

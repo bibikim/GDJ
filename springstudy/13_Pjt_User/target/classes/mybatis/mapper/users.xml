@@ -6,22 +6,61 @@
 
 <mapper namespace="com.gdu.app13.mapper.UserMapper">
 
-	<select id="selectUserById" parameterType="String" resultType="UserDTO"> <!-- id 하나 넘어오는거니까 파라미터타입 String -->
+	<select id="selectUserByMap" parameterType="Map" resultType="UserDTO">
+		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
+		  FROM USERS
+		<where>
+			<if test="id != null">
+				ID = #{id}
+			</if>
+			<if test="pw != null">
+				AND PW = #{pw}
+			</if>
+			<if test="email != null">
+				AND EMAIL = #{email}
+			</if>
+		</where>
+	</select>
+<!--
+
+	  ▲ 아래 3개의 쿼리문을 하나로 모아서 selectUserByMap로 묶고, 받아오는 파라미터의 타입은 Map으로 설정, 반환 타입은 동일하게 UserDTO
+	  	WHERE절은 <where>과 <if>를 사용해서 한번에 처리.
+	  
+	   * WHERE 이랑 <where>의 차이!!!
+		WHERE절에 id, pw가 null이고 email이 null이 아닌 상황에서는, WHERE 바로 뒤에 AND가 나와버리게 되는데 그렇게 되면 쿼리 문법오류 발생!
+ 		 	=>   WHERE and email = #{email}                                      [X]
+ 			=>  <where> <if test="email != null"> AND EMAIL = #{email} </if>     [O]  
+    			   └▶ <where> 태그가 AND나 OR로 시작하는걸 알아서 제거하고 쿼리문 실행해줌!!  
+    			   
+
+	* 아이디 중복체크 
+	<select id="selectUserById" parameterType="String" resultType="UserDTO">      // id 하나 넘어오는거니까 파라미터타입 String 
 		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
 		  FROM USERS
 		 WHERE ID = #{id}
 	</select>
+	
+	* 이메일 중복체크
+	<select id="selectUserByEmail" parameterType="String" resultType="UserDTO">  // email 하나 넘기는거니까 파라미터타입 String 
+		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
+		  FROM USERS
+		 WHERE EMAIL = #{email}
+	</select>
+	
+	* 로그인 : 받아오는 파라미터는 Map 혹은 UserDTO 두가지 중 하나, 반환하는 타입 UserDTO
+	<select id="selectUserByIdPw" parameterType="UserDTO" resultType="UserDTO">
+		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
+		  FROM USERS
+		 WHERE ID = #{id}
+		   AND PW = #{pw}
+	</select>
+	
+ -->
 	
 	<select id="selectRetireUserById" parameterType="String" resultType="RetireUserDTO">
 		SELECT ID
 		  FROM RETIRE_USERS
 		 WHERE ID = #{id}
-	</select>
-	
-	<select id="selectUserByEmail" parameterType="String" resultType="UserDTO"> <!-- email 하나 넘기는거니까 파라미터타입 String -->
-		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
-		  FROM USERS
-		 WHERE EMAIL = #{email}
 	</select>
 	
 	<!-- 일반회원가입 -->
@@ -60,12 +99,5 @@
 			(#{userNo}, #{id}, #{joinDate}, SYSDATE)
 	</insert>
 	
-	<!-- 로그인 : 받아오는 파라미터는 Map 혹은 UserDTO 두가지 중 하나, 반환하는 타입 UserDTO -->
-	<select id="selectUserByIdPw" parameterType="UserDTO" resultType="UserDTO">
-		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
-		  FROM USERS
-		 WHERE ID = #{id}
-		   AND PW = #{pw}
-	</select>
 	
 </mapper>
