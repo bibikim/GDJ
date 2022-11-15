@@ -82,7 +82,7 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@PostMapping("/user/login")   // 간혹 로그인페이지와 로그인하고나서 페이지의 매핑방식을 맞춰야되는 경우도 있을 수 있다.
+	@PostMapping("/user/login")   // 간혹 로그인창 페이지와 로그인하고나서 페이지의 매핑방식을 맞춰야되는 경우도 있을 수 있다.
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		userService.login(request, response);
 	}

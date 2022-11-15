@@ -272,7 +272,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override  
-	public void login(HttpServletRequest request, HttpServletResponse response) { 
+	public void login(HttpServletRequest request, HttpServletResponse response) {   // session을 꺼내쓰기 위해 request로 파라미터 받아오기
 		// 자기 스스로 이동할 코드(response.sendRedirect(url); )가 있기 때문에 void 처리한 것
 		
 		// 받아오는 파라미터 3개  <- login.jsp에서 확인
@@ -295,7 +295,7 @@ public class UserServiceImpl implements UserService {
 		// id, pw가 일치하는 회원이 있다 : 로그인 기록 남기기 + session에 loginUser 저장
 		if(loginUser != null) {
 		
-			// 로그인 기록 남기기
+			// 로그인 기록 남기기 (access_log 테이블로 insert)
 			int updateResult = userMapper.updateAccessLog(id);
 			if(updateResult == 0) {   // 업데이트를 먼저 시켜놓고, 업뎃 실패하면 인서트~
 				userMapper.insertAccessLog(id);  
@@ -305,7 +305,7 @@ public class UserServiceImpl implements UserService {
 			request.getSession().setAttribute("loginUser", userMapper.selectUserById(id));
 			
 			// 이동 (로그인 페이지 이전 페이지로 되돌아가기)
-			// 자기 스스로 이동할 코드(response.sendRedirect(url); )가 있기 때문에 void 처리한 것
+			// 자기 스스로 이동할 코드(response.sendRedirect(url);)가 있기 때문에 void 처리한 것
 			try {
 				response.sendRedirect(url);  // redirect할 주소 url
 			}catch(IOException e) {

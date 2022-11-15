@@ -13,6 +13,6 @@ public interface UserService {
 	public void join(HttpServletRequest request, HttpServletResponse response); 
 	// 로그인을 시킨다 -> 세션이 기본! 세션은 request를 통해서 꺼낼 수 있기 때문에 request와 response 를 매개변수로 넘겨주고, 반환타입은 void -> 즉, 응답을 직접 만들어서 가니까 어디로 갈 jsp는 없는거야~
 	public void retire(HttpServletRequest request, HttpServletResponse response);
-	public void login(HttpServletRequest request, HttpServletResponse response);
+	public void login(HttpServletRequest request, HttpServletResponse response); // 로그인에선 session에 로그인정보 올려두는 것 필수!
 	
 }
