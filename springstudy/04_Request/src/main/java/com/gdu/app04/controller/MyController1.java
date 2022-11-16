@@ -73,6 +73,18 @@ public class MyController1 {
 		
 		return "member/detail";  
 	}
+	/*
+		Model
+		
+		Controller에서 생성된 데이터를 담아서 view로 포워딩할 때 사용하는 객체
+		Servlet의 request.setAttribute()와 유사한 역할을 한다.
+		Method에 Model타입이 지정된 경우 Model타입의 객체를 만들어 메소드에 주입!
+		addAttribute("key", "value") 메소드를 사용해 전달할 데이터를 세팅한다.
+		jsp로 forward할 데이터를 담아는 곳!
+		보안이 우수하다
+	
+	*/
+	
 	
 	
 	// <form action="${contextPath}/member/detail4" method="get">   |   

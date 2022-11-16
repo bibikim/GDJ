@@ -87,7 +87,7 @@
 				url: '${contextPath}/query',
 				data: 'sno=' + $('#query').val(),
 				dataType: 'json',
-				success: function(resData){
+				success: function(resData){  // resData == {sno, name, dept, salary}
 					$('#staff_list').empty();
 					var tr = '<tr>';
 					tr += '<td>' + resData.sno + '</td>';

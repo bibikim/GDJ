@@ -32,7 +32,7 @@ public class StaffController {
 		return staffService.getStaffList();
 	}
 
-	// 파라미터 받아오는 3가지 방법
+	// 파라미터 받아오는 3가지 방법 : request, @RequestParam, StaffDTO 객체
 	@ResponseBody
 	@PostMapping(value="/add", produces="text/plain; charset=UTF-8")  // ajax 응답 데이터 타입 : text. 따라서 text/plain!
 	public ResponseEntity<String> add(HttpServletRequest request) {   // ajax 전용 객체 ResponseEntity<스트링>으로 반환   // () 안으로 son, name, dept 세가지 들어온다.

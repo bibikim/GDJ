@@ -3,6 +3,7 @@ package com.gdu.staff;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class StaffUnitTest {
 		assertEquals(1, mapper.insertStaff(staff));
 	}
 	
-	// @Test
+	//@Test
 	public void 사원조회테스트() {
 		
 		assertNotNull(mapper.selectBySno("11111"));

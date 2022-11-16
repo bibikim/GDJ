@@ -29,7 +29,7 @@ public class MyCotroller extends HttpServlet {    // controller 코드를 외울
 		
 		// 요청 & 응답 인코딩
 		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html charset=UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
 		
 		// 요청 확인(today와 now 요청을 구분해야 함)
 		// today가 붙어있으면 todayService를 호출, now가 붙어있으면 nowService를 호출할 수 있게끔.
@@ -94,7 +94,7 @@ public class MyCotroller extends HttpServlet {    // controller 코드를 외울
 		//TodayService todayService = new TodayService();
 		// 인덱스에서 링크클릭하면 today로 오고 today가 todayService를 부름
 		//todayService.execute(request, response);   // 실행메소드. 요청과 응답을 전달해서 처리할 수 있게 만들어주기
-		// doGet이 실행하는게 아니라 excute()에 넘겨주는 방식으로 작업하게 되는 것. 요청을 직접 처리하지 않고 todayService의 excute로 넘김
+		// doGet이 실행하는게 아니라 execute()에 넘겨주는 방식으로 작업하게 되는 것. 요청을 직접 처리하지 않고 todayService의 execute로 넘김
 		// ★★ doGet의 request와 execute의 request는 같은 request. 
 		// 참조타입은 서로 주소값을 공유하기 때문에 하나의 request라고 보면 된다
 		
