@@ -56,6 +56,10 @@
 				alert('사원번호는 5자리 숫자입니다.');
 				return;     // 리턴은 리턴 바로 밑으론 코드 진행하는걸 막는것. 즉 ajax 실행 막기..
 			} 
+			if(/^[가-힣]{3,5}$/.test($('#dept').val()) == false) {
+				alert('부서는 3~5자리 한글입니다.');
+				return;
+			}
 			$.ajax({
 				type: 'post',
 				url: '${contextPath}/add',			
@@ -92,6 +96,9 @@
 					tr += '<td>' + resData.salary + '</td>';
 					tr += '</tr>';
 					$('#staff_list').append(tr);
+				},
+				error: function(jqXHR){
+					alert('조회된 사원 정보가 없습니다.')
 				}
 			})
 			
@@ -114,7 +121,7 @@
 	
 	<h3>사원조회</h3>
 	<form id="frm_lookup">
-		<input type="text" id="query">
+		<input type="text" id="query" placeholder="사원번호">
 		<input type="button" value="조회" id="btn_lookone">
 		<input type="button" value="전체" onclick="fn_staffList();">
 	</form>
