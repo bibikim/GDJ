@@ -22,5 +22,6 @@ public interface UserMapper {
 	public int insertAccessLog(String id);
 	public int deleteUser(int userNo);
 	public int insertRetireUser(RetireUserDTO user);
-
+	public int updateSessionInfo(UserDTO user);
+	
 }

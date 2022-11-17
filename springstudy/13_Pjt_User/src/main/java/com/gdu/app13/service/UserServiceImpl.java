@@ -2,6 +2,7 @@ package com.gdu.app13.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -13,6 +14,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -300,6 +302,7 @@ public class UserServiceImpl implements UserService {
 	@Override  
 	public void login(HttpServletRequest request, HttpServletResponse response) {   // session을 꺼내쓰기 위해 request로 파라미터 받아오기
 		// 자기 스스로 이동할 코드(response.sendRedirect(url); )가 있기 때문에 void 처리한 것
+
 		
 		// 받아오는 파라미터 3개  <- login.jsp에서 확인
 		String url = request.getParameter("url");
@@ -328,6 +331,11 @@ public class UserServiceImpl implements UserService {
 		
 		// id, pw가 일치하는 회원이 있다 : 로그인 기록 남기기 + session에 loginUser 저장
 		if(loginUser != null) {
+			
+			// 로그인 성공을 했는데 로그인 유지를 체크한 사람이다! -> 로그인 유지는 로그인이 성공한 경우 한정이기 때문에 이 위치가 맞다. 
+			// 로그인 유지 처리는 keepLogin 메소드가 따로 처리함
+			keepLogin(request, response); // keepLogin에 request, response 넘겨줘서 login()이 keepLogin() 너가 해라~~ 난 로그인만 할거양!! 하고 맡김!!!
+			
 		
 			// 로그인 기록 남기기 (access_log 테이블로 insert)
 			int updateResult = userMapper.updateAccessLog(id);
@@ -369,5 +377,130 @@ public class UserServiceImpl implements UserService {
 			
 		}
 	}
+	
+	
+	@Override
+	public void keepLogin(HttpServletRequest request, HttpServletResponse response) {  // 로그인할 때 수행
+		/*
+		 	로그인 유지를 체크한 경우
+		 	
+		 	1. session_id를 쿠키에 저장해 둔다.
+		 		(쿠키명 : keepLogin)
+		 	2. session_id를 DB에 저장해 둔다.
+		 		(SESSION_ID라는 칼럼에 session_id를 저장하고, SESSION_LIMIT_DATE(로그인 유지 유효기간) 칼럼에 현 시점으로부터 15일 후 날짜를 저장한다.)
+			
+			두 개의 데이터를 꺼내서 비교하는 것
+		*/
+		
+		/*
+			로그인 유지를 체크하지 않은 경우	
+			
+			1. 쿠키 또는 DB에 저장된 정보를 삭제한다.
+			   편의상 쿠키명 keepLogin을 제거하는 것으로 처리한다.
+				
+				-> 로그인 유지가 두 개의 데이터를 꺼내서 비교하는 방식이기 때문에 하나만 삭제해도 가능
+		*/
+		
+		
+		// 파라미터
+		String id = request.getParameter("id");
+		String keepLogin = request.getParameter("keepLogin");
+	
+		// 체크박스 체크 하면 name과 value 모두 같이 전달
+		// 로그인 유지를 체크한 경우
+		if(keepLogin != null) {
+			
+			// session_id
+			String sessionId = request.getSession().getId();
+			
+			// session_id를 쿠키에 저장하기 -> 서버가 쿠키를 굽는당
+			Cookie cookie = new Cookie("keepLogin", sessionId); // session의 id값
+			cookie.setMaxAge(60 * 60 * 24 * 15);  // 쿠키에 15일 저장
+			cookie.setPath(request.getContextPath()); // 쿠키에 contextPath 저장하기  (쿠키 저장/삭제하는 장소 : contextPath)
+			/*
+			 	쿠키를 컨텍스트패스에 저장했기 때문에 (app13으로 시작하는 모든 경로에) 컨텍스트패스값을 사용하는 모든 경로에서 
+			 	keepLogin이라는 값을 볼 수 있다!!
+			  
+			*/
+			
+			
+			
+			// 서버가 만든 쿠키를 클라이언트로 보낸다!
+			response.addCookie(cookie);
+			//-----------------------------------------> session_id 쿠키에 저장 완.
+			
+			// session_id를 DB에 저장하기
+			// 기존회원의 정보중에서 DB의 SESSION_ID 칼럼에 update로 쿼리짜준다!
+			UserDTO user = UserDTO.builder()
+					.id(id)
+					.sessionId(sessionId)
+					.sessionLimitDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 *15))   // long타입의 Date 타입 = 타임스탬프값 전달해줌(1/1000초) >> System.currentTimeMillis() 현시점의 timeStamp값
+												// 1/1000초니까 *1000해서 1초 만들어주고 15일의 시간을 만들기 위한 계산 해주면 됨
+					.build();
+			
+			userMapper.updateSessionInfo(user);
+			
+		}
+		
+		// 체크 안하면 둘다 아예 전달 x -> null 값
+		// 로그인 유지를 체크하지 않은 경우
+		else {
+			
+			// keepLogin 쿠키 제거하기
+			Cookie cookie = new Cookie("keepLogin", ""); // 빈문자열
+			cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
+			cookie.setPath(request.getContextPath()); // 쿠키에 contextPath 저장하기
+			
+			// 기존의 쿠키가 덮어쓰기 되면서 바뀌자마자 유지시간 없기 때문에 삭제되는 것!
+			response.addCookie(cookie);
+		}
+		
+	}
+	
+	@Override    // 로그아웃은 세션초기화만 하면 된다. 다른거 필요 없ㅋ엉ㅋ
+	public void logout(HttpServletRequest request, HttpServletResponse response) {
+		
+		// 로그아웃 처리
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginUser") != null) {   // session에 loginUser라는 값이 있으면!
+			session.invalidate();  // 세션 초기화할게!!
+		}
+		
+		// 로그인 유지 풀기  (풀기 전에 keepLogin이 있는지 확인해보고 풀거야)   
+		// 쿠키는 클라이언트에, 지금 이곳은 서버! -> 쿠키를 다(배열의 형태로) 가지고 와서 확인해야 함
+		Cookie[] cookieList = request.getCookies();  // 클라이언트 정보가 서버로 넘어오는 것 = request
+		if(cookieList == null) {
+			return;     
+		}
+		Cookie cookie = null;
+		for(int i=0; i < cookieList.length; i++) {
+			if(cookieList[i].getName().equals("keepLogin")) {  // 쿠키리스트에 keepLogin이라는 Name을 가진 쿠키가 있으면
+				cookie = new Cookie("keepLogin", "");
+				cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함  -> 쿠키 삭제할게!!
+				cookie.setPath(request.getContextPath()); // 쿠키에 contextPath 저장하기 (쿠키 저장/삭제하는 장소 : contextPath)
+				break;
+			}
+		}
+		response.addCookie(cookie);
+		
+		// 단순하게 로그인 유지 풀 때의 코드 ▼
+		//Cookie cookie = new Cookie("keepLogin", ""); // 빈문자열
+		//cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
+		//response.addCookie(cookie);
+		
+	}
+	
+	// 쿠키 저장하는 장소 선택할 수 있음. 13장에선 contextPath 경로에 저장해서 가져올 수 있도록 구현할 것임다
+	
+	//keepLogin의 값을 DB에 저장까지 해야 완벽하게 로그인유지 구현 가능
+	
+	
+	@Override
+	public UserDTO getUserBySessionId(Map<String, Object> map) {
+		return userMapper.selectUserByMap(map);   // 인터셉터에서 map을 받아옴
+		// 대개 서비스를 만들면 컨트롤러로 가서 서비스르 부르는데 이 서비스의 경우 인터셉터에서 부른다
+	}
+	
+	
 	
 }

@@ -6,6 +6,7 @@
 
 <mapper namespace="com.gdu.app13.mapper.UserMapper">
 
+	<!-- 아이디 중복체크1, 이메일 중복체크, 로그인, 로그인 유지를 이용한 로그인 -->
 	<select id="selectUserByMap" parameterType="Map" resultType="UserDTO">
 		SELECT USER_NO, ID, PW, NAME, GENDER, EMAIL, MOBILE, BIRTHYEAR, BIRTHDAY, POSTCODE, ROAD_ADDRESS, JIBUN_ADDRESS, DETAIL_ADDRESS, EXTRA_ADDRESS, AGREE_CODE, SNS_TYPE, JOIN_DATE, PW_MODIFY_DATE, INFO_MODIFY_DATE, SESSION_ID, SESSION_LIMIT_DATE
 		  FROM USERS
@@ -18,6 +19,11 @@
 			</if>
 			<if test="email != null">
 				AND EMAIL = #{email}
+			</if>
+			<if test="sessionId != null">
+				AND SESSION_ID = #{sessionId}
+				AND SESSION_LIMIT_DATE > SYSDATE
+				<!-- 세션 유지 시간 남았는지 비교.  SESSION_LIMIT_DATE가 오늘보다 크냐~ -->
 			</if>
 		</where>
 	</select>
@@ -99,5 +105,12 @@
 			(#{userNo}, #{id}, #{joinDate}, SYSDATE)
 	</insert>
 	
+	<!-- 로그인 유지를 위한 SESSION_ID/SESSION_LIMIT_DATE 업데이트 -->
+	<update id="updateSessionInfo" parameterType="UserDTO">
+		UPDATE USERS
+		   SET SESSION_ID = #{sessionId}
+		   	 , SESSION_LIMIT_DATE = #{sessionLimitDate}
+		 WHERE ID = #{id}
+	</update>
 	
 </mapper>

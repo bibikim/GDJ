@@ -90,8 +90,9 @@ public class UserController {
 	
 	@GetMapping("/user/logout")  // 로그아웃 후 웰컴페이지로 이동(redirect)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {   // request로부터 구하기
-		request.getSession().invalidate();  // 로그아웃은 세션초기화만 하면 된다. 다른거 필요 없ㅋ엉ㅋ
-		return "redirect:/";    
+		//request.getSession().invalidate();  -> 컨트롤러에서만 작업하던거 service로 옮겨주고, service에 있는 logout 메소드 가져오기!
+		userService.logout(request, response);  
+		return "redirect:/";    // 로그아웃하면 자동로그인을 푸는 작업도 이쪽에서
 	}
 	
 	/*

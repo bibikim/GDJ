@@ -23,6 +23,17 @@
 	
 	<context:component-scan base-package="com.gdu.app13" />
 	
+	<!-- interceptor -->
+	<!-- /** : /로부터 모든 경로 -->
+	<!-- beans:bean은 interceptor-mapping-beans:ref 이 때 동작한다! -->
+	<beans:bean id="keepLoginInterceptor" class="com.gdu.app13.interceptor.KeepLoginInterceptor"></beans:bean>
 	
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:ref bean="keepLoginInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>
