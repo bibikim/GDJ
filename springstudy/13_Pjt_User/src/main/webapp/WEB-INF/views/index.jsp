@@ -36,18 +36,21 @@
 		<div>
 			<a href="${contextPath}/user/check/form">${loginUser.name}</a>님 반갑습니다.
 		</div>
+		<a href="${contextPath}/user/mypage">마이페이지</a>
 		<a href="${contextPath}/user/logout">로그아웃</a>
-		<a id="lnk_retire" href="${contextPath}/user/retire">회원탈퇴</a>
+		<a href="javascript:fn_abc()">회원탈퇴</a>
 		<!-- 탈퇴 : user테이블에서는 delete, retireUser테이블에서는 insert (<-이게 트리거는 아닌데~ 트리거도 뭔지 공부 함 더하장) -->
+		<form id="lnk_retire" action="${contextPath}/user/retire" method="post">
+		<!-- post 매핑으로 바꿈으로써 탈퇴경로를 알아서 주소로 요청한다고 하더라도, 405 오류 뜨면서 동작하지 않는다! -->
 		<script>
 		/* event.preventDefault() 대상 => <a>태그의 기본이벤트인 링크이동(href 실행)을 막는 것 */
-			$('#lnk_retire').click(function(event){
-				if(confirm('탈퇴하시겠습니까?') == false){
-					event.preventDefault();  // a 태그의 기본 이벤트인 href 속성 실행을 막음
-					return;
+			function fn_abc() {
+				if(confirm('탈퇴하시겠습니까?')){
+					$('#lnk_retire').submit();   // post 매핑으로 서브밋!  post로 바꾸는 방법 : 1. form method="post", 2. ajax
 				}
-			});
+			}
 		</script>
+		</form>
 	</c:if>
 </body>
 </html>

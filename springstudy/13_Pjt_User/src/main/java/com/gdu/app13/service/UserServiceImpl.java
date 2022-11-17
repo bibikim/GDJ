@@ -468,6 +468,7 @@ public class UserServiceImpl implements UserService {
 		
 		// 로그인 유지 풀기  (풀기 전에 keepLogin이 있는지 확인해보고 풀거야)   
 		// 쿠키는 클라이언트에, 지금 이곳은 서버! -> 쿠키를 다(배열의 형태로) 가지고 와서 확인해야 함
+		/*
 		Cookie[] cookieList = request.getCookies();  // 클라이언트 정보가 서버로 넘어오는 것 = request
 		if(cookieList == null) {
 			return;     
@@ -482,11 +483,11 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		response.addCookie(cookie);
-		
+		*/
 		// 단순하게 로그인 유지 풀 때의 코드 ▼
-		//Cookie cookie = new Cookie("keepLogin", ""); // 빈문자열
-		//cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
-		//response.addCookie(cookie);
+		Cookie cookie = new Cookie("keepLogin", ""); // 빈문자열
+		cookie.setMaxAge(0);  // 쿠키 유지 시간이 0이면 삭제를 의미함
+		response.addCookie(cookie);
 		
 	}
 	
@@ -587,7 +588,7 @@ public class UserServiceImpl implements UserService {
 			} else {
 				out.println("<script>");
 				out.println("alert('비밀번호가 수정되지 않았습니다.');");
-				out.println("history.back();");  // 두 칸 돌려보내기! 2칸 전으로 가라! history.go(-1); == history.back();
+				out.println("history.back();"); 
 				out.println("</script>");
 			}
 			out.close();

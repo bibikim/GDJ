@@ -74,7 +74,7 @@ public class BoardController {
 	@PostMapping("brd/remove")
 	public String remove(int boardNo) {   // 삭제하고자 하는 게시들의 번호가 파라미터로 넘어온다
 		boardService.removeBoard(boardNo);   // removeBoard()로부터 0 or 1이 반환되지만 처리하지 않았다.   => 삭제한다요이~
-		return  "redirect:/brd/list";   // 삭제 후 목록보기
+		return  "redirect:/brd/list";   // 삭제 후 목록보기(@GetMapping("brd/list") -> return "board/list";를 다시 시행하는거)
 	}
 	
 	

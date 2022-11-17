@@ -40,7 +40,7 @@ public class PreventLoginInterceptor implements HandlerInterceptor {
 		}
 		
 		
-		// 요청 이전에 개입하는 것 - filter(character encoding) / interceptor / aop
+		// 요청 이전에 개입하는 것 -> filter(character encoding) / interceptor / aop
 		// 요청 이전에 제일 먼저 filter처리(web.xml)하고 interceptor 있으면 그거 또 처리하고 요청 수행
 		
 	}

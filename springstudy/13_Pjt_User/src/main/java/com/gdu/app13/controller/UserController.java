@@ -67,7 +67,7 @@ public class UserController {
 		userService.join(request, response);
 	}
 	
-	@GetMapping("/user/retire")    // 서비스에 넘겨줘야하기 때문에 request, response 다 받아온당 (데이터 흐름 : xml -> 패키지mapper -> 서비스, 서비스impl -> 컨트롤러 -> 뷰)
+	@PostMapping("/user/retire")    // 서비스에 넘겨줘야하기 때문에 request, response 다 받아온당 (데이터 흐름 : xml -> 패키지mapper -> 서비스, 서비스impl -> 컨트롤러 -> 뷰)
 	public void retire(HttpServletRequest request, HttpServletResponse response) {
 		userService.retire(request, response);
 	}
@@ -93,6 +93,8 @@ public class UserController {
 		//request.getSession().invalidate();  -> 컨트롤러에서만 작업하던거 service로 옮겨주고, service에 있는 logout 메소드 가져오기!
 		userService.logout(request, response);  
 		return "redirect:/";    // 로그아웃하면 자동로그인을 푸는 작업도 이쪽에서
+				// redirect : / => @GetMapping("/") 이걸 하겠단 의미. 그럼 또 거기서 return "index"; 까지!
+				// redirect 뒤에는 매핑값임!!!!!!!
 	}
 	
 	/*
@@ -104,8 +106,8 @@ public class UserController {
 	}
 	*/
 	
-	@GetMapping("/user/check/form")
-	public String checkForm() {
+	@GetMapping("/user/check/form") // 마이페이지 가기 전에 비밀번호 확인
+	public String requiredLogin_checkForm() {
 		
 		return "user/check";
 	}
@@ -113,18 +115,18 @@ public class UserController {
 	
 	@ResponseBody
 	@PostMapping(value="/user/check/pw", produces="application/json")
-	public Map<String, Object> checkPw(HttpServletRequest request) { // 서비스에서 request로 넘겨주기 때문에 컨트롤러도 request로 받자
+	public Map<String, Object> requiredLogin_checkPw(HttpServletRequest request) { // 서비스에서 request로 넘겨주기 때문에 컨트롤러도 request로 받자
 		
 		return userService.confirmPassword(request);
 	}
 
 	@GetMapping("/user/mypage")  // 마이페이지.jsp로 이동
-	public String mypage() {
+	public String requiredLogin_mypage() {
 		return "user/mypage";
 	}
 	
 	@PostMapping("/user/modify/pw")
-	public void modify(HttpServletRequest request, HttpServletResponse response) {  
+	public void requiredLogin_modify(HttpServletRequest request, HttpServletResponse response) {  
 	
 		userService.modifyPassword(request, response);
 	}
