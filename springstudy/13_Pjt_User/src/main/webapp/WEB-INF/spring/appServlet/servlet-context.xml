@@ -34,6 +34,14 @@
 			<mapping path="/**"/>
 			<beans:ref bean="keepLoginInterceptor"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/user/login/form"/>
+			<mapping path="/user/join/write"/>
+			<mapping path="/user/agree"/>
+			<beans:bean class="com.gdu.app13.interceptor.PreventLoginInterceptor"></beans:bean>
+			<!-- @Component로 bean 생성하면 bean:ref가 아닌 beans:bean 태그로 타입만 잡아놓고 이용 -->
+			<!-- 컴포넌트로 넣어놨을 땐 빈을 클래스로 두면 된다.  -->
+		</interceptor>
 	</interceptors>
 	
 </beans:beans>

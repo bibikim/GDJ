@@ -23,5 +23,5 @@ public interface UserMapper {
 	public int deleteUser(int userNo);
 	public int insertRetireUser(RetireUserDTO user);
 	public int updateSessionInfo(UserDTO user);
-	
+	public int updateUserPassword(UserDTO user); // user에 userNo와 pw 들어있어야 함!
 }

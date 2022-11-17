@@ -280,12 +280,12 @@ public class UserServiceImpl implements UserService {
 				session.invalidate();
 				
 				out.println("<script>");
-				out.println("alert('회원 탈퇴 되었습니다')");
+				out.println("alert('회원 탈퇴 되었습니다');");
 				out.println("location.href='" + request.getContextPath()  + "';");  // contextPath = /app13
 				out.println("</script>");
 			} else {
 				out.println("<script>");
-				out.println("alert('회원 탈퇴에 실패했습니다')");
+				out.println("alert('회원 탈퇴에 실패했습니다');");
 				out.println("history.back();");  // 두 칸 돌려보내기! 2칸 전으로 가라! history.go(-1); == history.back();
 				out.println("</script>");
 			}
@@ -499,6 +499,105 @@ public class UserServiceImpl implements UserService {
 	public UserDTO getUserBySessionId(Map<String, Object> map) {
 		return userMapper.selectUserByMap(map);   // 인터셉터에서 map을 받아옴
 		// 대개 서비스를 만들면 컨트롤러로 가서 서비스르 부르는데 이 서비스의 경우 인터셉터에서 부른다
+	}
+	
+	@Override
+	public Map<String, Object> confirmPassword(HttpServletRequest request) {
+		
+		// 파라미터 pw + SHA-256 처리
+		String pw = securityUtil.sha256(request.getParameter("pw"));
+		
+		// pw 확인하려면 id도 같이 넘겨줘야 됨 -> id는 세션에 있다. 이미 로그인 완료한 후에 마이페이지에서 비밀번호 확인 한번 들어가는 거니까!
+		HttpSession session =request.getSession();
+	    String id=((UserDTO)session.getAttribute("loginUser")).getId();  // 로그인 한 사람의 id 꺼냄!
+		
+	    // 조회 조건으로 사용할 Map
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("id", id);
+	    map.put("pw", pw);
+	    
+	    // id, pw가 일치하는 회원 조회
+	    UserDTO user = userMapper.selectUserByMap(map);  // 조회된 결과는 user가 됨
+	    
+	    // 결과 반환
+	    Map<String, Object> result = new HashMap<String, Object>();
+	    result.put("isUser", user != null);  // 조회된 결과(user)가 null이 아니면 isUser(사이트 회원이란 의미)
+ 
+		return result;
+	}
+	
+	@Override
+	public void modifyPassword(HttpServletRequest request, HttpServletResponse response) {
+		
+		// 현재 로그인 된 사용자
+		HttpSession session = request.getSession();
+		UserDTO loginUser = (UserDTO)session.getAttribute("loginUser"); 
+		
+		// 파라미터
+		String pw = securityUtil.sha256(request.getParameter("pw"));
+		
+		// 동일한 비밀번호로 변경 금지
+		if(pw.equals(loginUser.getPw())) {   // request에서 꺼내온 loginUser의 Pw와 새로입력한 pw가 동일하면 변경 금지
+			
+			// 응답
+			try {
+				
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+					
+				out.println("<script>");
+				out.println("alert('현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다')");
+				out.println("history.back();"); 
+				out.println("</script>");
+				out.close();
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		// 회원번호(세션에 들어있다)
+		int userNo = loginUser.getUserNo();
+		
+		// DB로 보낼 UserDTO
+		UserDTO user = UserDTO.builder()
+				.userNo(userNo)
+				.pw(pw)
+				.build();
+		
+		// 비밀번호 수정
+		int result = userMapper.updateUserPassword(user);
+		
+		// 응답
+		try {
+			
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			if(result > 0) {
+				
+				// session에 저장된 loginUser 업데이트
+				loginUser.setPw(pw);
+				
+				out.println("<script>");
+				out.println("alert('비밀번호가 수정되었습니다.');");
+				out.println("location.href='" + request.getContextPath()  + "';");  // contextPath = /app13
+				out.println("</script>");
+			} else {
+				out.println("<script>");
+				out.println("alert('비밀번호가 수정되지 않았습니다.');");
+				out.println("history.back();");  // 두 칸 돌려보내기! 2칸 전으로 가라! history.go(-1); == history.back();
+				out.println("</script>");
+			}
+			out.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// ▲위까지 db에는 바뀐 비밀번호가 갱신됐지만 세션에는 이전 pw데이터가 그대로 있음!
+		
 	}
 	
 	

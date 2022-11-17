@@ -103,4 +103,29 @@ public class UserController {
 		return "redirect:/";    // session을 여기서 직접 선언하고 세션초기화 해준 후, 웰컴페이지로 redirect 해주면 된다.
 	}
 	*/
+	
+	@GetMapping("/user/check/form")
+	public String checkForm() {
+		
+		return "user/check";
+	}
+	
+	
+	@ResponseBody
+	@PostMapping(value="/user/check/pw", produces="application/json")
+	public Map<String, Object> checkPw(HttpServletRequest request) { // 서비스에서 request로 넘겨주기 때문에 컨트롤러도 request로 받자
+		
+		return userService.confirmPassword(request);
+	}
+
+	@GetMapping("/user/mypage")  // 마이페이지.jsp로 이동
+	public String mypage() {
+		return "user/mypage";
+	}
+	
+	@PostMapping("/user/modify/pw")
+	public void modify(HttpServletRequest request, HttpServletResponse response) {  
+	
+		userService.modifyPassword(request, response);
+	}
 }
