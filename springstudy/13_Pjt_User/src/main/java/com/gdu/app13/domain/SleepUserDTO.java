@@ -26,7 +26,7 @@ public class SleepUserDTO {
 	private String jibunAddress;
 	private String detailAddress;
 	private String extraAddress;
-	private Integer agreeCode;
+	private int agreeCode;
 	private String snsType;
 	private Date joinDate;
 	private Date lastLoginDate;

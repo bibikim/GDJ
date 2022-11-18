@@ -1,7 +1,15 @@
 package com.gdu.app13.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.SecureRandom;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -26,11 +35,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.app13.domain.RetireUserDTO;
+import com.gdu.app13.domain.SleepUserDTO;
 import com.gdu.app13.domain.UserDTO;
 import com.gdu.app13.mapper.UserMapper;
 import com.gdu.app13.util.SecurityUtil;
 
 import lombok.AllArgsConstructor;
+import netscape.javascript.JSObject;
 
 //@AllArgsConstructor // 필드들의 autowired 역할을 한번에 처리함!
 @PropertySource(value= {"classpath:email.properties"})
@@ -601,6 +612,250 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
+	@Transactional // 휴면처리 : insert와 delete 동시 진행되기 때문에 트랜잭션 처리 필요
+	@Override
+	public void sleepUserHandle() {
+		int insertCount = userMapper.insertSleepUser();    // inserCount로 반환되는게 3인거.
+		if(insertCount > 0) {
+			userMapper.deleteUserForSleep();
+		}
 	
+		
+	}
+	
+	
+	@Override
+	public SleepUserDTO getSleepUserById(String id) {
+
+		return userMapper.selectSleepUserId(id);
+	}
+	
+	
+	@Transactional  // insert, delete
+	@Override
+	public void restoreUser(HttpServletRequest request, HttpServletResponse response) {
+							// 이쪽으로 전달된 파라미터 pw 하나.
+		
+		// 계정 복원을 원하는 사용자와 아이디
+		HttpSession session = request.getSession();
+		SleepUserDTO sleepUser = (SleepUserDTO)session.getAttribute("sleepUser");
+		String id = sleepUser.getId();
+		
+
+		// 계정 복구 진행
+		int insertCount = userMapper.insertRestoreUser(id);
+		int deleteCount = 0;
+		if(insertCount > 0) {
+			deleteCount = userMapper.deleteSleepUser(id);
+		}
+			
+			// 응답
+			try {
+				
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				
+				if(insertCount > 0 && deleteCount > 0) {
+					out.println("<script>");
+					out.println("alert('휴면계정이 복구되었습니다. 휴면 계정 활성화를 위해 곧바로 로그인을 해 주세요!');");
+										// 로그인 해야만 휴면계정으로 다시 안 빠지게끔 설정해놓음
+					out.println("location.href='" + request.getContextPath()  + "/user/login/form';");  // contextPath = /app13
+					out.println("</script>");
+				} else {
+					
+					out.println("<script>");
+					out.println("alert('휴면계정 복구에 실패했습니다.');");
+					out.println("history.back();"); 
+					out.println("</script>");
+					
+				}
+				
+				out.close();
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		
+			
+	}
+	
+	
+	@Override
+	public String getNaverLoginApiURL(HttpServletRequest request) {
+		
+		String apiURL = null;
+		
+		try {
+			
+		    String clientId = "DJxqiwv2wqFur2KBtCxx";//애플리케이션 클라이언트 아이디값";
+		    String redirectURI = URLEncoder.encode("http://localhost:9090" + request.getContextPath() + "/user/naver/login", "UTF-8"); // 네이버 로그인 Callback URL에 작성한 주소 입력
+		    										// ㄴ정보를 넘겨줄 곳
+		    SecureRandom random = new SecureRandom();
+		    String state = new BigInteger(130, random).toString();
+		    apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
+		    apiURL += "&client_id=" + clientId;
+		    apiURL += "&redirect_uri=" + redirectURI;
+		    apiURL += "&state=" + state;
+		    HttpSession session = request.getSession();
+		    session.setAttribute("state", state);
+		    
+		} catch (Exception e) {
+			
+		}
+		    
+		return apiURL;
+	}
+	
+	@Override
+	public UserDTO getNaverLoginTokenNProfile(HttpServletRequest request) {
+		
+		 	// access_token 받기
+		 	String clientId = "DJxqiwv2wqFur2KBtCxx";//애플리케이션 클라이언트 아이디값";
+		    String clientSecret = "nq6dLkY86Z";//애플리케이션 클라이언트 시크릿값";
+		    String code = request.getParameter("code");
+		    String state = request.getParameter("state");
+		    String redirectURI = null;    
+		    try {                                        
+		    	redirectURI = URLEncoder.encode("http://localhost:9090" + request.getContextPath(), "UTF-8");  // 6가지 정보 받아서 또 어디로 갈거에여?(=> callback)
+		    } catch(UnsupportedEncodingException e) {
+		    	e.printStackTrace();
+		    }
+		    
+		    // 네이버 아이디로 로그인 요청 할게요~ 로그인을 위해 필요한 정보를 저 주소로 보내주세요~ 
+		    //     -> 그쪽으로 데이터를 받은게 request, 거기에 들어있는게  code, state. 이 정보랑 개인정보 풀셋을 정보를 받아오기 위한 token 주소로 다시 요청, 
+		    // 네이버가 최종적으로 토큰 두개와 토큰타입, expires_in 값을 줌 <<= 네이버 로그인 API를 통해 접근토큰을 전달받음
+		    
+		    // 토큰 받고 프로필 받을거야!
+		    
+		    // : 네이버측에서 이 사람한테 네이버 프로필을 제공해줘도 되는지 확인하는 과정이었던 것
+		    
+	    	StringBuffer res = new StringBuffer();  // StringBuffer는 StringBuilder와 동일한 역할 수행
+		    
+	    	String access_token = "";
+	    	//String refresh_token = "";
+	    	
+		    try {
+		    	
+			    String apiURL;
+			    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+			    apiURL += "client_id=" + clientId;
+			    apiURL += "&client_secret=" + clientSecret;
+			    apiURL += "&redirect_uri=" + redirectURI;
+			    apiURL += "&code=" + code;
+			    apiURL += "&state=" + state;
+			    System.out.println("apiURL="+apiURL);
+		    	
+		    	URL url = new URL(apiURL);
+		    	HttpURLConnection con = (HttpURLConnection)url.openConnection();
+		    	con.setRequestMethod("GET");
+		    	int responseCode = con.getResponseCode();
+		    	BufferedReader br;
+
+		    	if(responseCode==200) { // 정상 호출
+		    		br = new BufferedReader(new InputStreamReader(con.getInputStream())); 
+		    	} else {  // 에러 발생
+		    		br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		    	}
+		    	
+		    	String inputLine;  // 한줄씩 읽어들이기
+
+		    	while ((inputLine = br.readLine()) != null) {
+		    		res.append(inputLine);
+		    	}
+		    	
+		    	br.close();
+		    	con.disconnect();
+		 
+		    	//System.out.println(res.toString());  -> json객체로 넘어오는 토큰값 확인을 위한 코드
+		    	
+			    /*
+			    
+			     res.toString()
+			    
+			     {
+				     "access_token":"AAAAONdwFCQM5uZeoFTHwE3d_DqC9YNyV9CWgJoFMA46pF1YkeqQzugcIBhIq2TQy4mg3VZmZ-oQutlQQwpCCAwLsKA",
+				      "refresh_token":"Amdhhcyy62vI1ipy7NI1Hy79QQLOwOMiibfisbMXKCFHGU0dhiit9X0CKXQtZWExmtfV9caj844is5bQf6YwVlYhZkoaS6K5DpOS8V3jrF8CGislKFgkU86BQhcna4ipFkjXQkE",
+				      "token_type":"bearer",
+				      "expires_in":"3600"
+			      }
+		
+			    */
+		    } catch(Exception e) {
+		    	e.printStackTrace();
+		    }
+
+		    	
+		    	JSONObject obj = new JSONObject(res.toString());
+		    	access_token = obj.getString("access_token");
+		    	//refresh_token = obj.getString("refresh_token");  사용안해서 주석처리
+		    	
+		    	
+		    	// access_token을 이용해서 profile 받기
+		    	String header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+
+		    	StringBuffer sb = new StringBuffer();
+		    	
+		    try {
+
+		        String apiURL = "https://openapi.naver.com/v1/nid/me";   //
+		        
+		    	URL url = new URL(apiURL);
+		    	HttpURLConnection con = (HttpURLConnection)url.openConnection();  
+		    	con.setRequestMethod("GET");
+		    	con.setRequestProperty("Authorization", header);   // header값 넣기 -> access_token을 주소에 넘겨주는건 위험하니까 header에 담아서 보내준다
+
+		    	int responseCode = con.getResponseCode();
+		    	BufferedReader br;
+
+		    	if(responseCode==200) { // 정상 호출
+		    		br = new BufferedReader(new InputStreamReader(con.getInputStream())); 
+		    	} else {  // 에러 발생
+		    		br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+		    	}
+		    	
+		    	String inputLine;  // 한줄씩 읽어들이기
+
+		    	while ((inputLine = br.readLine()) != null) {
+		    		sb.append(inputLine);
+		    	}
+		    	
+		    	br.close();
+		    	con.disconnect();
+		    	
+		    	System.out.println(sb.toString());  // 사용자의 프로필 정보
+		    	
+		    	/*
+		    	 
+		    	 // 네이버 아이디 로그인을 시도한 사용자의 프로필 정보가 sb에 담겨있다.
+		    	 
+		    	 {
+				    	 "resultcode":"00",
+				    	  "message":"success",
+				    	  "response":{
+				    	  		"id":"sdfdgafhrjthgkjhgddfaefad",
+				    	  		"gender":"F",
+				    	  		"email":"dfadsfararg",
+				    	  		"mobile":"010-1111-1111",
+				    	  		"mobile_e164":"+8210111111",
+				    	  		"name":"\uae40\ud55c\ube44",
+				    	  		"birthday":"04-08",
+				    	  		"birthyear":"1992"
+			    	  		}
+		    	  	}
+
+		    	  
+		    	  => 이제 네이버api의 할 일은 끝남. 이 정보들을 DB에 넣는 작업만 하면 됨. (UserDTO로 만들어서 반환)
+		    	*/
+		    	
+		    	
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+		
+		    // 받아온 profile을 UserDTO로 만들어서 반환!
+		   
+		    
+		return null;
+	}
 	
 }

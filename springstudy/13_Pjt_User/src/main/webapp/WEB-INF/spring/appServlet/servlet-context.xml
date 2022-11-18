@@ -42,6 +42,11 @@
 			<!-- @Component로 bean 생성하면 bean:ref가 아닌 beans:bean 태그로 타입만 잡아놓고 이용 -->
 			<!-- 컴포넌트로 넣어놨을 땐 빈을 클래스로 두면 된다.  -->
 		</interceptor>
+		      <!-- SleepUserCheckingInterceptor : @Component로 컨테이너에 등록 -->
+      	<interceptor>
+        	<mapping path="/user/login"/>
+        	<beans:bean class="com.gdu.app13.interceptor.SleepUserCheckingInterceptor" />
+     	</interceptor>
 	</interceptors>
 	
 </beans:beans>

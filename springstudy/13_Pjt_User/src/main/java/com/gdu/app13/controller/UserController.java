@@ -80,6 +80,10 @@ public class UserController {
 		// 요청 헤더 referer : 이전 페이지의 주소가 저장돼 있음(요청헤더에는 그 직전에 주소가 뭔지 referer라는 값으로 저장을 해둠.)
 		// referer를 참조함으로써 현재 있는 페이지가 직전에 어떤 페이지에서 요청되어 있는지 알 수 있다(방문자가 어떤 웹사이트나 웹서버에서 왔는지 파악 가능)
 		model.addAttribute("url", request.getHeader("referer")); // 로그인 후 되돌아 갈 주소 url를 login.jsp에서 써먹기 위해!
+		
+		// 네이버 로그인
+		model.addAttribute("apiURL", userService.getNaverLoginApiURL(request));  // 컨트롤러에서 apiURL로 저장시킨 이름 login.jsp에서 ${}로 감싸서 사용 가능!
+		
 		return "user/login";
 	}
 	
@@ -87,6 +91,14 @@ public class UserController {
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		userService.login(request, response);
 	}
+	
+	@GetMapping("/user/naver/login")
+	public void naverLogin(HttpServletRequest request) {
+		userService.getNaverLoginTokenNProfile(request);
+
+	}
+	
+	
 	
 	@GetMapping("/user/logout")  // 로그아웃 후 웰컴페이지로 이동(redirect)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {   // request로부터 구하기
@@ -129,5 +141,15 @@ public class UserController {
 	public void requiredLogin_modify(HttpServletRequest request, HttpServletResponse response) {  
 	
 		userService.modifyPassword(request, response);
+	}
+	
+	@GetMapping("/user/sleep/display") // sendRedirect 주소창 이동 방식이니까 getMapping
+	public String sleepDisplay() {
+		return "user/sleep";
+	}
+	
+	@PostMapping("/user/restore")
+	public void restore(HttpServletRequest request, HttpServletResponse response) {  // 서비스가 리퀘,리스판 쓰고 있음 -> 컨트롤러에서 최초 선언해줘야함!
+		userService.restoreUser(request, response);
 	}
 }

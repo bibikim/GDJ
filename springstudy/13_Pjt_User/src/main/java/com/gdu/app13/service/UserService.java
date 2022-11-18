@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gdu.app13.domain.SleepUserDTO;
 import com.gdu.app13.domain.UserDTO;
 
 public interface UserService {
@@ -23,4 +24,17 @@ public interface UserService {
 	public Map<String, Object> confirmPassword(HttpServletRequest request);  // json으로 반환해서 보내줄거니까 서비스단에서 Map으로 만들어주는게 좋다
 
 	public void modifyPassword(HttpServletRequest request, HttpServletResponse response); 
+	
+	// 휴면처리
+	public void sleepUserHandle(); // SleepUserScheduler에서 호출. -> 자동으로 동작하는 애들을 batch라고 함
+	public SleepUserDTO getSleepUserById(String id);  // interceptor에서 부른다 컨트롤러로 따지면 @postMapping("user/login") 수행하려고 할 때 요 인터셉터가 들어와야 함!! 
+													  // -> 인터셉터가 id를 갈취해서 sleep_users에 있는지 확인하고 옴 (true=휴면이 아니다, 로긴 완.  false=휴면이다, 로긴 X, 여기서 지정한 다른 루트로 가는 것)
+
+	// 휴면계쩡 복구
+	public void restoreUser(HttpServletRequest request, HttpServletResponse response);
+
+	// 네이버 로그인 1
+	public String getNaverLoginApiURL(HttpServletRequest request);  // 세션이 필요함 -> request나 session 넘겨주기
+	// 네이버 로그인 2
+	public UserDTO getNaverLoginTokenNProfile(HttpServletRequest request);
 }
