@@ -76,16 +76,18 @@ public class UploadServiceImpl implements UploadService {
 		
 		// 첨부된 파일 목록
 		List<MultipartFile> files = multipartRequest.getFiles("files");   // write.jsp에 <input type="file" name="files">
-		//System.out.println(files);
-		
-		
-		
-		
+				
 		// 첨부 결과
-		int attachResult = 0;
-		if(files.get(0).getSize() == 0) {
-			
+		// 첨부를 안 하고 글을 쓸 때
+		// files.size() == 1  파일이 없다는 정보로 1개가 들어가 있음..
+		// attachResult는 0인데 files.size()는 1이 뜸
+		int attachResult;
+		if(files.get(0).getSize() == 0) {  // 첨부가 없는 경우 (files 리스트에 [MultipartFile[field="files", filename=, contentType=application/octet-stream, size=0]] 이렇게 저장되어 있어서 files.size()가 1이다.
+			attachResult = 1;
+		} else {
+			attachResult = 0;
 		}
+		
 		
 		// 첨부된 파일 목록 순회(하나씩 저장)
 		for(MultipartFile multipartFile : files) {     // 파일첨부 갯수만큼 반복문이 돈다. 
@@ -97,7 +99,7 @@ public class UploadServiceImpl implements UploadService {
 					
 					// 원래 이름   - 다운로드 시 원래 원래이름으로 다운로드 되게 원래이름도 db에 넣어준다
 					String origin = multipartFile.getOriginalFilename();
-					origin = origin.substring(origin.lastIndexOf("\\") + 1);  // IE는 오리지널네임에 전체 경로가 붙어서 파일명만 사용해야 함. -> 앞에 경로는 버리고 마지막 것만 쓰겠다
+					origin = origin.substring(origin.lastIndexOf("\\.") + 1);  // IE는 오리지널네임에 전체 경로가 붙어서 파일명만 사용해야 함. -> 앞에 경로는 버리고 마지막 것만 쓰겠다
 					
 					// 저장할 이름
 					String filesystem = myFileUtil.getFilename(origin);  // origin = 앞에 다떼고 파일이름만 따옴 -> myFileUtil를 통해 만든 uuid값이 붙은 파일명으로 저장
@@ -125,6 +127,8 @@ public class UploadServiceImpl implements UploadService {
 							.uploadNo(upload.getUploadNo())   // insert 후 upload에서 uploadNo를 가져오기
 							.build();
 					
+					
+					
 					// DB에 AttachDTO 저장
 					attachResult += uploadMapper.insertAttach(attach);  // 받기만 하면 세개 다 성공했는지 실패했는지 알 수 없음 -> 누적을 시켜주면 세개 첨부시 1이 3개 = 3
 																		// ==> 첨부된 갯수하고 attachResult가 같은지 비교
@@ -145,7 +149,7 @@ public class UploadServiceImpl implements UploadService {
 			if(uploadResult > 0 && attachResult == files.size()) {   // files = 첨부된 모든 파일의 목록(List).의 size와 같으면 업로드 성공
 				out.println("<script>");
 				out.println("alert('업로드 되었습니다');");
-				out.println("location.href='" + multipartRequest.getContextPath() + "/upload/list");
+				out.println("location.href='" + multipartRequest.getContextPath() + "/upload/list'");
 				out.println("</script>");
 			} else {
 				out.println("<script>");

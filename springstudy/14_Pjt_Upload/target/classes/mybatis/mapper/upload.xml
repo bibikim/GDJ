@@ -37,9 +37,9 @@
 	
 	<insert id="insertAttach" parameterType="AttachDTO">
 		INSERT INTO ATTACH
-			(ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_NO, UPLOAD_NO)
+			(ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, UPLOAD_NO)
 		VALUES
-			(ATTACH_SEQ.NEXTVAL, #{path}, #{origin}, #{filesystem), 0, #{uploadNo})
+			(ATTACH_SEQ.NEXTVAL, #{path}, #{origin}, #{filesystem}, 0, #{uploadNo})
 	</insert>
 	
 </mapper>
