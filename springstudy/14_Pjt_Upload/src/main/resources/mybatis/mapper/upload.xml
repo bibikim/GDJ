@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.app14.mapper.UploadMapper">
+
+	 <!-- 첨부파일의 개수에 대한 칼럼에 필드에 동일한 별명을 줘야 DTO와 매핑이 됨. 필드에 attachCnt를 선언했으므로. -->
+	 <!-- 첨부개수를 알아야 하므로 attach테이블과 join -->
+	<select id="selectUploadList" resultType="UploadDTO">
+		SELECT U.UPLOAD_NO, U.TITLE, U.CONTENT, U.CREATE_DATE, U.MODIFY_DATE, (SELECT COUNT(*) FROM ATTACH A WHERE U.UPLOAD_NO = A.UPLOAD_NO) AS ATTACH_CNT
+		  FROM UPLOAD U
+	</select>
+		 
+	
+	<!-- 글 하나에 insert 두개가 동시에 upload 테이블/ attach 테이블 -->
+	<!-- 시퀀스로 생성하는 값이 얼만지 궁금한 것. 서비스에서는 db에서 만든 시퀀스가 몇 번인지 당연히 모름. 그래서 먼저 시퀀스 값을 서비스 입장에서 시퀀스로 몇 번을 만드는지 알아야 하니까 
+			먼저 selectkey로 알아보쟉,.  시퀀스로 생성한 값을 UPLOADNMO라고 이름 지음. 결과는 INT-->
+	<!--  
+		<selectKey keyProperty="">
+		
+		upload_seq.nextval 값을 insert 수행 이전에(BEFORE)
+		parameter로 전달되는 UploadDTO의 uploadNo에 넣어주시오~!
+	-->
+	<insert id="insertUpload" parameterType="UploadDTO">
+	<!-- insert 이전에 selectKey를 해서 결과를 uploadNo라는 이름을 주겠다 => 결과값이 uploadNo라는 이름으로 UploadDTO(파라미터)에 들어감!! -->
+		<selectKey keyProperty="uploadNo" resultType="int" order="BEFORE">
+			SELECT UPLOAD_SEQ.NEXTVAL
+			  FROM DUAL
+		</selectKey>
+		INSERT INTO UPLOAD
+			(UPLOAD_NO, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE)
+		VALUES
+			(#{uploadNo}, #{title}, #{content}, SYSTIMESTAMP, SYSTIMESTAMP)  
+	</insert>
+	
+	<insert id="insertAttach" parameterType="AttachDTO">
+		INSERT INTO ATTACH
+			(ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_NO, UPLOAD_NO)
+		VALUES
+			(ATTACH_SEQ.NEXTVAL, #{path}, #{origin}, #{filesystem), 0, #{uploadNo})
+	</insert>
+	
+</mapper>
