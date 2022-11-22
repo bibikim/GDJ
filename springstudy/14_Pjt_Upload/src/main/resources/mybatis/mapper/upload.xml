@@ -42,4 +42,39 @@
 			(ATTACH_SEQ.NEXTVAL, #{path}, #{origin}, #{filesystem}, 0, #{uploadNo})
 	</insert>
 	
+	<!-- upload 상세보기 = UploadDTO -->
+	<select id="selectUploadByNo" parameterType="int" resultType="UploadDTO">
+		SELECT UPLOAD_NO, TITLE, CONTENT, CREATE_DATE, MODIFY_DATE
+		  FROM UPLOAD
+		 WHERE UPLOAD_NO = #{uploadNo}
+	</select>
+	
+	<!-- attach 상세보기 = AttachDTO(List), 파라미터 : uploadNo -->
+	<select id="selectAttachList" parameterType="int" resultType="AttachDTO">
+		SELECT ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, UPLOAD_NO
+		  FROM ATTACH
+		 WHERE UPLOAD_NO = #{uploadNo}
+	</select>
+	
+	<!-- 첨부파일 받아와서 1씩 증가시키면 됨 -->
+	<update id="updateDownloadCnt" parameterType="int">
+		UPDATE ATTACH
+		   SET DOWNLOAD_CNT = DOWNLOAD_CNT + 1
+		 WHERE ATTACH_NO = #{attachNo}
+	</update>
+	
+	<!-- 다운로드 위한 쿼리문 -->
+	<select id="selectAttachByNo" parameterType="int" resultType="AttachDTO">
+		SELECT ATTACH_NO, PATH, ORIGIN, FILESYSTEM, DOWNLOAD_CNT, UPLOAD_NO
+		  FROM ATTACH
+		 WHERE ATTACH_NO = #{attachNo}
+	</select>
+	
+	<delete id="deleteAttachByAttachNo" parameterType="int">
+		DELETE
+		  FROM ATTACH
+		 WHERE ATTACH_NO = #{attachNo}
+		 <!-- uploadNo 받아서 지워야 하는 경우도 있을 수 있음ㅇㅇ 그땐 deleteAttachByUploadNo -->
+	</delete>
+	
 </mapper>

@@ -2,13 +2,20 @@ package com.gdu.app14.service;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -172,5 +179,94 @@ public class UploadServiceImpl implements UploadService {
 		
 		
 	}
+	
+	@Override  // 상세보기
+	public void getUploadByNo(int uploadNo, Model model) {
+		// select 두번은 트랜잭션 노필요 
+		model.addAttribute("upload", uploadMapper.selectUploadByNo(uploadNo));
+		model.addAttribute("attachList", uploadMapper.selectAttachList(uploadNo));	
+				// 조회수 넣으려면 이 곳에서 조회수 작업 필요
+	}
+	
+	@Override
+	// ResponseEntity => 페이지 변화 없음 -> 값만 반환하겠다 (ajax)     // HttpEntity를 상속받으면서 HttpStatus, HttpHeader값 등을 가짐
+	// 다운로드 자체가 ajax가 필요한 건 아니지만 다운로드 시 페이지가 바뀌지 않고(다운한다고 페이지 바뀌지 않으니깐) 값만 받아오는 ajax같은 상황임. (ajax를 사용하진 않아)
+	public ResponseEntity<Resource> download(String userAgent, int attachNo) {
+		
+		// 다운로드 할 첨부 파일의 정보(경로, 이름)
+		AttachDTO attach = uploadMapper.selectAttachByNo(attachNo);  // 요기에 담겨 있씀당
+		File file = new File(attach.getPath(), attach.getFilesystem());   // (경로, 파일명)    원래 이름(origin)은 DB에만 있는 거. 다운로드할 파일명은 filesystem이다
+		
+		// 반환할 Resource
+		Resource resource = new FileSystemResource(file); // file 전달
+		
+		// Resource가 없으면 종료(다운로드 할 파일이 없음)
+		if(resource.exists() == false) {
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);  // HttpStatus 못 찾겠따~
+		}
+		
+		// 다운로드 횟수 증가
+		uploadMapper.updateDownloadCnt(attachNo);
+		
+		// 다운로드 되는 파일명(브라우저마다 다르게 세팅)
+		String origin = attach.getOrigin();
+		try {
+			
+			// IE (userAgent에 "Trident"가 포함되어 있음) - 브라우저 종류가 많자나여.. 브라우저마다 header에 포함되어 있음. 그럼 어떤 브라우저로 접속했늕 알 수 있음. 그게 userAgent임둥
+			if(userAgent.contains("Trident")) {
+				origin = URLEncoder.encode(origin, "UTF-8").replaceAll("\\+", " ");   // IE는 공백대신 +가 생긴다. 
+			}
+			// Edge (userAgent에 "Edg"가 포함되어 있음
+			else if(userAgent.contains("Edg")) {
+				origin = URLEncoder.encode(origin, "UTF-8");
+			}
+			// 나머지
+			else {
+				origin = new String(origin.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 다운로드 헤더 만들기
+		// 실제로 반환할 리소스, 헤더, 상태값
+		HttpHeaders header = new HttpHeaders(); // 스프링프레임워크
+		header.add("Content-Disposition", "attachment; filename=" + origin);  // filename=" + origin -> 다운로드 받을 때 다운로드 받을 이름 정해주기
+		header.add("Content-Length", file.length() + "");
+
+		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+		// 리소스를 만들면 다른 귀찮은거 안해도 댐 그게 머엿더랑~
+	}
+	
+	
+	@Override
+	public void removeAttachByAttachNo(int attchNo) {
+	
+		// 삭제할 Attach 정보 가져오기
+		AttachDTO attach = uploadMapper.selectAttachByNo(attchNo);  // 삭제 전에 정보를 가져와서 DB에서 attach 정보 삭제하고, 화면에 첨부파일 지우기
+		
+		// DB에서 삭제
+		int result = uploadMapper.deleteAttachByAttachNo(attchNo);
+		
+		// 첨부파일 삭제
+		if(result > 0) {
+			
+			// 첨부 파일을 File 객체로 만듬
+			File file = new File(attach.getPath(), attach.getFilesystem());
+			
+			// 삭제
+			if(file.exists()) {     // file이 존재하면
+				file.delete();       // 삭제
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 }
