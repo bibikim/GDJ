@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.app15.mapper.BlogMapper">
+
+	<select id="selectBlogListCount" resultType="int">
+		SELECT COUNT(*) 
+		  FROM BLOG 
+	</select>
+	
+	<select id="selectBlogListByMap" parameterType="Map" resultType="BlogDTO">
+		<!-- 블로그를 가져갈 때 사용자 정보를 가져가야 함. join도 해야되는데 동시에 담을 DTO가 없기 때문에 Map에 담아간다 -->
+ 		SELECT A.ROW_NUM, A.BLOG_NO, A.TITLE, A.CONTENT, A.HIT, A.IP, A.CREATE_DATE, A.MODIFY_DATE
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY BLOG_NO DESC) AS ROW_NUM, BLOG_NO, TITLE, CONTENT, HIT, IP, CREATE_DATE, MODIFY_DATE
+		  		  FROM BLOG) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+		  <!-- 정렬 후 row_number로 번호 붙인게 a 
+		   		FROM절에 들엉간 서브쿼리: 인라인 뷰 
+		   		WHERE절은 페이징처리를 위함. 따라서 MAP에 begin과 end가 들어있어야 한당 -->
+	</select>
+	
+	
+</mapper>
