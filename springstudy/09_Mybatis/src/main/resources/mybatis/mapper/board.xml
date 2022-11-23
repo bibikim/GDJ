@@ -12,7 +12,7 @@
 
 	<select id="selectAllBoards" resultType="Board">
 		SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE
-		  FROM BOARD
+		  FROM BOARD 
 		 ORDER BY BOARD_NO DESC
 	</select>
 	

@@ -12,10 +12,12 @@
 
 	// contextPath를 반환하는 자바스크립트 함수   <- 자바스크립트에서 자바부르지 않고 자바스크립트로만 사용해보기~
 	function getContextPath() {
-		// console.log(location);
+		console.log(location);
+		/*
 		var begin = location.href.indexOf(location.origin) + location.origin.length;   // location.href에서 index를 찾아락  // "/"를 찾는겅
-		var end = location.href.indexOf("/", begin+1);   // 어디서부터 찾으라는지 지정
+		var end = location.href.indexOf("/", begin+1);   // 어디서부터 찾으라는지 지정 -> /부터 
 		return location.href.subString(begin, end);
+		*/
 	}
 
 	$(document).ready(function(){
