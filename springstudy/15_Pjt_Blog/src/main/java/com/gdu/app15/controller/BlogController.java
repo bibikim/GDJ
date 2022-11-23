@@ -28,4 +28,10 @@ public class BlogController {
 		return "blog/list";
 	}
 	
+	@GetMapping("/blog/write")
+	public String write() {
+		return "blog/write";
+	}
+	
+	
 }

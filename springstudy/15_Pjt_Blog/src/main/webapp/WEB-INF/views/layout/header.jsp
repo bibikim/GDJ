@@ -4,7 +4,7 @@
 <%
 	Optional<String> opt = Optional.ofNullable(request.getParameter("title"));  // list.jsp에서 넘겨받은 파람
 	String title = opt.orElse("Welcome");
-	pageContext.setAttribute("title", title);   // EL사용을 위함(${title})  이게 없으면 <%=title 퍼센트> 로 쓰면 된다. 자바변수 걍 가져다 쓰기
+	pageContext.setAttribute("title", title);   // EL사용을 위함(${title}) => 이게 없으면 <%=title 퍼센트> 로 쓰면 된다. 자바변수 걍 가져다 쓰기
 	pageContext.setAttribute("contextPath", request.getContextPath());   // == <taglib prefix="c">, <c:set>
 %>
 <!DOCTYPE html>

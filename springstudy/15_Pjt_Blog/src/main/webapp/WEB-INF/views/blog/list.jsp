@@ -4,14 +4,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
+<!-- header.jsp로 넘겨줄 파라미터 title를 < jsp:param > 태그로 -->
 <jsp:include page="../layout/header.jsp">
-	<jsp:param value="블로그목록" name="title"/>   <!-- header.jsp로 넘겨줄 파라미터 title -->
+	<jsp:param value="블로그목록" name="title"/>
 </jsp:include>
 
 	<h1>블로그 목록(전체 ${totalRecord}개)</h1>	
 	<div>
 		<%-- <c:if test="${loginUser != null}">    로그인 한 사람만 작성버튼 눌러서 작성페이지 넘어갈 수 있다 / 관리자만 작성가능 : ${loginUser.id == 'admin'} --%>
-			<input type="button" value="블로그 작성하기" onclick="${contextPath}/blog/write">
+			<input type="button" value="블로그 작성하기" onclick="location.href='${contextPath}/blog/write'">
 		<%-- </c:if> --%>
 	</div>
 	
@@ -28,7 +29,7 @@
 			<tbody>
 				<c:forEach items="${blogList}" var="blog" varStatus="vs">
 					<tr>
-						<td>${beginNo - vs.index}</td>   <!-- index값 써서 순번만들어쥑 -->
+						<td>${beginNo - vs.index}</td>   <!-- index값 써서 순번 만들어쥑 -->
 						<td>${blog.title}</td>
 						<td>${blog.hit}</td>
 						<td>${blog.createDate}</td>
@@ -37,7 +38,9 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="4">${paging}</td>
+					<td colspan="4">
+						${paging}
+					</td>
 				</tr>
 			</tfoot>
 		</table>
