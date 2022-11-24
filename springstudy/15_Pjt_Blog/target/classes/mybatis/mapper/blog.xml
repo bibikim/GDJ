@@ -44,4 +44,10 @@
 		 WHERE BLOG_NO = #{blogNo}
 	</select>
 	
+	<delete id="deleteBlogByNo" parameterType="int">
+		DELETE
+		  FROM BLOG
+		 WHERE BLOG_NO = #{blogNo}
+	</delete>
+	
 </mapper>

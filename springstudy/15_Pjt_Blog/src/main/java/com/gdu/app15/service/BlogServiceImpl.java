@@ -167,13 +167,47 @@ public class BlogServiceImpl implements BlogService {
 	}
 	
 	@Override
-	public void getBlogByNo(int blogNo, Model model) {
+	public BlogDTO getBlogByNo(int blogNo) {
 		
-		model.addAttribute("blog", blogMapper.selectBlogByNo(blogNo));   // 블넘으로 셀렉블넘
+		// 편집하러 갈 때, 상세보기를 함
+		
+		return blogMapper.selectBlogByNo(blogNo);   // 블넘으로 셀렉블넘 결과를 blog라는 이름으로 model에 실어주기!
 		
 	}
 	
+	@Override
+	public void modifyBlog(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return ;
+	}
 	
+	@Override
+	public void removeBlog(HttpServletRequest request, HttpServletResponse response) {
+		int blogNo = Integer.parseInt( request.getParameter("blogNo"));
+		int result = blogMapper.deleteBlogByNo(blogNo);
+		
+		try {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<script>");
+			if(result > 0) {
+				out.println("alert('게시글이 삭제 되었습니다.')");
+				out.println("location.href='" + request.getContextPath() +"/blog/list';");
+			} else {
+				out.println("alert('게시글이 삭제되지 않았습니다.')");
+				out.println("history.back();");
+			}
+			
+			out.println("</script>");
+			out.close();
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 	
 	

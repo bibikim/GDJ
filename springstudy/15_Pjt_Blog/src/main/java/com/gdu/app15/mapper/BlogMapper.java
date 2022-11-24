@@ -14,5 +14,6 @@ public interface BlogMapper {
 	public int insertBlog(BlogDTO blog);
 	public int updateHit(int blogNo);
 	public BlogDTO selectBlogByNo(int blogNo);
-	
+	public int updateBlog(int blogNo);
+	public int deleteBlogByNo(int blogNo);
 }
