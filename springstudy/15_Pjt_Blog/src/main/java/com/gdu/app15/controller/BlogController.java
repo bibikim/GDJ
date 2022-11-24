@@ -1,13 +1,22 @@
 package com.gdu.app15.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.app15.service.BlogService;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 public class BlogController {
@@ -33,5 +42,33 @@ public class BlogController {
 		return "blog/write";
 	}
 	
+	@PostMapping("/blog/add")
+	public void add(HttpServletRequest request, HttpServletResponse response) {
+		blogService.saveBlog(request, response);
+	}
 	
+	@ResponseBody
+	@PostMapping(value="/blog/uploadImage", produces="application/json")   // 이미지를 받아올 수 있는 request => MultipartRequest
+	public Map<String, Object> uploadImage(MultipartHttpServletRequest multipartRequest) { // json 반환하기 만만한거 Map -> jackson 디펜던시 넣었으니깐
+		return blogService.saveSummernoteImage(multipartRequest);
+	}
+	
+	// 조회수 먼저 시키고 조회수 증가 성공하면 상세보기 하는 걸로 맨든당
+	@GetMapping("/blog/increase/hit")
+	public String increaseHit(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo) {     // required=false, defaultValue="0" 짝꿍 => 파라미터를 안보내면 0을 쓰기로 했기 때문에 조회수증가 없음
+		int result = blogService.increaseBlogHit(blogNo);
+		if(result > 0) {   // 조회수 증가 성공하면 상세보기로 이동
+			return "redirect:/blog/detail";   // update -> detail = redirect:/blog/detail
+		} else {   // 조회수 증가 실패하면 목록보기로 이동
+			return "redircet:/blog/list";   // 매핑값이 /blog/list 인 곳을 ㅗ가겠다
+		}
+		
+	}
+	
+	// 상세보기
+	@GetMapping("/blog/detail")
+	public String detail(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo, Model model) {
+		blogService.getBlogByNo(blogNo, model);
+		return "blog/detail"; // select한 다음에 forward => blog밑에 detail.jsp로 가자
+	}
 }
