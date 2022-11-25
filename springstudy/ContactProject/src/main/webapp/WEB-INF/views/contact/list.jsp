@@ -28,7 +28,7 @@
 						<td colspan="5">없음</td>
 					</tr>
 				</c:if>
-				<c:if test="${not empty contats}">
+				<c:if test="${not empty contacts}">
 					<c:forEach items="${contacts}" var="contact">
 					<tr>
 							<td>${contact.no}</td>
