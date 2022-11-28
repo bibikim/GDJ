@@ -10,7 +10,7 @@
 </jsp:include>
 
 
-<!-- 댓글 처음부터 보여주는 detail -->
+<!-- 댓글 목록 처음부터 보여주는 detail -->
 
 <div>
 	<h1>${blog.title}</h1>
