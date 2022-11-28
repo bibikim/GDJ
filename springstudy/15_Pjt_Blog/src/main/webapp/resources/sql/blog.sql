@@ -16,12 +16,12 @@ CREATE TABLE BLOG
 -- 댓글(1단 계층형)
 CREATE TABLE COMMENTS
 (
-    COMMENT_NO NUMBER NOT NULL,
+    COMMENT_NO NUMBER NOT NULL, -- seq.nextval ->  seq가 만든 번호를 group_no가 사용한다. 
     BLOG_NO NUMBER,             -- 외래키(on delete set null을 위해 not null 처리하면 안 됨. - - - - > )
     CONTENT VARCHAR2(4000 BYTE) NOT NULL,
     STATE NUMBER NOT NULL,      -- 정상 1, 삭제 -1
-    DEPTH NUMBER NOT NULL,      -- 게시글 0, 댓글 1
-    GROUP_NO NUMBER NOT NULL,   -- 게시글과 해당 게시글에 달린 댓글은 같은 그룹
+    DEPTH NUMBER NOT NULL,      -- 댓글 0, 댓글의 답글 1
+    GROUP_NO NUMBER NOT NULL,   -- 댓글과 해당 댓글에 달린 대댓글은 같은 그룹  (그룹넘버는 코멘트넘버와 같은 번호를 가지기로함) -> seq.currval(comment넘버가 만든 시퀀스 넘버를 고대로 가져감)
     CREATE_DATE DATE NOT NULL
 );
 

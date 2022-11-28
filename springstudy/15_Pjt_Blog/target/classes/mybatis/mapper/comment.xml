@@ -6,6 +6,36 @@
 
 <mapper namespace="com.gdu.app15.mapper.CommentMapper">
 
-
+	<select id="selectCommentCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		  FROM COMMENTS
+		 WHERE BLOG_NO = #{blogNo}
+	</select>
+	
+	<!-- 받아오는 파라미터 타입은 commentDTO (content와 blogNo만 가져오긴함) -->
+	<insert id="insertComment" parameterType="CommentDTO">
+		INSERT INTO COMMENTS
+			(COMMENT_NO, BLOG_NO, CONTENT, STATE, DEPTH, GROUP_NO, CREATE_DATE)
+		VALUES
+			(COMMENTS_SEQ.NEXTVAL, #{blogNo}, #{content}, 1, 0, COMMENTS_SEQ.CURRVAL, SYSDATE)
+	</insert>
+	
+	<!-- 댓글 목록, 파라미터는 map으로. 1단 계층이라 그룹오더가 없음! 다단일때만 필요함 
+		 뎁스가 0이면 밖에, 뎁스가 1인 애(답댓)는 안으로. 같은 그룹이면 depth기준 오름차순. 먼저 작성한 댓글이 위로 올라오려면 group_no는 내림차순 
+		 GROUP_NO 정렬먼저
+		 
+		 여러개 
+		 
+		 댓글단 사람의 아이디나 닉네임을 가져오려면 : user 테이블과의 join이 필요함
+		 -->
+	<select id="selectCommentList" parameterType="Map" resultType="CommentDTO">
+		SELECT A.ROW_NUM, A.COMMENT_NO, A.BLOG_NO, A.CONTENT, A.STATE, A.DEPTH, A.GROUP_NO, A.CREATE_DATE
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC) AS ROW_NUM, COMMENT_NO, BLOG_NO, CONTENT, STATE, DEPTH, GROUP_NO, CREATE_DATE
+		          FROM COMMENTS
+		         WHERE BLOG_NO = ${blogNo}) A
+	 	 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+		  
+	</select>
+	
 	
 </mapper>

@@ -9,13 +9,8 @@
 	<jsp:param value="${blog.blogNo}번 블로그" name="title"/>
 </jsp:include>
 
-<!-- 댓글 목록 처음엔 안 보여주는 detail -->
 
-<style>
-	.blind {
-		display: none;
-	}
-</style>
+<!-- 댓글 처음부터 보여주는 detail -->
 
 <div>
 	<h1>${blog.title}</h1>
@@ -75,7 +70,7 @@
 	
 	<hr>
 	
-	<div id="comment_area" class="blind">
+	<div id="comment_area">
 		<div id="comment_list"></div>
 		<div id="paging"></div>
 	</div>
@@ -125,7 +120,12 @@
 		
 		function fn_switchCommentList() {
 			$('#btn_comment_list').click(function() {
-				$('#comment_area').toggleClass('blind');
+				$('#comment_area').toggleClass('show');
+				if($('#comment_area').hasClass('show')) {   // 쇼를 가지고 있으면 쇼를 보여주고 아니면 숨김
+					$('#comment_area').show();  
+				} else {
+					$('#comment_area').hide();
+				}
 			})
 		}
 		
