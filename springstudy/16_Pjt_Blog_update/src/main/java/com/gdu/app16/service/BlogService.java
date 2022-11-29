@@ -1,4 +1,4 @@
-package com.gdu.app15.service;
+package com.gdu.app16.service;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.gdu.app15.domain.BlogDTO;
+import com.gdu.app16.domain.BlogDTO;
 
 public interface BlogService {
 	public void getBlogList(Model model);

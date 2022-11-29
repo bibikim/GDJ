@@ -1,4 +1,4 @@
-package com.gdu.app15.controller;
+package com.gdu.app16.controller;
 
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.gdu.app15.service.BlogService;
+import com.gdu.app16.service.BlogService;
 
 @Controller
 public class BlogController {

@@ -1,4 +1,4 @@
-package com.gdu.app15.batch;
+package com.gdu.app16.batch;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -13,8 +13,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gdu.app15.domain.SummernoteImageDTO;
-import com.gdu.app15.mapper.BlogMapper;
+import com.gdu.app16.domain.SummernoteImageDTO;
+import com.gdu.app16.mapper.BlogMapper;
 
 @EnableScheduling
 @Component

@@ -1,4 +1,4 @@
-package com.gdu.app15.domain;
+package com.gdu.app16.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

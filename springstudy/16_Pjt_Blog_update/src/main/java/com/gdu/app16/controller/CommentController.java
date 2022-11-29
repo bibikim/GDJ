@@ -1,4 +1,4 @@
-package com.gdu.app15.controller;
+package com.gdu.app16.controller;
 
 import java.util.Map;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gdu.app15.domain.CommentDTO;
-import com.gdu.app15.service.CommentService;
+import com.gdu.app16.domain.CommentDTO;
+import com.gdu.app16.service.CommentService;
 
 @Controller
 public class CommentController {

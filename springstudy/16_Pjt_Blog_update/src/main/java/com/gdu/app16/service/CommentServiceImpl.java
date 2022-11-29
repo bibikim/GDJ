@@ -1,4 +1,4 @@
-package com.gdu.app15.service;
+package com.gdu.app16.service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gdu.app15.domain.CommentDTO;
-import com.gdu.app15.mapper.CommentMapper;
-import com.gdu.app15.util.PageUtil;
+import com.gdu.app16.domain.CommentDTO;
+import com.gdu.app16.mapper.CommentMapper;
+import com.gdu.app16.util.PageUtil;
 
 @Service
 public class CommentServiceImpl implements CommentService {

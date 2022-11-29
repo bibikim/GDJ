@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gdu</groupId>
-	<artifactId>app15</artifactId>
-	<name>15_Pjt_Blog</name>
+	<artifactId>app16</artifactId>
+	<name>16_Pjt_Blog_update</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 

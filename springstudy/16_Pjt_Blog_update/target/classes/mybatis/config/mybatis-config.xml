@@ -11,9 +11,9 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.gdu.app15.domain.BlogDTO" alias="BlogDTO" />
-		<typeAlias type="com.gdu.app15.domain.SummernoteImageDTO" alias="SummernoteImageDTO" />
-		<typeAlias type="com.gdu.app15.domain.CommentDTO" alias="CommentDTO" />
+		<typeAlias type="com.gdu.app16.domain.BlogDTO" alias="BlogDTO" />
+		<typeAlias type="com.gdu.app16.domain.SummernoteImageDTO" alias="SummernoteImageDTO" />
+		<typeAlias type="com.gdu.app16.domain.CommentDTO" alias="CommentDTO" />
 	</typeAliases>
 
 </configuration>

@@ -233,7 +233,7 @@
 					var paging = '';
 					// 이전 블록
 					if(pageUtil.beginPage != 1) {
-						paging += '<span class="enable_link" data-page="'+ (pageUtil.beginPage - 1) +'">◀</span>';    // 에작은 페이지를 파라미터로 넘길 수 없음. 링크를 클릭하면 루_commnetList를 다재실행, 그때 페이지파라미터를ㄷ ㅏ시 보내줘야함
+						paging += '<span class="enable_link" data-page="'+ (pageUtil.beginPage - 1) +'">◀</span>';    // 에작은 페이지를 파라미터로 넘길 수 없음. 링크를 클릭하면 fn_commnetList를 재실행, 그때 페이지파라미터를ㄷ ㅏ시 보내줘야함
 						// 태그에 클릭하면 몇 페이지로 가는 링크인지 넣을것
 					}
 					// 페이지번호

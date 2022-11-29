@@ -1,4 +1,4 @@
-package com.gdu.app15.service;
+package com.gdu.app16.service;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -17,11 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.gdu.app15.domain.BlogDTO;
-import com.gdu.app15.domain.SummernoteImageDTO;
-import com.gdu.app15.mapper.BlogMapper;
-import com.gdu.app15.util.MyFileUtil;
-import com.gdu.app15.util.PageUtil;
+import com.gdu.app16.domain.BlogDTO;
+import com.gdu.app16.domain.SummernoteImageDTO;
+import com.gdu.app16.mapper.BlogMapper;
+import com.gdu.app16.util.MyFileUtil;
+import com.gdu.app16.util.PageUtil;
 
 @Service
 public class BlogServiceImpl implements BlogService {

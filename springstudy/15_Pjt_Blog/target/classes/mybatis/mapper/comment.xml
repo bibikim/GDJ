@@ -10,6 +10,7 @@
 		SELECT COUNT(*)
 		  FROM COMMENTS
 		 WHERE BLOG_NO = #{blogNo}
+		   <!-- AND STATE = 1 -->
 	</select>
 	
 	<!-- 받아오는 파라미터 타입은 commentDTO (content와 blogNo만 가져오긴함) -->

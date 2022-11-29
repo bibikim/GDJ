@@ -1,11 +1,11 @@
-package com.gdu.app15.mapper;
+package com.gdu.app16.mapper;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.gdu.app15.domain.CommentDTO;
+import com.gdu.app16.domain.CommentDTO;
 
 @Mapper
 public interface CommentMapper {

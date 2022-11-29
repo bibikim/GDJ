@@ -1,10 +1,10 @@
-package com.gdu.app15.service;
+package com.gdu.app16.service;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.gdu.app15.domain.CommentDTO;
+import com.gdu.app16.domain.CommentDTO;
 
 public interface CommentService {
 	public Map<String, Object> getCommentCount(int blogNo);
