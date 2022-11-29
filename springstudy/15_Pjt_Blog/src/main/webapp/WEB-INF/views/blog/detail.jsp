@@ -82,6 +82,7 @@
 	
 	<hr>
 	
+	<!-- 댓글 작성창은 정적으로 만들어둠. -->
 	<div>
 		<form id="frm_add_comment">
 			<div class="add_comment_input">
@@ -106,6 +107,9 @@
 		fn_addComment();
 		fn_commentList();
 		fn_changePage();
+		fn_removeComment();
+		fn_switchReplyArea();
+		fn_addReply();
 		
 		// 호이스팅...
 		
@@ -186,10 +190,20 @@
 						}
 						// 경우에 따라 여기서 아이디나 닉네임 표시위해 가져오면 됨.
 						// 내용   state=1 정상 state=-1 삭제(따라서 보여주면 안됑)
-						if(comment.state == 1) {
-							div += '<div>' + comment.content + '</div>';
-						} else {
+						if(comment.state == 1) {      // 정상이면 내용을 보여주고
+							div += '<div>'
+							div += comment.content;
+							// 작성자만 삭제할 수 있도록 if 처리 필요!
+							div += '<input type="button" value="삭제" class="btn_comment_remove" data-comment_no="'+ comment.commentNo + '">';  // 삭제하려면 삭제할 번호를 알아야되니까 data-속성으로 번호저장
+							// 댓글에 대댓글을 달 수 있도록 if 처리 필요 (depth == 0 이면 댓글, depth == 1 이면 대댓. 따라서 depth==0일때만 답글버튼 보이도록)
 							if(comment.depth == 0) {
+							// insertComment는 사용 불가/ depth를 1로 바꿔야함. (groupNo로) 댓글의 코멘트 번호를 변수로 그대로 받아와야 함
+							// groupNo를 알아야 대댓 닫 수 있음. 그룹넘버를 넘겨줘야함 
+								div += '<input type="button" value="답글" class="btn_reply_area">'; // groupNo는 commnetNo
+							}
+							div += '</div>';	
+						} else {
+							if(comment.depth == 0) {   // 삭제되면 삭제되었단 글귀를 보여주고
 								div += '<div>삭제된 댓글입니다.</div>';
 							} else {
 								div += '<div>삭제된 대댓글입니다.</div>';
@@ -199,6 +213,15 @@
 						div += '<div>';
 						moment.locale('ko-KR');     // moment-with-locale 라이브러리 사용하기
 						div += '<span style="font-size: 12px; color: silver;">' + moment(comment.createDate).format('YYYY. MM. DD hh:mm') + '</span>';
+						div += '</div>';
+						div += '<div style="margin-left: 40px;" class="reply_area blind">';   // blind라는 클래스값이 toggleClass마냥 나왓다드러갓다 이지룰
+						div += '<form class="frm_reply">'  // 보내줄게 3개가 넘으니 form으로 보내자. 여기는 반복문 안이니까 id주면 안됑
+					    div += '<input type="hidden" name="blogNo" value="' + comment.blogNo + '">';	// serialize()로 보낼때는 name속성 사용
+					    div += '<input type="hidden" name="groupNo" value="' + comment.commentNo + '">';	 // groupNo는 commnetNo
+					    div += '<input type="text" name="content" placeholder="답글을 작성하려면 로그인을 해주세용">';
+					    // 로그인한 사용자만 볼 수 있도록 if처리
+					    div += '<input type="button" value="답글작성완료" class="btn_reply_add">'; // 서브밋할거아니고 ajax로 하는거니까 서브밋 하쥐뫙
+					    div += '</form>';
 						div += '</div>';
 						div += '</div>';   // comment.depth에서 열어준 div 닫기
 						$('#comment_list').append(div);
@@ -242,12 +265,68 @@
 		}
 		
 		
+		function fn_removeComment(){   // 마찬가지로 자스로 만든 동적 이벤트니까 위와 같이 만들깅
+			$(document).on('click', '.btn_comment_remove', function() {
+				if(confirm('삭제된 댓글은 복구할 수 없습니다. 댓글을 삭제할까요?')) {
+					$.ajax({
+						type: 'post',
+						url: '${contextPath}/comment/remove',
+						data: 'commentNo=' + $(this).data('comment_no'),// 코멘트번호 버튼에 넣어뒀음
+						dataType: 'json',
+						success: function(resData) {   // resData = {"isRemove" : true}
+							if(resData.isRemove){
+								alert('댓글이 삭제되었습니다.');
+								fn_commentList();   // 목록 갱신
+								fn_commentCount();	// 댓글 개수 갱신
+							}
+						}
+					})
+				}
+			})
+		}
+		
+		function fn_switchReplyArea() {
+			$(document).on('click', '.btn_reply_area', function(){
+				$(this).parent().next().next().toggleClass('blind');  // 토글로 blind 클래스를 줫다뺏다 난리부르스
+				// 답글의 부모(<div>)의 다음, 다음에만 blind
+			})
+		}
+		
+		function fn_addReply() {
+			$(document).on('click', '.btn_reply_add', function() {
+				if($(this).prev().val() == ''){  // 입력은 버튼 이전 형제 input의 name="contnet"에 입력됨
+					alert('답글 내용을 입력하세요.');
+					return;
+				}
+				$.ajax({
+					type: 'post',
+					url: '${contextPath}/comment/reply/add',
+					data: $(this).closest('.frm_reply').serialize(), // $('.frm_reply').serialize(), <-이건 안돼! 이렇게 생긴 폼이 여러개 있기 때문에 버튼 기준으로 기준잡아야함.
+							// 혹은 parent..도 가넝.. 여러이벤트가 나올 때는 클릭버튼 기준으로 this같은걸 쓰는게 좋댕...
+					dataType: 'json',
+					success: function(resData) {   // resData = {"isAdd", true}
+						if(resData.isAdd) {
+							alert('답글이 등록되었습니다.');
+							fn_commentList();   // 목록 갱신
+							fn_commentCount();	// 갯수 갱신  -> 정상게시글의 댓글수만 세어보겠다 -> state==1인 것만 쓴다.. 쿼리문 수정하면 삭제된 댓글카운트는 안함
+						}
+					}
+				})
+				
+			})
+		}
+		/* 댓글에서 코멘트넘버 == 그룹넘버. 따라서 commentNo == gropuNo 바까써도 무방 */
 		
 	</script>
 	
 	
 	
+	<%-- 
+		상세보기하면 상세보기에 있는 이미지와 DB와 하드의 내용을 보고 비교해본 담에 지워버리게 하는 로직이 BLOG서비스에 들어가 있음..(getBlogByNo) 
 	
+		써머노트가 작성화면에서 이미지 2개를 올렸다가 하나는 지워서 작성완료를 하는 경우에도 db와 경로에 이미지파일을 저장시키기 때문에
+		이 작업이 필요하댄다.
+	--%>
 	
 	
 	

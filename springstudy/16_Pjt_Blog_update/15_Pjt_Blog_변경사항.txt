@@ -1,0 +1,30 @@
+sql
+  summernote_image 테이블 추가
+
+write.jsp & edit.jsp
+  callbacks의 onImageUpload 이벤트 변경 (이미지 다중 선택 가능하도록 수정 + 저장된 이미지 이름 <div> 태그에 저장)
+  본문에 <div id="summernote_image_list"></div> 추가
+
+SummernoteImageDTO 추가
+
+mybatis-config.xml
+  <typeAlias type="com.gdu.app15.domain.SummernoteImageDTO" alias="SummernoteImageDTO" />
+
+BlogServiceImpl
+  saveSummernoteImage()
+  saveBlog()
+  getBlogByNo()
+  modifyBlog()
+  removeBlog()
+
+BlogMapper
+  selectSummernoteImageListInBlog()
+  selectAllSummernoteImageList()
+
+blog.xml
+  insertBlog
+  selectSummernoteImageListInBlog
+  selectAllSummernoteImageList\
+
+com.gdu.app15.batch 패키지
+  DeleteWrongSummernoteImages
