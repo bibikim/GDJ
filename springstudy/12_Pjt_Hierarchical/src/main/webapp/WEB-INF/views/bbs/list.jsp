@@ -84,6 +84,7 @@
 								</c:if>
 								<!-- 제목 -->
 								${bbs.title}
+								
 								<%-- 
 										대댓에 대댓을 못 주게 하려면! 답글달기에 c:if를 달아서 depth=0일때만 [답글]버튼 보이게!
 										▶  <c:if test="${bbs.depth == 0}"><input 답글></c:if>
