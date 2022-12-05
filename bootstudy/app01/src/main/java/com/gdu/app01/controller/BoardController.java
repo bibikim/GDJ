@@ -1,5 +1,8 @@
 package com.gdu.app01.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -84,6 +87,12 @@ public class BoardController {
 		return "board/write";  // board 폴더의 write.jsp로 forward
 	}
 
+	@PostMapping("/brd/remove/list")
+	public void removeList(HttpServletRequest request, HttpServletResponse response) {
+		// removeBoardList() 메소드에 list.jsp로 redirect하는 코드가 있기 때문에 return 없이 void 처리합니다.
+		boardService.removeBoardList(request, response);
+	}
+	
 
 	
 	

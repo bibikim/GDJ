@@ -21,5 +21,7 @@ public interface BoardMapper {
 	public int insertBoard(BoardDTO board);
 	public int updateBoard(BoardDTO board);
 	public int deleteBoard(int boardNo);
+	public int deleteBoardList(List<String> boardNoList); // 보드넘버들을 스트링에 실어서 보냄
+	
 }
 

@@ -13,7 +13,7 @@
 	
 	<!-- com.gdu.app09.domain.Board to Board -->
 	<typeAliases>
-		<typeAlias type="com.gdu.app10.domain.BoardDTO" alias="Board"/>
+		<typeAlias type="com.gdu.app01.domain.BoardDTO" alias="Board"/>
 		<!-- domain.Board라는 클래스는 Board라고만 쓰겠다고 세팅! -->
 	</typeAliases>
 

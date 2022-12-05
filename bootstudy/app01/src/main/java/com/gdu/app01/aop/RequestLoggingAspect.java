@@ -26,7 +26,7 @@ public class RequestLoggingAspect {
 	
 	 
 	// controller 패키지 아래 모든 패키지(..)의 모든 클래스(*)
-	@Pointcut("within(com.gdu.app10.controller..*)") 	// -▶ 컨트롤러의 모든 메소드(조인포인트)를 포인트컷으로 지정하겠다. -> 모든 조인포인트를 포인트컷으로!
+	@Pointcut("within(com.gdu.app01.controller..*)") 	// -▶ 컨트롤러의 모든 메소드(조인포인트)를 포인트컷으로 지정하겠다. -> 모든 조인포인트를 포인트컷으로!
 														// 컨트롤러의 모든 메소드에서 어드바이스(콘설에 로그 찍기)가 동작한다.
 	 public void setPointCut() {	// 오직 포인트컷 대상을 결정하기 위한 메소드(이름 : 아무거나, 본문 : 없음)
 				// 포인트 컷만 여기서 달아놓고 밑에서(@Around) 지정함
@@ -37,7 +37,7 @@ public class RequestLoggingAspect {
 	// 어드바이스 설정
 	// 어드바이스 실행 시점
 	// @Before(메소드 호출 전), @After(메소드 호출 후), @AfterReturing(메소드가 정상 반환하면), @AfterThrowing(메소드가 오류 뿜을 떄), @Around(메소드 호출 전후 -> 가장 많이 씀)
-	@Around("com.gdu.app10.aop.RequestLoggingAspect.setPointCut()")		// setPointCut() 메소드에 설정된 포인트컷에서 동작하는 어드바이스
+	@Around("com.gdu.app01.aop.RequestLoggingAspect.setPointCut()")		// setPointCut() 메소드에 설정된 포인트컷에서 동작하는 어드바이스
 	// 옆에 빨간 아이콘 : exexuteLogging 코드를 전부다 controller의 아이콘 찍힌 메소드에 다 넣어주겠단 의미!
 	public Object executeLogging(ProceedingJoinPoint joinPoint) throws Throwable {	// @Around는 반드시 ProceedingJoinPoint joinPoint 선언해야 함	// 실제로 동작할 어드바이스
 	

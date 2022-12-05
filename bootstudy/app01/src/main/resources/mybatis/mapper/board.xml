@@ -8,11 +8,12 @@
 <!-- 쿼리문 적어줄거야 -->
 <!-- jdbc에서 다오(매퍼+쿼리) -> mybatis에서 매퍼와 쿼리로 분리! Dao에는 자바코드만, board.xml은 쿼리문만 쓴다. -->
 
-<mapper namespace="com.gdu.app10.mapper.BoardMapper">   
+<mapper namespace="com.gdu.app01.mapper.BoardMapper">   
 <!-- board.xml 입장에서 나는 너(인터페이스보드매퍼)와 같아!!라고 알려주는거 -->
 
+<!-- CREATE_DATE 날짜가 VARCHAR2 타입으로 되어 있어서 TO_DATE로 바꿔서 계산해줘야 함 -->
 	<select id="selectAllBoards" resultType="Board">
-		SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE
+		SELECT BOARD_NO, TITLE, CONTENT, WRITER, CREATE_DATE, MODIFY_DATE, FLOOR(SYSDATE - TO_DATE(CREATE_DATE)) AS PASS_DAY
 		  FROM BOARD
 		 ORDER BY BOARD_NO DESC
 	</select>
@@ -43,5 +44,18 @@
 		  FROM BOARD
 		 WHERE BOARD_NO = #{boardNo}
 	</delete>
+	
+	<!-- 한번에 다중 삭제 -->
+	<!-- arrayList로 받아온거 하나씩 빼서(foreach) 이름을 boardNo라고 붙일거임 ()  -->
+	<delete id="deleteBoardList" parameterType="List">
+		DELETE
+		  FROM BOARD
+		<where> 
+		 	<foreach collection="list" item="boardNo" open="BOARD_NO IN(" separator="," close=")">
+				#{boardNo}
+			</foreach>
+		</where>
+	</delete>
+	<!-- BOARD_NO IN(1,2,3) 한번에 두개이상을 삭제하기 위해 만든 쿼리. mybatis.org 홈페이지 가면 관련 쿼리 설명이 있음. 동적sql -->
 	
 </mapper>
