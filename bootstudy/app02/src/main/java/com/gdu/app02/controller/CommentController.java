@@ -21,12 +21,12 @@ public class CommentController {
 	private CommentService commentService;
 	
 	@ResponseBody
-	@GetMapping(value="/comment/getCount", produces="application/json")  // 데이터에 한글 포함되는거 없어서 미디어타입안해도 괜춘
-	public Map<String, Object> getCount(@RequestParam("blogNo") int blogNo) {  // blogNo를 파람으로 받아와서 int blogNo로 저장
+	@GetMapping(value="/comment/getCount", produces="application/json")
+	public Map<String, Object> getCount(@RequestParam("blogNo") int blogNo) {
 		return commentService.getCommentCount(blogNo);
 	}
 	
-	@ResponseBody  // ajax 반환!
+	@ResponseBody
 	@PostMapping(value="/comment/add", produces="application/json")
 	public Map<String, Object> add(CommentDTO comment) {
 		return commentService.addComment(comment);
@@ -34,22 +34,20 @@ public class CommentController {
 	
 	@ResponseBody
 	@GetMapping(value="/comment/list", produces="application/json")
-	public Map<String, Object> list(HttpServletRequest request) { // request로 넘겨줘쓰니까 여기서 request 선언해주기
+	public Map<String, Object> list(HttpServletRequest request) {
 		return commentService.getCommentList(request);
-		
 	}
 	
 	@ResponseBody
 	@PostMapping(value="/comment/remove", produces="application/json")
-	public Map<String, Object> remove(@RequestParam("commentNo") int commentNo) { // commentNo만 받으면 되니까 리퀘파람으로 바로 받기
+	public Map<String, Object> remove(@RequestParam("commentNo") int commentNo){
 		return commentService.removeComment(commentNo);
 	}
 	
 	@ResponseBody
 	@PostMapping(value="/comment/reply/add", produces="application/json")
-	public Map<String, Object> replyAdd(CommentDTO reply) {
+	public Map<String, Object> replyAdd(CommentDTO reply){
 		return commentService.addReply(reply);
 	}
-	
 	
 }

@@ -1,35 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<!--/*
+	조각이름 : head
+	파라미터 : title
+*/-->
+<head th:fragment="head(title)">
 <meta charset="UTF-8">
-<title>${title}</title>  <!-- 여기에 list.jsp에서 넘겨준 파라미터 title의 value가 화면에 뿌려진다! -->
-<!-- 
-    ※ ${contextPath}로 시작하는 값은 모두 매핑임. 고로 script의 src 값은 경로가 아닌 mapping 값이다
-    
-    --servlet-context.xml
-	<resources mapping="/resources/**" location="/resources/" />
-	==> 매핑이 /resources로 시작하는 모든 파일들의 실제 위치는 resources아래에 있다
-	
-		script src="${contextPath}/resources/** 
-		==> mapping 값(경로x). 
-		
-		<script src="${contextPath}/resources/js/jquery-3.6.1.min.js">
-		
-		location="/resources/" 
-		==> /resources로 시작하는 모든 매핑은(src), resources 폴더 가서 찾으라는 이야기(location)
-	
--->
-<script th:src="@{/js/jquery-3.6.1.min.js}"></script>   
+<title th:text="${title}"></title>
+<script th:src="@{/js/jquery-3.6.1.min.js}"></script>
 <script th:src="@{/js/moment-with-locales.js}"></script>
 <script th:src="@{/summernote-0.8.18-dist/summernote-lite.js}"></script>
 <script th:src="@{/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js}"></script>
-<link rel="stylesheet" th:href="@{/summernote-0.8.18-dist/summernote-lite.css}">  <!-- css는 link로~ -->
+<link rel="stylesheet" th:href="@{/summernote-0.8.18-dist/summernote-lite.css}">
 </head>
 <body>
 
-		<div>
-			<h1>어서와 내 블로그는 처음이지?!!</h1>
-		</div>
-		
+	<div th:fragment="body_title">
+		<h1>Welcome To My BLOG</h1>
+		<hr>
+	</div>
+
 </body>
 </html>

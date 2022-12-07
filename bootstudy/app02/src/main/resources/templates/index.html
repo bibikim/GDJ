@@ -1,21 +1,12 @@
-<!-- 
-jstl(<c : set>) 사용 불가, 자바 관련 사용 불가
-타임리프 사용하겠다는 태그만 넣어서 지정해주면 됨. 
--->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script th:src="@{/js/jquery-3.6.1.min.js}"></script>  <!-- static은 적어주지 않아도 됨. static에서부터 기본경로를 잡음 -->
-</head>
+<head th:replace="~{layout/header::head('환영합니다')}"></head>
 <body>
 
 	<!-- thymeleaf 속성은 th:으로 시작한다. -->
-	<!-- Link URL Expression 링크 작성하는 방법 : @{} -->
 
-	<a href="${contextPath}/blog/list">블로그</a>
+	<!-- Link URL Expression : @{} -->
 	<a th:href="@{/blog/list}">블로그</a>
-	
+
 </body>
 </html>

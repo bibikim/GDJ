@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
-public class FileConfig {    // MultipartRequest를 사용할 땐 얘가 무조건 있어야 한다
+public class FileConfig {
 
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {

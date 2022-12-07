@@ -17,27 +17,21 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private CommentMapper commentMapper;
+	
 	@Autowired
 	private PageUtil pageUtil;
 	
-	
 	@Override
 	public Map<String, Object> getCommentCount(int blogNo) {
-		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("commentCount", commentMapper.selectCommentCount(blogNo));
-		// map에 저장할 이름 commentCount  잭슨입장에선 맵을 반환하면 제이슨으로 변환시켜쥼
-		// map에 저장할 이름 == resData로 넘어갈 데이터 이름
-		
 		return result;
 	}
 	
 	@Override
 	public Map<String, Object> addComment(CommentDTO comment) {
-		
-		// 반환할 Map
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isAdd", commentMapper.insertComment(comment) == 1);  // 삽입의 결과가 1이면 true, 아니면 false 반환
+		result.put("isAdd", commentMapper.insertComment(comment) == 1);
 		return result;
 	}
 	
@@ -47,37 +41,34 @@ public class CommentServiceImpl implements CommentService {
 		int blogNo = Integer.parseInt(request.getParameter("blogNo"));
 		int page = Integer.parseInt(request.getParameter("page"));
 		
-		// 전체 댓글 갯수
 		int commentCount = commentMapper.selectCommentCount(blogNo);
-		pageUtil.setPageUtil(page, commentCount);  // paging에 필요한 계산 완!
+		pageUtil.setPageUtil(page, commentCount);
 		
-		// db로 넘기기 -> map에 담고
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("blogNo", blogNo);
 		map.put("begin", pageUtil.getBegin());
 		map.put("end", pageUtil.getEnd());
 		
-		// 결과 반환하기 위헤 map을 Map result에 담고 페이징을 위한 pageUtil도 담아서 result 반환
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("commentList", commentMapper.selectCommentList(map));	// 목록
+		result.put("commentList", commentMapper.selectCommentList(map));
 		result.put("pageUtil", pageUtil);
 		
 		return result;
+		
 	}
 	
 	@Override
 	public Map<String, Object> removeComment(int commentNo) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isRemove", commentMapper.deleteComment(commentNo) == 1); // 삭제여부 true,false  deleteComnnet() == 1 : true
+		result.put("isRemove", commentMapper.deleteComment(commentNo) == 1);
 		return result;
 	}
 	
 	@Override
 	public Map<String, Object> addReply(CommentDTO reply) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("isAdd", commentMapper.insertReply(reply) == 1);  // 삽입의 결과가 1이면 true, 아니면 false 반환
+		result.put("isAdd", commentMapper.insertReply(reply) == 1);
 		return result;
 	}
-	
 	
 }
