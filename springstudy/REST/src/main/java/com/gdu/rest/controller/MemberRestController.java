@@ -1,10 +1,13 @@
 package com.gdu.rest.controller;
 
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +25,8 @@ import com.gdu.rest.service.MemberService;
  	5. CRUD 처리 방식
  			       URL		    Method
  		1) 삽입   /members      POST     => 이 조합이면 'insert'하겠다란 의미
- 		2) 
+ 		2) 목록   /members      GET      => 삽입고ㅏ 똑같이 요청하되 get으로 처리..
+ 		3) 상세   /members/1    GET      => 회원번호 1번 가져와라
 */
 
 
@@ -50,8 +54,21 @@ public class MemberRestController {
 	// 여러개 필드를 저장하겠다 ? ? ? -> DTO 아니면 Map 중에 고르면 된다.
 	
 	
+	// 목록
+	@GetMapping(value="/members/page/{page}", produces="application/json")  // 경로에 들어간 변수는 # 안 쓰고 {}만 써준다
+	public Map<String, Object> getMemberList(@PathVariable(value="page", required=false) Optional<String> opt) {  // 경로에 포함된 변수 => 경로 변수 @PathVariable
+			int page = Integer.parseInt(opt.orElse("1"));
+		return memberService.getMemberList(page);
+	}
+	// page 파라미터는 필수는 아니다( => default Value=1로 하면 됨.) -> 이걸 int page로 저장할건데 null을 받을 수 있는 Optional로 저장
 	
 	
+	// 상세
+	@GetMapping(value="/members/{memberNo}", produces="application/json")
+	public Map<String, Object> getMember(@PathVariable(value="memberNo", required=false) Optional<String> opt) {  // 혹시 파라미터 안오면 optional(string)로 받아서 0번 멤넘을 디폴트로 갖도록
+		int memberNo = Integer.parseInt(opt.orElse("0"));
+		return memberService.getMemberByNo(memberNo);
+	}
 	
 	
 }

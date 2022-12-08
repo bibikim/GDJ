@@ -12,6 +12,9 @@
 
 	$(function() {
 		fn_add();
+		fn_list();
+		fn_init(); 
+		fn_detail();
 	});
 	
 	function fn_add() {
@@ -34,16 +37,76 @@
 				/*응답*/
 				dataType: 'json', // 받아오는 데이터타입은 map  <- 컨트롤러에서 produces="application/json" 이라고 해놨음!
 				success: function(resData) {
-					
+					if(resData.insertResult > 0) {
+						alert('회원이 등록되었습니다.');
+						fn_list();  // 목록 갱신
+						fn_init();  // 초기화
+					} else {
+						alert('회원이 등록되지 않았스니다.');
+					}
 				},
 				error: function(jqXHR){
-					
+					alert('에러코드(' + jqXHR.status + ') ' + jqXHR.responseText);   // db까지 갔다가 중복체크하고 돌아옴
 				}
-				
-				
 			}); // ajax
 		});
 	}
+	
+	function fn_init() {
+		$('#id').val('').prop('readonly', false);  // 초기화 시에, 읽기전용readonly 해제!
+		$('#name').val('');
+		$(':radio[name=gender]').prop('checked', false);  // 이 라디오의 프로퍼티에서 선택된것을 false(해제) 해줘라
+		$('#address').val('');	// value가 빈문자열이면 선택x
+	}
+	
+	// 전역변수
+	var page = 1;    // 1페이지로 초기화 
+	function fn_list() {
+		$.ajax({
+			type: 'get',
+			url: '${contextPath}/members/page/' + page,      // rest방식은 '${contextPath}/members?page=' + page 와 같은 모양새로 요청 안 함
+			// 받아오는 데이터						// => 주소 이렇게 됨 :  9090/rest/members/page/1
+			dataType: 'json',
+			success: function(resData) {
+				$('#member_list').empty();  // 결과 나올 장소 : member_list
+				$.each(resData.memberList, function(i, member) {
+					var tr = '<tr>';
+					tr += '<td><input type="checkbox" class="check_one" value="' + member.memberNo + '"></td>';
+					tr += '<td>' + member.id + '</td>';
+					tr += '<td>' + member.name + '</td>';
+					tr += '<td>' + (member.gender == 'M' ? '남자' : '여자') + '</td>';
+					tr += '<td>' + member.address + '</td>';
+					tr += '<td><input type="button" value="조회" class="btn_detail" data-member_no="' + member.memberNo + '"></td>' // 반복문이니까 class로 이름주기, 누구를 조회하는건지 멤넘을 알아야하니까 data 속성 주기
+					tr += '</tr>';
+					$('#member_list').append(tr);
+				})
+			}
+		})
+	}
+	
+	// 조회버튼은 위에서 동적으로 만듦 -> 조회버튼 클릭이벤트는 아래처럼 만들어야함
+	function fn_detail(){
+		$(document).on('click', '.btn_detail', function() {
+			$.ajax({
+				type: 'get',
+				url: '${contextPath}/members/' + $(this).data('member_no'),
+				dataType: 'json',
+				success: function(resData) {
+					let member = resData.member;
+					if(member == null) {
+						alert('해당 회원을 찾을 수 없습니다.');
+					} else {
+						$('#memberNo').val(member.memberNo);
+						$('#id').val(member.id).prop('readonly', true); // 상세조회해서 정보를 가져왔을 때, 프로퍼티 중에 readonly라는 프로퍼티를 true로 해라!
+						$('#name').val(member.name);
+						$(':radio[name=gender][value=' + member.gender + ']').prop('checked', true); // name=gender인 radio에서 value가 m/f인 프로퍼티를 check 해준다
+						$('#address').val(member.address);
+					}
+				}
+			})
+		});
+	}
+	
 	
 </script>
 </head>
@@ -51,6 +114,7 @@
 
 	<h1>회원관리</h1>
 	<div>
+		<input type="hidden" id="memberNo">
 		<div>
 			<label for="id">아이디
 				<input type="text" id="id">
@@ -81,7 +145,8 @@
 			</label>
 		</div>
 		<div>
-			<input type="button" value="초기화" id="btn_init">
+			<!-- 초기화 버튼 누르면 fn_init()함수 호출  -->
+			<input type="button" value="초기화" onclick="fn_init()"> 
 			<input type="button" value="등록하기" id="btn_add">
 			<input type="button" value="수정하기" id="btn_modify">
 		</div>
@@ -102,8 +167,7 @@
 					<td></td>
 				</tr>
 			</thead>
-			<tbody>
-
+			<tbody id="member_list">
 			</tbody>
 			<tfoot>
 				<tr>

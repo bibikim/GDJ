@@ -15,4 +15,23 @@
 			(MEMBER_SEQ.NEXTVAL, #{id}, #{name}, #{gender}, #{address})
 	</insert>
 
+	<select id="selectMemberCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+	</select>
+	
+	
+	<!-- 조인으로 해서 리절트맵으로 반환하는거 새로 업뎃된 15장에 해두심 -->
+	<select id="selectMemberListByMap" parameterType="map" resultType="MemberDTO">
+		SELECT A.ROW_NUM, A.MEMBER_NO, A.ID, A.NAME, A.GENDER, A.ADDRESS
+		  FROM (SELECT ROW_NUMBER() OVER(ORDER BY MEMBER_NO DESC) AS ROW_NUM, MEMBER_NO, ID, NAME, GENDER, ADDRESS
+		          FROM MEMBER) A
+		 WHERE A.ROW_NUM BETWEEN #{begin} AND #{end}
+	</select>
+	
+	<select id="selectMemberByNo" parameterType="int" resultType="MemberDTO">
+		SELECT MEMBER_NO, ID, NAME, GENDER, ADDRESS
+		  FROM MEMBER
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
 </mapper>
