@@ -1,7 +1,9 @@
 package com.gdu.rest.service;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gdu.rest.domain.MemberDTO;
@@ -111,5 +114,51 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 	
+	
+	@Override
+	public Map<String, Object> modifyMember(Map<String, Object> map, HttpServletResponse response) {
+		
+		try {
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("updateResult", memberMapper.updateMember(map));
+			return result;
+		} catch(DataIntegrityViolationException e) {
+			try {   // 요기 트라이 블럭이 코드가 넘 길어서 나온게 ResponseEntity임!! 응답 전용 객체 new ResopnseEntity 로 하면 코드 한줄이면 쌉가넝
+					// new ResponseEntity<>(null);   -> body(응답할 값), header, status(예외) 다 받아와서~
+				response.setContentType("text/plain; charset=UTF-8");
+				PrintWriter out = response.getWriter();   // response.getWriter(); 얘가 반환하는게 printwriter라서 프.라 쓰는거
+				response.setStatus(501);  // 임의의 응답코드 501
+				out.println("필수 정보가 누락되었습니다.(null왔다)");
+				out.close();
+			} catch(Exception e2) {
+				e2.printStackTrace();
+			}
+			
+		}  catch(Exception e) {
+			
+			try {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				response.setStatus(503); // 응답 코드 501
+				out.println("입력 정보를 확인하세요.");  // 응답 메시지    // handle.jsp의 error로 오는 응답~
+				out.close();
+			} catch(Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	// 삭제
+	@Override
+	public Map<String, Object> removeMemberList(String memberNoList) {
+		List<String> list = Arrays.asList(memberNoList.split("\\,")); // 어레이리스트 초기화할때 쓰는거
+												 // "3,1" 과 같이 하나의 문자열을 {"3", "1"}과 같이 쪼개서 배열로 바꾸고 싶을 떄 split("정규식")
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("deletResult", memberMapper.deleteMemberList(list));  // 3, 1 두개를 전달해서 지웠다 치면 deleteResult의 값 2가 나오는 것!(실제로 삭제된 데이터의 갯수 반환)
+		return result;
+	}
 	
 }

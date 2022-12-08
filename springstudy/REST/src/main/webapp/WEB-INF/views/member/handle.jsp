@@ -15,6 +15,8 @@
 		fn_list();
 		fn_init(); 
 		fn_detail();
+		fn_modify();
+		fn_remove();
 	});
 	
 	function fn_add() {
@@ -107,6 +109,66 @@
 		});
 	}
 	
+	function fn_modify() {
+		$('#btn_modify').click(function() {
+			// 수정할 회원정보를 json으로 만들기
+			let member = JSON.stringify({
+				memberNo: $('#memberNo').val(),   // 수정할 회원의 번호.   이거 이렇게 써먹으려고 <input type="hidden" id="memberNo"> 한거임. 상세보기 하면 이 데이터가 들어가니까 memberNo의 value를 빼는거
+				name: $('#name').val(),
+				gender: $(':radio[name=gender]:checked').val(),   // 모든 radio들 = :radio,  name=gender 네임이 젠더인애들(m/f 두개) 중에서 체크 된 애들의 value를 가져온다
+				address: $('#address').val()	// select는 input과 다를게 없다잉
+			}) // stringify
+			// alert(member);  -> 알럿창으로 확인해보면 member가 json데이터로 잘 넘어오는 것을 확인할 수 있다.
+			// 수정
+			$.ajax({
+				type: 'put',
+				url: '${contextPath}/members',
+				data: member,  // 보내는 데이터에 member 넣기
+				contentType: 'application/json',  // 내가 보내는 데이터가 json이다! 라고 알려주기
+				dataType: 'json',  // 받아오는 데이터 json
+				success: function(resData){
+					if(resData.updateResult > 0) {
+						alert('회원 정보가 수정되었습니다.');
+						fn_list(); // 목록까지 새로 뿌려야! 상세보기도 바뀌고 목록까지 갱신
+					} else {
+						alert('회원 정보가 수정되지 않았습니다.');
+					}
+				},
+				error: function(jqXHR) {
+					alert('에러코드('+ jqXHR.status +') ' + jqXHR.responseText);// null값이 갔다던가, 30byte이상의 글자가 갔다던가 할 때 위와 같은 예외상황 발생~
+				}
+			})
+		});
+	}
+	
+	
+	function fn_remove() {
+		$('#btn_remove').click(function() {  // 76행에 check_one -> member.memberNo을 줬음.  다중선택 -> 1,3,4.... 컴마 단위로 파싱해서 List(arrayList)에 담아서 어쩌구
+			if(confirm('선택한 회원을 모두 삭제할까요?')) {
+				// 삭제할 회원번호
+				let memberNoList = ''; 
+				for(let i=0; i < $('.check_one').length; i++) {  // class 체크된 애들
+					if( $($('.check_one')[i]).is(':checked') ) {       // $('.check_one') 배열임.(jquery임) -> $('.check_one')[i] : 요소 하나[i]를 빼면 변수가 되기 때문에 자바스크립트 요소. 따라서 $()로 한번 감싸줘야 함
+						memberNoList += $($('.check_one')[i]).val()+ ',';  // 3, 1,   => ,가 마지막 memberNo 뒤에도 붙어있음 주의
+						}
+					}
+					memberNoList = memberNoList.substr(0, memberNoList.length - 1);  // 3 , 1
+					$.ajax({
+						type: 'delete',
+						url: '${contextPath}/members/' + memberNoList,
+						dataType: 'json',
+						success: function(resData) {
+							if(resData.deleteResult > 0) {
+								alert('선택된 회원 정보가 삭제되었습니다.');
+								fn_list();
+							} else {
+								alert('선택된 회원 정보가 삭제되지 않았습니다.');
+							}
+						}
+					});
+				}
+			})
+		}
 	
 </script>
 </head>
@@ -115,7 +177,7 @@
 	<h1>회원관리</h1>
 	<div>
 		<input type="hidden" id="memberNo">
-		<div>
+
 			<label for="id">아이디
 				<input type="text" id="id">
 			</label>
