@@ -149,7 +149,7 @@
 				let memberNoList = ''; 
 				for(let i=0; i < $('.check_one').length; i++) {  // class 체크된 애들
 					if( $($('.check_one')[i]).is(':checked') ) {       // $('.check_one') 배열임.(jquery임) -> $('.check_one')[i] : 요소 하나[i]를 빼면 변수가 되기 때문에 자바스크립트 요소. 따라서 $()로 한번 감싸줘야 함
-						memberNoList += $($('.check_one')[i]).val()+ ',';  // 3, 1,   => ,가 마지막 memberNo 뒤에도 붙어있음 주의
+							memberNoList += $($('.check_one')[i]).val()+ ',';  // 3, 1,   => ,가 마지막 memberNo 뒤에도 붙어있음 주의
 						}
 					}
 					memberNoList = memberNoList.substr(0, memberNoList.length - 1);  // 3 , 1
