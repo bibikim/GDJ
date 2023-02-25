@@ -1,0 +1,45 @@
+
+
+***********************************************************************************************************************************************************************************
+모든 작업은 bash 열었을 때, ★나의 branch★에 있는 상태일 때 해야 함!!!!!!!!! main이면 checkout branch 하고 작업해주세요 중요!!!
+따라서 git push를 하든 pull을 하든 bash 만지고 나면 일단 git checkout branch를 하든지 branch에 있는지 확인하고 bash 끄기
+혹시나 main에서 작업했을 경우 도움!!!!!!!!을 외치삼... 같이 해결해보쟈고요 어케든 되겠지 
+***********************************************************************************************************************************************************************************
+
+
+▼핵심▼
+===============================================================================================
+
+① 팀원1의 기능 구현이 끝나면 자신의 브랜치에 push
+      1) git checkout branch ->  git add .   ->  git commit 구현 완 메시지 ->  git push origin branch
+      2) git checkout main -> (git pull origin main : 최신인main버전하고 안 맞을 수도 있으니까!! 이 부분도 혹시 몰라서 하는거. main이 최신이고 내거는 최신 아니면 꼭 해야함) 
+         -> git merge branch (보통 여기서 conflict 발생.  그럼 일단 충돌난 파일들 재정비 :  bash는  /smore/ (main : MERGING) 상태임.  git add . 이랑 git commit으로 merging 벗어나기)
+         -> git push origin main  -> git checkout branch (마지막엔 브랜치로 이동 필수)  -> git이 최신이어서 pull 받았으면 git merge main까지 해주기
+
+ ② 한명이 main에 push를 했으면 팀원2,3,4,5 는 구현 중인 기능 일단 branch에 push,  
+    깃허브에 올라간 최신버전의 main을 pull 당겨오고 가져온 main을 내 브랜치에 최신버전을 병합
+       1) git checkout branch -> git add .  ->  git commit 구현 중 메시지 -> (git push origin branch : 내거 메인에 올리고 싶으면 하고, 최신만 내려받고 싶으면 안 해도 됨. 불안하면 하셈)
+       2) git checkout main -> git pull origin main -> git checkout branch -> git merge main
+
+
+-- 충돌 에러 문자들은 지우고! 그냥 구현해라~~~ 지우고 정리 해야돼  나중에 푸시할 때 충돌난게 그대로 올라가는 일 없게
+-- 두명이 같은 파일 건드려지면 충돌나면서 둘이서 각각 추가 혹은 수정된 코드가 다 들어갈 수도 있기 때문에 보면서 확인 및 정리 필요
+
+---- 무조건 branch에서 작업
+
+-- git pull branch        ===> push branch 
+-- git reset commit id  ===> 커밋이력 지우고 이전상태로 가기
+-- git reset 	      ===> git add와 commit을 main에 하면 안되는데 했을 경우 + 커밋은 하기 전 상태면 git reset으로 Staging된 상태를 Untaged로 만듦
+-- git reset HEAD^      ===> 현재 HEAD가 가리키는 브랜치의 최신 커밋을 취소
+-- git log                  ===> git commit 내역 볼 수 있는 명령어
+-- git staus                ===> git 현재 상태
+
+ - git push origin branch 하고 나면 깃헙 브랜치에 푸시 됐는지 확인 하기 -> push main 하면 그것도 잘 올라왔는지 확인
+ - 구현 중에 pull을 해야할 경우에는 push branch 하지 않아도 됨. 당겨와서 merge 하기
+ - 기능마다 커밋은 웬만하면 한 번인 것이 좋음!
+ - 일단 무조건 누군가 main에 push 하면 pull 당겨오기!
+ - 따라서 push main을 하면 푸시했다고 단톡에 꼭 알림해주기
+ - pull merge 하고 나면 maven update 하고 문제 없는지도 확인 :)
+ - 혹시 모를 상황에 대비해 zip만들어두는 것 생활화!!
+ - 멋대로 막 푸시 리셋 리버트 커밋 하지 말고 오류 메시지 뜨면 구글링해서 찾아보고 해주세용~ 문제 생기면 머리 맞댑시당
+===============================================================================================
