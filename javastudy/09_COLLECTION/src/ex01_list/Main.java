@@ -25,20 +25,25 @@ public class Main {
 		
 		list.add(0, "일"); 	// 인덱스 지정한 것. 일, 월, 화 순서대로 저장되고 일 월 화(idx는 0 1 2) 됨!
 		
+		//System.out.println(list);
+		
 		// 요소 제거
 		// 1. boolean remove(Object obj) : obj 제거. 성공하면 true 반환
 		// 2. Object remove(int index) : idx 위치의 요소를 제거. 제거한 요소 반환
 		boolean result = list.remove("일");		// 제거 성공하면 true, 실패시 false
 		System.out.println(result);
-		String removeItem = list.remove(0);		// 제거된 요소 보여줌
-		System.out.println(removeItem);			// 화만 남음.
+		String removeItem = list.remove(0);		// 제거된 요소 보여줌 (-> "일"을 제거했으므로 "월"이 idx 0이 되어 "월"이 제거
+		System.out.println(removeItem);			// 따라서 화만 남음.
+		
+		System.out.println(list);  // [화]
 		
 		// 요소 수정
-		list.set(0, "일"); // (idx지정, 수정할 요소)	 화 -> 일
-
+		list.set(0, "목"); // (idx지정, 수정할 요소)	 화 -> 일
 		
+		int size = list.size();
+		System.out.println(size);
 		// 리스트 확인
-		System.out.println(list); 	// [일, 월, 화] 출력 완.
+		System.out.println(list); 	// [일] 출력 완.
 		
 		
 	}
@@ -51,6 +56,9 @@ public class Main {
 		List<String> list = Arrays.asList("일", "월", "화", "수"); // Arrays ctrl+space, .찍고 asList 선택
 				// asList(T...a) -> List<T> ... 갯수가 정해지지 않았다는 키워드
 				// asList(String... a) -> String...a 스트링 여러개가 들어갈 수 있다. 일 월 화 수,,,
+		List<String> list2 = Arrays.asList("박", "아이유", "nct");
+		int leng = list2.size();
+		System.out.println(leng);
 		
 		// 리스트 길이
 		int size = list.size();
@@ -127,7 +135,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		m3();
+		m2();
 		
 
 	}

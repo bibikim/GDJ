@@ -4,17 +4,24 @@
 <body>
 <div>
 	
+	
 	<div th:replace="~{layout/header::body_title}"></div>
 	
 	<h1 th:text="|블로그 목록(전체 ${totalRecord}개)|"></h1>
 	
 	<div>
 		<input type="button" value="블로그 작성하기" id="btn_write">
-		<script>
-			$('#btn_write').click(function(){
-				location.href = '/blog/write';
-			});
-		</script>
+		
+			<!-- 
+				자바스크립트 내부에서 thymeleaf의 expression 사용을 위해서 th:inline="javascript" 속성을 사용한다.
+			-->
+			<script>
+				
+				$('#btn_write').click(function(){
+					location.href = '/blog/write';
+				});
+			
+			</script>
 	</div>
 	
 	<div>
@@ -29,10 +36,26 @@
 			</thead>
 			<tbody>
 			
-				<!-- Variable Expression : ${} -->
+				<!-- Variable Expression : ${}  => 값을 나타내는 표현식은 ${}를 그대로 사용. c:foreach는 each로. 
+											콜론(:) 기준으로 뒤에가 배열, 앞에가 배열에서 하나씩 꺼내쓴 값. blog:${blogList}
+											rowStat == varStatus => 값 뒤에 ,(콤마)붙이고 blog, rowStat:${blogList}  -->
+				<!-- 
+					태그의 내용을 속성으로 보내는 방법 :  th:text="${}"
+					태그의 내용을 직접 보내는 방법 :  [ [ ${} ] ]    (-> 대괄호 붙여서 놓으니까 자꾸 오류남ㅡㅡ)
+				-->
 
-				<tr th:each="blog,vs:${blogList}">
+				<tr th:each="blog, vs:${blogList}">
+					<!--
+						 컴마 뒤는 생략이 가능한데(ex: blog : ${blogList}) 생략하면
+						 변수명+Stat 즉, blogStat이 된다.  ==> ${beginNo - blogStat.index}
+					-->
 					<td th:text="${beginNo - vs.index}"></td>
+					
+					<!-- <td><a href="${contextPath}/blog/increase/hit?blogNo=${blog.blogNo}">${blog.title}</a></td> -->
+					<!-- 파라미터가 달려있는 링크 Expression
+							 ?(물음표) 대신 파라미터로 전달하는 부분을 ()로 감싼다. -->
+					<!-- <td><a th:href="@{/blog/increase/hit(blogNo=${blog.blogNo})}">${blog.title}</a></td> -->
+					<!-- 위아래 두개 같은 것. 둘 중 하나의 방식 택해서 사용! -->
 					<td><a th:href="@{/blog/increse/hit(blogNo=${blog.blogNo})}" th:text="${blog.title}"></a></td>
 					<td th:text="${blog.hit}"></td>
 					<td th:text="${blog.createDate}"></td>
@@ -41,14 +64,18 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<!-- th:utext="HTML구성요소포함한텍스트" -->
+					<!-- ${paging} 안에는 수많은 태그들이 있음. 원래 th 문법처럼 th:text="@{paging}" 이렇게 쓰면 태그들이 다 살아나게 됨 -->
+					<!-- th:utext="HTML구성요소포함한텍스트"    => th:utext="${paging}" -->
 					<td colspan="4" th:utext="${paging}"></td>
 				</tr>
+				
 			</tfoot>
 		</table>
 	</div>
 
 </div>
 
+
+<!-- footer jsp 따로 할거면 닫아주는 body/html은 그쪽페이지에서 닫아줭 -->
 </body>
 </html>

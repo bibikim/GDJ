@@ -22,6 +22,8 @@ public class Main {
 		set.add("수"); 	// 중복 저장 시도. Set에서는 기존의 요소하고 넣으려는 요소하고 비교해서 같으면 넣지 않는다.
 						// 요소의 중복 저장 불가!
 		
+		System.out.println(set.size());
+		
 		// 요소 제거
 		boolean result = set.remove("일");
 		System.out.println(result);
@@ -76,7 +78,7 @@ public class Main {
 		
 		// 부분집합 여부 판단
 		boolean result1 = set1.containsAll(set3);	// set3가 set1의 부분집합이면 true
-		boolean result2 = set2.containsAll(set3);	// set2가 set2의 부분집합이면 true
+		boolean result2 = set2.containsAll(set3);	// set3가 set2의 부분집합이면 true
 		System.out.println(result1);
 		System.out.println(result2);
 		
@@ -112,7 +114,7 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		m3();
+		m4();
 
 	}
 
